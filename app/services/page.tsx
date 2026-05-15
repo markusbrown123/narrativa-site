@@ -1,0 +1,118 @@
+import type { Metadata } from "next";
+import { CTA } from "@/components/CTA";
+import { PageHero } from "@/components/PageHero";
+import { Section, SectionHeading } from "@/components/Section";
+import { ServiceCard } from "@/components/ServiceCard";
+import { publish } from "@/lib/content";
+import { services } from "@/lib/mock/services";
+
+export const metadata: Metadata = {
+  title: "Services",
+  description:
+    "Speaker brand development, marketing and visibility, content and writing, speaker assets, media production, speaking engagement development, and event strategy.",
+};
+
+const PROCESS = [
+  {
+    step: "01",
+    title: "Discovery",
+    body: "We get on a 45-minute discovery call — your moment, your audience, your hard constraints, your real goal.",
+  },
+  {
+    step: "02",
+    title: "Proposal",
+    body: "You get a written proposal with the scope, the deliverables, the timeline, and the price — in one page.",
+  },
+  {
+    step: "03",
+    title: "Build",
+    body: "We work in 2-week working sessions. You see drafts at 30%, 60%, and 100% — never just at the end.",
+  },
+  {
+    step: "04",
+    title: "Launch",
+    body: "We hand off the final assets and a 60-day playbook. Optional retainer for ongoing platform support.",
+  },
+];
+
+export default function ServicesPage() {
+  const visibleServices = publish(services);
+  return (
+    <>
+      <PageHero
+        eyebrow="Services"
+        title={
+          <>
+            How Narrativa shows up
+            <br className="hidden lg:block" /> for your work.
+          </>
+        }
+        lead="A focused set of engagements built for leaders, authors, and organizations turning a body of work into a platform — and a platform into a business."
+      />
+
+      <Section tone="default" containerSize="wide">
+        <div className="grid md:grid-cols-2 gap-6">
+          {visibleServices.map((s) => (
+            <ServiceCard key={s.id} service={s} detailed />
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="tint">
+        <SectionHeading
+          eyebrow="How we work"
+          title="Four steps. No mystery."
+          lead="Engagements are intentionally short and tightly scoped. We say no to vague — and yes to repeatable."
+        />
+        <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {PROCESS.map((p) => (
+            <li
+              key={p.step}
+              className="rounded-3xl bg-white border border-line p-7"
+            >
+              <p className="font-display text-4xl text-[color:var(--color-purple-300)] font-medium">
+                {p.step}
+              </p>
+              <h3 className="mt-3 font-display text-xl text-ink leading-snug">
+                {p.title}
+              </h3>
+              <p className="mt-2 text-ink-soft leading-relaxed">{p.body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section tone="default">
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
+          <SectionHeading
+            eyebrow="Pricing"
+            title="Straightforward, by the engagement."
+          />
+          <div className="space-y-4 text-ink-soft leading-relaxed text-lg">
+            <p>
+              Engagements start at <strong className="text-ink">$15K</strong> for
+              focused work and scale to <strong className="text-ink">$120K+</strong>{" "}
+              for multi-quarter platform builds.
+            </p>
+            <p>
+              Speaking fees are quoted separately by audience size, format, and
+              travel. Retainers are available for clients in active book or
+              launch cycles.
+            </p>
+            <p>
+              We work with a small, deliberate roster each quarter. Inquiries
+              receive a response within three business days.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <CTA
+        title="Start the conversation."
+        body="Tell us the moment you're building toward and we'll come back with the right shape of engagement."
+        primary={{ label: "Send a note", href: "/contact" }}
+        secondary={{ label: "Apply to the mentor program", href: "/mentor-program" }}
+      />
+    </>
+  );
+}

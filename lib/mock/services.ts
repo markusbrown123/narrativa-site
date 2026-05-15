@@ -1,0 +1,206 @@
+import type { Service } from "@/types/content";
+
+export const services: Service[] = [
+  {
+    id: "svc-speaker-brand",
+    title: "Speaker Brand Development",
+    status: "Published",
+    featured: true,
+    sort_order: 10,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-03-20T00:00:00Z",
+    slug: "speaker-brand-development",
+    tagline: "The way you walk on stage starts with the story you tell yourself.",
+    description:
+      "We build the narrative architecture behind your speaking career — the through-line, the signature talks, the positioning, the bio, and the language that travels with you.",
+    outcomes: [
+      "A clear speaker positioning statement and through-line",
+      "Three signature talks mapped to the audiences who pay best",
+      "An aligned bio system (short, medium, long, intro)",
+    ],
+    deliverables: [
+      "Positioning workbook",
+      "Three signature talk outlines",
+      "Bio system + intro scripts",
+      "Booker-ready one-sheet",
+    ],
+    ideal_for:
+      "Established experts ready to move from occasional speaker to category authority.",
+    icon: "spark",
+  },
+  {
+    id: "svc-marketing-visibility",
+    title: "Marketing & Visibility Strategy",
+    status: "Published",
+    featured: true,
+    sort_order: 20,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-04-01T00:00:00Z",
+    slug: "marketing-visibility-strategy",
+    tagline: "Make the right rooms know your name before you walk in.",
+    description:
+      "A 90-day marketing and visibility plan built around your goals — podcast tours, op-eds, press, social rhythm, and the calendar of moments that compound.",
+    outcomes: [
+      "A 90-day visibility plan tied to a specific goal",
+      "Target list of shows, outlets, and platforms",
+      "A repeatable content rhythm that doesn't burn you out",
+    ],
+    deliverables: [
+      "Visibility plan",
+      "Pitch packets",
+      "Editorial calendar",
+      "Outreach scripts",
+    ],
+    ideal_for:
+      "Authors, founders, and executives with a book, launch, or moment to support.",
+    icon: "compass",
+  },
+  {
+    id: "svc-content-writing",
+    title: "Content & Writing",
+    status: "Published",
+    featured: true,
+    sort_order: 30,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-03-15T00:00:00Z",
+    slug: "content-writing",
+    tagline: "Words that sound like you — and earn the room.",
+    description:
+      "Ghostwriting and editorial partnership for op-eds, keynotes, LinkedIn essays, newsletters, and book chapters. We write in your voice, with your evidence.",
+    outcomes: [
+      "Op-eds and essays in your voice, ready to pitch",
+      "Keynote scripts that translate to repeat bookings",
+      "A consistent content cadence without the grind",
+    ],
+    deliverables: [
+      "Op-eds and bylined essays",
+      "Keynote and panel scripts",
+      "LinkedIn essay series",
+      "Newsletter editorial",
+    ],
+    ideal_for:
+      "Leaders whose ideas are sharper than the time they have to write them.",
+    icon: "pen",
+  },
+  {
+    id: "svc-speaker-assets",
+    title: "Speaker Assets & Design",
+    status: "Published",
+    featured: false,
+    sort_order: 40,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-03-01T00:00:00Z",
+    slug: "speaker-assets-design",
+    tagline: "Decks, sizzles, and one-sheets that close the booker.",
+    description:
+      "End-to-end design for the assets that turn interest into a signed contract — speaker reels, one-sheets, decks, and stage-ready slide systems.",
+    outcomes: [
+      "A speaker reel that closes inbound bookers",
+      "A consistent visual identity across pages and decks",
+      "Stage decks that look like the talk, not the template",
+    ],
+    deliverables: [
+      "Speaker one-sheet",
+      "Sizzle reel edit",
+      "Keynote slide system",
+      "Headshot and asset library",
+    ],
+    ideal_for:
+      "Speakers ready to look as serious in pixels as they sound on stage.",
+    icon: "camera",
+  },
+  {
+    id: "svc-media-production",
+    title: "Media & Production Referrals",
+    status: "Published",
+    featured: false,
+    sort_order: 50,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-02-20T00:00:00Z",
+    slug: "media-production-referrals",
+    tagline: "Vetted producers, photographers, editors, and PR teams.",
+    description:
+      "A trusted bench of media and production partners — for the moments where we hand off the camera and the cut.",
+    outcomes: [
+      "Faster access to the right vendor for the moment",
+      "A coordinated team across photo, video, and PR",
+      "Quality control we stand behind",
+    ],
+    deliverables: [
+      "Curated vendor introductions",
+      "Brief and scope alignment",
+      "Production oversight, on request",
+    ],
+    ideal_for:
+      "Clients who want one phone call instead of a five-vendor search.",
+    icon: "globe",
+  },
+  {
+    id: "svc-speaking-engagements",
+    title: "Speaking Engagement Development",
+    status: "Published",
+    featured: false,
+    sort_order: 60,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-03-25T00:00:00Z",
+    slug: "speaking-engagement-development",
+    tagline: "From cold lead to booked keynote.",
+    description:
+      "Engagement strategy and pipeline management for speakers — from inbound triage to negotiation, calendar logic, and post-event follow-through.",
+    outcomes: [
+      "A pipeline you can actually see",
+      "Pricing tiers that hold the line",
+      "Bookings that pay and place you correctly",
+    ],
+    deliverables: [
+      "Inbound triage workflow",
+      "Tiered pricing and contract templates",
+      "Post-event referral playbook",
+    ],
+    ideal_for:
+      "Speakers fielding more inbound than their calendar — and their pricing — can hold.",
+    icon: "stage",
+  },
+  {
+    id: "svc-event-strategy",
+    title: "Event Strategy",
+    status: "Published",
+    featured: false,
+    sort_order: 70,
+    created_at: "2026-01-08T00:00:00Z",
+    updated_at: "2026-03-30T00:00:00Z",
+    slug: "event-strategy",
+    tagline: "The event your audience tells the next room about.",
+    description:
+      "End-to-end strategy for owned events, retreats, book launches, and convenings — built around the story you want people leaving with.",
+    outcomes: [
+      "An event premise people can describe in one sentence",
+      "A program that earns the price point",
+      "A guest list that compounds your platform",
+    ],
+    deliverables: [
+      "Event premise + program design",
+      "Guest curation strategy",
+      "Run-of-show and host scripting",
+    ],
+    ideal_for:
+      "Organizations and leaders investing in a flagship moment.",
+    icon: "calendar",
+  },
+  {
+    id: "svc-archived",
+    title: "Archived — old offering",
+    status: "Archived",
+    featured: false,
+    sort_order: 99,
+    created_at: "2024-09-01T00:00:00Z",
+    updated_at: "2025-01-01T00:00:00Z",
+    slug: "archived-old",
+    tagline: "Hidden.",
+    description: "Should not render publicly.",
+    outcomes: [],
+    deliverables: [],
+    ideal_for: "n/a",
+    icon: "spark",
+  },
+];
