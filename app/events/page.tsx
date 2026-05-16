@@ -3,6 +3,7 @@ import { CTA } from "@/components/CTA";
 import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
+import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
 import { publish } from "@/lib/content";
 import { events } from "@/lib/mock/events";
 
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
 export default function EventsPage() {
   const all = publish(events);
   const upcoming = all.filter((e) => e.is_upcoming);
+  const [nextEvent, ...moreUpcoming] = upcoming;
   const past = all.filter((e) => !e.is_upcoming);
 
   return (
@@ -25,27 +27,48 @@ export default function EventsPage() {
         lead="Keynotes, workshops, fireside conversations, and the Unapologetic book tour — in one place."
       />
 
-      <Section tone="default" containerSize="wide">
-        <SectionHeading
-          eyebrow="Upcoming"
-          title={`${upcoming.length} ${upcoming.length === 1 ? "event" : "events"} on the calendar.`}
-        />
-        {upcoming.length > 0 ? (
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {upcoming.map((e) => (
+      {nextEvent ? (
+        <Section tone="default" containerSize="wide">
+          <SectionHeading
+            eyebrow="Next up"
+            title="The next confirmed stage."
+            lead="Date, venue, role, and audience — at a glance."
+          />
+          <div className="mt-10">
+            <UpcomingEventFeature event={nextEvent} variant="panel" />
+          </div>
+        </Section>
+      ) : (
+        <Section tone="default" containerSize="wide">
+          <SectionHeading
+            eyebrow="Upcoming"
+            title="No public events on the calendar right now."
+          />
+          <p className="mt-6 max-w-2xl text-lg text-ink-soft">
+            Check back soon, or get in touch about a private booking.
+          </p>
+        </Section>
+      )}
+
+      {moreUpcoming.length > 0 ? (
+        <Section tone="tint" containerSize="wide">
+          <SectionHeading
+            eyebrow="Also upcoming"
+            title={`${moreUpcoming.length} more on the calendar.`}
+          />
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+            {moreUpcoming.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}
           </div>
-        ) : (
-          <p className="mt-10 text-ink-soft text-lg max-w-2xl">
-            Nothing on the public calendar right now — check back soon, or get
-            in touch about a private booking.
-          </p>
-        )}
-      </Section>
+        </Section>
+      ) : null}
 
       {past.length > 0 ? (
-        <Section tone="tint" containerSize="wide">
+        <Section
+          tone={moreUpcoming.length > 0 ? "default" : "tint"}
+          containerSize="wide"
+        >
           <SectionHeading
             eyebrow="Past"
             title="The road so far."

@@ -90,17 +90,6 @@ export default function BookPage() {
             </div>
           </div>
 
-          <div className="mt-16 lg:mt-20">
-            <div className="relative mx-auto aspect-[3/2.2] w-full max-w-4xl overflow-hidden rounded-3xl ring-1 ring-white/10 shadow-[0_40px_120px_-30px_rgba(0,0,0,0.55)]">
-              <Image
-                src="/book/unapologetic-book-stack.jpg"
-                alt="A stack of Unapologetic by Nicole Stephenson — printed copies, front and side view."
-                fill
-                sizes="(min-width: 1024px) 56rem, 100vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
         </Container>
       </section>
 
@@ -265,6 +254,41 @@ export default function BookPage() {
           </div>
         </Section>
       ) : null}
+
+      <Section tone="alt" containerSize="wide">
+        <div className="relative overflow-hidden rounded-[2rem] border border-line bg-[color:var(--color-purple-900)] text-white shadow-[0_40px_120px_-50px_rgba(43,15,68,0.6)]">
+          <div className="relative aspect-[3/1.4] w-full sm:aspect-[3/1.1] lg:aspect-[3/1]">
+            <Image
+              src="/book/unapologetic-book-stack.jpg"
+              alt="A stack of Unapologetic by Nicole Stephenson — printed copies side by side."
+              fill
+              sizes="(min-width: 1024px) 72rem, 100vw"
+              className="object-cover opacity-80"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-purple-900)] via-[color:var(--color-purple-900)]/60 to-transparent"
+            />
+            <div className="absolute inset-0 flex items-end p-8 sm:p-10 lg:p-14">
+              <div className="max-w-xl space-y-4">
+                <Eyebrow tone="light">In print</Eyebrow>
+                <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
+                  Order. Gift. Read in cohort.
+                </h2>
+                <p className="text-base leading-relaxed text-[color:var(--color-purple-100)] sm:text-lg">
+                  For bulk orders, book clubs, leadership retreats, and
+                  launch-week speaking — get in touch.
+                </p>
+                <div className="pt-2">
+                  <LinkButton href="/contact" variant="light" size="lg">
+                    Inquire about bulk + events
+                  </LinkButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
 
       <CTA
         title="Bring Unapologetic to your team or event."

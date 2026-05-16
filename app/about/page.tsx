@@ -1,12 +1,54 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { BookCover } from "@/components/BookCover";
+import { BookFeaturePanel } from "@/components/BookFeaturePanel";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
+import { EditorialImageRail, type RailItem } from "@/components/EditorialImageRail";
 import { PageHero } from "@/components/PageHero";
-import { Section, SectionHeading, Eyebrow } from "@/components/Section";
+import { Section, SectionHeading } from "@/components/Section";
 import { publish } from "@/lib/content";
+import { book } from "@/lib/mock/book";
 import { recognition } from "@/lib/mock/recognition";
+
+const ABOUT_RAIL: RailItem[] = [
+  {
+    src: "/photos/nicole-stephenson-speaking-1.jpg",
+    alt: "Nicole Stephenson on stage with a handheld microphone.",
+    aspect: "landscape",
+    tag: "On stage",
+  },
+  {
+    src: "/photos/nicole-stephenson-portrait-outdoor.jpg",
+    alt: "Nicole Stephenson in an outdoor portrait, striped dress, arms folded.",
+    aspect: "portrait",
+    tag: "Portrait",
+  },
+  {
+    src: "/photos/nicole-stephenson-wharton.jpg",
+    alt: "Nicole Stephenson on the University of Pennsylvania campus, in front of the Wharton glass facade.",
+    aspect: "landscape",
+    tag: "Wharton",
+    caption: "Lecturer, Wharton Communication Program",
+  },
+  {
+    src: "/photos/nicole-stephenson-power-women.jpg",
+    alt: "Editorial portrait of Nicole Stephenson in an emerald green dress for Main Line Today's Power Women feature.",
+    aspect: "portrait",
+    tag: "Power Women '24",
+  },
+  {
+    src: "/photos/book-launch-author-with-display.jpg",
+    alt: "Nicole at her Unapologetic book launch, standing beside a purple-draped table of copies.",
+    aspect: "landscape",
+    tag: "Book launch",
+  },
+  {
+    src: "/photos/nicole-stephenson-speaking-2.jpg",
+    alt: "Nicole Stephenson holding a microphone and smiling at the audience.",
+    aspect: "landscape",
+    tag: "Keynote",
+  },
+];
 
 export const metadata: Metadata = {
   title: "About Nicole Stephenson",
@@ -95,66 +137,21 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="tint">
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
-            <Image
-              src="/photos/nicole-stephenson-speaking-1.jpg"
-              alt="Nicole Stephenson on stage with a handheld microphone, mid-keynote."
-              fill
-              sizes="(min-width: 1024px) 22rem, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
-            <Image
-              src="/photos/nicole-stephenson-portrait-outdoor.jpg"
-              alt="Nicole Stephenson in an outdoor portrait — striped dress, arms folded, smiling."
-              fill
-              sizes="(min-width: 1024px) 22rem, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
-            <Image
-              src="/photos/nicole-stephenson-wharton.jpg"
-              alt="Nicole Stephenson on the University of Pennsylvania campus in front of the Wharton building."
-              fill
-              sizes="(min-width: 1024px) 22rem, 100vw"
-              className="object-cover object-top"
-            />
-          </div>
+      <Section tone="tint" containerSize="wide">
+        <div className="flex flex-col gap-8">
+          <SectionHeading
+            eyebrow="A look around"
+            title="Stages, portraits, and rooms."
+            lead="A moving gallery of speaking, editorial, and book-launch work."
+          />
+        </div>
+        <div className="mt-10 -mx-6 sm:-mx-8 lg:-mx-12">
+          <EditorialImageRail items={ABOUT_RAIL} speed="medium" />
         </div>
       </Section>
 
       <Section tone="default">
-        <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
-          <div className="relative aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
-            <Image
-              src="/book/unapologetic-book-stack.jpg"
-              alt="Printed copies of Unapologetic by Nicole Stephenson, IOM."
-              fill
-              sizes="(min-width: 1024px) 36rem, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div className="space-y-5">
-            <Eyebrow>The book</Eyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
-              Unapologetic, in print.
-            </h2>
-            <p className="text-lg text-ink-soft leading-relaxed">
-              Nicole&apos;s debut book is the long-form expression of the work
-              behind every keynote and engagement.
-            </p>
-            <div className="flex flex-wrap items-center gap-6 pt-2">
-              <BookCover size="md" />
-              <LinkButton href="/book" variant="secondary">
-                Read more about the book
-              </LinkButton>
-            </div>
-          </div>
-        </div>
+        <BookFeaturePanel book={book} />
       </Section>
 
       {visibleRecognition.length > 0 ? (
