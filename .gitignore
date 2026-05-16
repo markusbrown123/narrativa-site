@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw drive import — keep local, do not commit duplicates of public/
+/_drive-import/

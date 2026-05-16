@@ -37,36 +37,97 @@ export default function AboutPage() {
       </PageHero>
 
       <Section tone="default">
-        <div className="grid lg:grid-cols-[1fr_1.6fr] gap-14 items-start">
-          <SectionHeading
-            eyebrow="Bio"
-            title={<>The short version.</>}
-          />
-          <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
-            <p>
-              Nicole Stephenson, IOM is a dynamic communicator, author, and
-              transformational speaker — and the Founder of{" "}
-              <strong className="text-ink">Narrativa Consulting</strong>, which
-              helps individuals and organizations unlock human potential
-              through storytelling, communication, authenticity, and
-              leadership.
-            </p>
-            <p>
-              She is a Lecturer at The Wharton School at the University of
-              Pennsylvania.
-            </p>
-            <p>
-              Her book —{" "}
-              <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>{" "}
-              — explores authenticity, courage, self-advocacy, confidence,
-              mentorship, burnout, people-pleasing, career clarity, and what
-              it really means to redefine success.
-            </p>
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-16 items-start">
+          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
+            <Image
+              src="/photos/nicole-stephenson-headshot-plaid.jpg"
+              alt="Nicole Stephenson, IOM — studio portrait in a navy and red plaid blazer."
+              fill
+              sizes="(min-width: 1024px) 24rem, 22rem"
+              priority
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-6">
+            <SectionHeading eyebrow="Bio" title={<>The full picture.</>} />
+            <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
+              <p>
+                Nicole Stephenson, IOM is a dynamic communicator, author, and
+                transformational speaker dedicated to helping individuals and
+                organizations redefine success and step confidently into their
+                full potential.
+              </p>
+              <p>
+                Her career began at KYW Newsradio in Philadelphia, where she
+                entered the workforce during the 2008 financial crisis and
+                quickly distinguished herself across the newsroom and marketing
+                departments. She helped shape the station&apos;s first digital
+                marketing role — launching its Facebook presence when social
+                media was still emerging — and rose to become Marketing
+                Director at 22, the youngest woman and only female director
+                among senior leaders.
+              </p>
+              <p>
+                Her path then led her to The Main Line Chamber of Commerce,
+                where she initially joined as an assistant through a mentorship
+                connection and quickly advanced to become Executive Director of
+                the Society of Professional Women. Over a decade in that role,
+                she led transformative programming, hosted high-profile
+                speakers, and built a thriving community focused on advancing
+                women in leadership.
+              </p>
+              <p>
+                She spent three years writing her debut book,{" "}
+                <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>,
+                a powerful exploration of how women can overcome self-doubt
+                through mentorship, sponsorship, and skill-building.
+              </p>
+              <p>
+                Today, as Founder of{" "}
+                <strong className="text-ink">Narrativa Consulting</strong> and a
+                Lecturer in the Wharton Communication Program at the University
+                of Pennsylvania, she empowers leaders, teams, and emerging
+                professionals to communicate with clarity and lead with
+                authenticity. She also serves on the board of Girls Spark.
+              </p>
+            </div>
           </div>
         </div>
       </Section>
 
       <Section tone="tint">
+        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
+            <Image
+              src="/photos/nicole-stephenson-speaking-1.jpg"
+              alt="Nicole Stephenson on stage with a handheld microphone, mid-keynote."
+              fill
+              sizes="(min-width: 1024px) 22rem, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
+            <Image
+              src="/photos/nicole-stephenson-portrait-outdoor.jpg"
+              alt="Nicole Stephenson in an outdoor portrait — striped dress, arms folded, smiling."
+              fill
+              sizes="(min-width: 1024px) 22rem, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[3/4] overflow-hidden rounded-3xl ring-1 ring-line">
+            <Image
+              src="/photos/nicole-stephenson-wharton.jpg"
+              alt="Nicole Stephenson on the University of Pennsylvania campus in front of the Wharton building."
+              fill
+              sizes="(min-width: 1024px) 22rem, 100vw"
+              className="object-cover object-top"
+            />
+          </div>
+        </div>
+      </Section>
+
+      <Section tone="default">
         <div className="grid lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
           <div className="relative aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
             <Image
@@ -110,7 +171,7 @@ export default function AboutPage() {
                 className="overflow-hidden rounded-3xl bg-white border border-line"
               >
                 {r.image ? (
-                  <div className="relative aspect-[16/11] w-full bg-surface-tint">
+                  <div className="relative aspect-[4/3] w-full bg-surface-tint">
                     <Image
                       src={r.image}
                       alt={`${r.organization} — ${r.award}`}
@@ -120,7 +181,7 @@ export default function AboutPage() {
                     />
                   </div>
                 ) : null}
-                <div className="p-6 space-y-1">
+                <div className="p-6 space-y-1.5">
                   {r.year ? (
                     <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
                       {r.year}

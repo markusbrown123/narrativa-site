@@ -145,8 +145,7 @@ export default function MentorProgramPage() {
             Apply to the next cohort.
           </h2>
           <p className="mt-4 text-lg text-ink-soft leading-relaxed">
-            Tell us about the work you&apos;re bringing in. We read every
-            application carefully — and we respond.
+            Tell us about the work you&apos;re bringing in.
           </p>
         </div>
         <div className="rounded-3xl bg-white border border-line p-8 sm:p-10">

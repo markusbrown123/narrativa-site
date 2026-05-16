@@ -28,16 +28,16 @@ export default function EventsPage() {
       <Section tone="default" containerSize="wide">
         <SectionHeading
           eyebrow="Upcoming"
-          title={`${upcoming.length} on the calendar.`}
+          title={`${upcoming.length} ${upcoming.length === 1 ? "event" : "events"} on the calendar.`}
         />
         {upcoming.length > 0 ? (
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {upcoming.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}
           </div>
         ) : (
-          <p className="mt-10 text-ink-soft text-lg">
+          <p className="mt-10 text-ink-soft text-lg max-w-2xl">
             Nothing on the public calendar right now — check back soon, or get
             in touch about a private booking.
           </p>
@@ -51,7 +51,7 @@ export default function EventsPage() {
             title="The road so far."
             lead="Selected past events. Recordings are available on request, where permitted."
           />
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {past.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}

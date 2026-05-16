@@ -15,20 +15,24 @@ export const metadata: Metadata = {
 
 const SOCIAL_PROMOS: { src: string; alt: string }[] = [
   {
-    src: "/book/social/book-promo-1.jpg",
+    src: "/book/social/narrativa-social-1.jpg",
+    alt: "Unapologetic — Available Now: a stack of the book with a QR code to narrativaconsulting.com.",
+  },
+  {
+    src: "/book/social/narrativa-social-2.jpg",
     alt: "Unapologetic promo card — 'What if the very thing you've been taught to hide is the key to the career you want?'",
   },
   {
-    src: "/book/social/book-promo-2.jpg",
+    src: "/book/social/narrativa-social-3.jpg",
     alt: "Unapologetic promo card describing who the book is for — entering the workforce, negotiating value, pursuing a promotion, or questioning what's next.",
   },
   {
-    src: "/book/social/book-promo-3.jpg",
-    alt: "Unapologetic praise card with endorsements from Cheldin Barlatt Rumer, Lu Ann Cahn, and Gina Lizzo.",
+    src: "/book/social/narrativa-social-4.jpg",
+    alt: "Unapologetic promo card describing what the book is about — authenticity as a career strategy.",
   },
   {
-    src: "/book/social/book-promo-4.jpg",
-    alt: "Unapologetic praise card with endorsements from Tracy Davidson and Susan Jin Davis.",
+    src: "/book/social/narrativa-social-5.jpg",
+    alt: "Unapologetic promo card with details about the book's release and author Nicole Stephenson.",
   },
 ];
 
@@ -56,6 +60,18 @@ export default function BookPage() {
               <p className="text-lg text-[color:var(--color-purple-100)] leading-relaxed max-w-xl">
                 {book.tagline}
               </p>
+              {book.release_date || book.publisher ? (
+                <p className="text-sm text-[color:var(--color-purple-200)]">
+                  {book.publisher ? `Published by ${book.publisher}` : null}
+                  {book.publisher && book.release_date ? " · " : null}
+                  {book.release_date
+                    ? `Released ${new Date(book.release_date).toLocaleDateString(
+                        "en-US",
+                        { month: "long", year: "numeric" },
+                      )}`
+                    : null}
+                </p>
+              ) : null}
               {book.purchase_links.length > 0 ? (
                 <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
                   {book.purchase_links.map((link) => (
@@ -97,19 +113,18 @@ export default function BookPage() {
           <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
             <p>{book.description}</p>
             <p>
-              It is built for the leader who has the resume, the receipts, and
-              the proof — and is tired of presenting them with a question mark
-              at the end.
+              <em>Unapologetic</em> is more than a career guide. It is an
+              invitation to stop shrinking, stop apologizing, and start trusting
+              yourself. Because when you lead from who you truly are, success
+              stops feeling like something you chase and starts feeling like
+              something you create.
             </p>
           </div>
         </div>
       </Section>
 
       <Section tone="tint">
-        <SectionHeading
-          eyebrow="Themes"
-          title="What the book is about."
-        />
+        <SectionHeading eyebrow="Themes" title="What the book is about." />
         <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {[
             "Authenticity",
@@ -133,21 +148,65 @@ export default function BookPage() {
       </Section>
 
       <Section tone="default">
-        <SectionHeading
-          eyebrow="From the launch"
-          title="Unapologetic, in the wild."
-          lead="Promo cards and quotes from the Unapologetic launch — share-ready snapshots of the book's themes and early endorsements."
-        />
-        <div className="mt-12 grid gap-6 lg:gap-8 lg:grid-cols-[1.1fr_1fr_1fr]">
-          <figure className="relative col-span-1 aspect-square overflow-hidden rounded-3xl border border-line bg-white lg:row-span-2 lg:aspect-auto">
+        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
+          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
             <Image
-              src="/book/social/book-available-now.png"
-              alt="Unapologetic — Available Now, a stack of the book with a QR code linking to narrativaconsulting.com."
+              src="/photos/book-launch-author-holding-book.jpg"
+              alt="Nicole Stephenson holding up Unapologetic at her book launch event."
               fill
-              sizes="(min-width: 1024px) 36rem, 100vw"
+              sizes="(min-width: 1024px) 24rem, 22rem"
               className="object-cover"
             />
-          </figure>
+          </div>
+          <div className="space-y-5">
+            <Eyebrow>From the launch</Eyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
+              Unapologetic, in the wild.
+            </h2>
+            <p className="text-lg text-ink-soft leading-relaxed">
+              Snapshots from the book launch — author, books, and a room of
+              readers picking up their copies.
+            </p>
+          </div>
+        </div>
+        <div className="mt-12 grid gap-5 sm:grid-cols-3">
+          {[
+            {
+              src: "/photos/book-launch-books-table.jpg",
+              alt: "Stacks of Unapologetic copies on a purple-draped table at the book launch.",
+            },
+            {
+              src: "/photos/book-launch-author-with-display.jpg",
+              alt: "Nicole Stephenson standing in front of her book launch display and signing table.",
+            },
+            {
+              src: "/photos/book-launch-signing-hand.jpg",
+              alt: "Close-up of Nicole signing a copy of Unapologetic at the launch event.",
+            },
+          ].map((p) => (
+            <div
+              key={p.src}
+              className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface-tint"
+            >
+              <Image
+                src={p.src}
+                alt={p.alt}
+                fill
+                sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="tint">
+        <SectionHeading
+          eyebrow="Share the book"
+          title="Promo cards from the launch."
+          lead="Share-ready snapshots of the book's themes and back-cover copy."
+        />
+        <div className="mt-12 grid gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {SOCIAL_PROMOS.map((promo) => (
             <figure
               key={promo.src}
@@ -166,26 +225,21 @@ export default function BookPage() {
       </Section>
 
       {book.excerpts.length > 0 ? (
-        <Section tone="tint">
-          <SectionHeading
-            eyebrow="Inside"
-            title="A taste of the book."
-          />
-          <div className="mt-14 grid lg:grid-cols-2 gap-6">
+        <Section tone="default">
+          <SectionHeading eyebrow="Inside" title="A taste of the book." />
+          <div className="mt-14 grid lg:grid-cols-3 gap-6">
             {book.excerpts.map((e) => (
               <article
                 key={e.heading}
-                className="rounded-3xl bg-white border border-line p-8 sm:p-10"
+                className="rounded-3xl bg-white border border-line p-8"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
                   Excerpt
                 </p>
-                <h3 className="mt-3 font-display text-2xl sm:text-3xl text-ink leading-snug">
+                <h3 className="mt-3 font-display text-2xl text-ink leading-snug">
                   {e.heading}
                 </h3>
-                <p className="mt-4 text-ink-soft leading-relaxed italic">
-                  “{e.body}”
-                </p>
+                <p className="mt-4 text-ink-soft leading-relaxed">{e.body}</p>
               </article>
             ))}
           </div>
@@ -193,7 +247,7 @@ export default function BookPage() {
       ) : null}
 
       {book.praise.length > 0 ? (
-        <Section tone="default">
+        <Section tone="alt">
           <SectionHeading
             eyebrow="Praise"
             title="What early readers are saying."

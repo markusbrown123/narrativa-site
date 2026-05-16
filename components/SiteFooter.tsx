@@ -18,6 +18,7 @@ const FOOTER_NAV: { heading: string; items: { label: string; href: string }[] }[
     items: [
       { label: "Events", href: "/events" },
       { label: "Media", href: "/media" },
+      { label: "Partners", href: "/partners" },
       { label: "Mentor Program", href: "/mentor-program" },
       { label: "Contact", href: "/contact" },
     ],

@@ -16,12 +16,12 @@ const PROCESS = [
   {
     step: "01",
     title: "Discovery",
-    body: "A focused intro call — your moment, your audience, your hard constraints, your real goal.",
+    body: "A focused intro call — your moment, your audience, your real goal.",
   },
   {
     step: "02",
     title: "Proposal",
-    body: "A written proposal with the scope, the deliverables, and the timeline.",
+    body: "A written proposal with the scope and the deliverables.",
   },
   {
     step: "03",

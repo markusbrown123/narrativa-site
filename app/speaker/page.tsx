@@ -7,51 +7,25 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { Pill } from "@/components/Pill";
+import { PartnerLogos } from "@/components/PartnerLogos";
 import { publish } from "@/lib/content";
 import { events } from "@/lib/mock/events";
+import { partners } from "@/lib/mock/partners";
+import {
+  SPEAKER_AUDIENCES,
+  SPEAKER_FORMATS,
+  SPEAKER_TOPICS,
+} from "@/lib/mock/speaker";
 
 export const metadata: Metadata = {
   title: "Speaker",
   description:
-    "Book Nicole Stephenson, IOM — author, Wharton lecturer, and transformational speaker — for your keynote, panel, workshop, or fireside.",
+    "Book Nicole Stephenson, IOM — author, Wharton lecturer, and transformational speaker — for your keynote, fireside, breakout, retreat, or workshop.",
 };
-
-const TALK_THEMES = [
-  {
-    name: "Unapologetic Leadership",
-    audience: "Executive women · Leadership summits · Conferences",
-    description:
-      "A keynote built around the themes of Unapologetic: authenticity, courage, self-advocacy, and the work of leading without permission.",
-    formats: ["Keynote", "Fireside", "Workshop"],
-  },
-  {
-    name: "Storytelling & Communication",
-    audience: "Founders · Operators · Communication teams",
-    description:
-      "How leaders unlock potential in themselves, their teams, and their organizations through narrative, voice, and clear communication.",
-    formats: ["Keynote", "Workshop"],
-  },
-  {
-    name: "Redefining Success",
-    audience: "Career-stage women · Mid-career leaders · Mentorship programs",
-    description:
-      "A conversation on career clarity, burnout, people-pleasing, and what it really means to define success on your own terms.",
-    formats: ["Keynote", "Fireside", "Panel"],
-  },
-];
-
-const AUDIENCES = [
-  "Executive leadership summits",
-  "Corporate ERGs and DEI programs",
-  "Founder and operator conferences",
-  "University and MBA programs",
-  "Book clubs and author events",
-  "Women's leadership and mentorship programs",
-];
 
 export default function SpeakerPage() {
   const upcoming = publish(events).filter((e) => e.is_upcoming);
-  const past = publish(events).filter((e) => !e.is_upcoming);
+  const visiblePartners = publish(partners);
 
   return (
     <>
@@ -73,7 +47,7 @@ export default function SpeakerPage() {
             See talk themes
           </LinkButton>
           <LinkButton
-            href="/speaker/nicole-speaker-one-sheet.pdf"
+            href="/speaker/nicole-stephenson-one-sheet.pdf"
             size="lg"
             variant="secondary"
             external
@@ -83,60 +57,107 @@ export default function SpeakerPage() {
         </div>
       </PageHero>
 
-      <Section tone="default" id="talks">
+      <Section tone="default">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
+          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
+            <Image
+              src="/photos/nicole-stephenson-speaking-1.jpg"
+              alt="Nicole Stephenson speaking into a microphone on stage."
+              fill
+              sizes="(min-width: 1024px) 24rem, 22rem"
+              className="object-cover"
+            />
+          </div>
+          <div className="space-y-5">
+            <Eyebrow>On stage</Eyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
+              A speaker who connects, then transforms.
+            </h2>
+            <p className="text-lg text-ink-soft leading-relaxed">
+              Known for blending real-world experience with compelling
+              storytelling and practical strategies, Nicole delivers content
+              that inspires immediate action and lasting growth. With nearly
+              two decades of experience across marketing, promotions, sales,
+              operations, and events, she brings a rare combination of
+              strategic insight and human-centered leadership to every
+              engagement.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section tone="tint" id="talks">
         <SectionHeading
           eyebrow="Talk themes"
           title="What Nicole speaks about."
-          lead="Each talk is tailored. Every booking begins with a discovery conversation so the talk matches your audience and moment."
+          lead="Four signature topics from the Unapologetic curriculum — tailored to your audience and moment."
         />
-        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {TALK_THEMES.map((talk) => (
+        <div className="mt-14 grid md:grid-cols-2 gap-6 lg:gap-8">
+          {SPEAKER_TOPICS.map((topic) => (
             <article
-              key={talk.name}
-              className="flex flex-col h-full rounded-3xl border border-line bg-white p-8 hover:border-[color:var(--color-purple-300)] transition-all"
+              key={topic.number}
+              className="flex flex-col rounded-3xl border border-line bg-white p-7 sm:p-8 hover:border-[color:var(--color-purple-300)] transition-all"
             >
-              <Eyebrow>Theme</Eyebrow>
-              <h3 className="mt-4 font-display text-2xl text-ink leading-snug">
-                {talk.name}
-              </h3>
-              <p className="mt-2 text-sm text-ink-soft">{talk.audience}</p>
-              <p className="mt-4 text-ink-soft leading-relaxed">
-                {talk.description}
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                Topic {topic.number}
               </p>
-              <div className="mt-6 pt-6 border-t border-line">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                  Formats
-                </p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {talk.formats.map((f) => (
-                    <li key={f}>
-                      <Pill tone="brand">{f}</Pill>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <h3 className="mt-3 font-display text-2xl text-ink leading-snug">
+                {topic.title}
+              </h3>
+              <ul className="mt-5 space-y-2 text-ink-soft text-sm sm:text-base leading-relaxed">
+                {topic.bullets.map((b) => (
+                  <li key={b} className="flex gap-2">
+                    <span aria-hidden="true" className="text-brand">—</span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
             </article>
           ))}
         </div>
       </Section>
 
-      <Section tone="tint">
-        <div className="grid lg:grid-cols-[1fr_1.5fr] gap-12 items-start">
+      <Section tone="default">
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           <SectionHeading
-            eyebrow="Audiences"
+            eyebrow="Engagement formats"
+            title="Pick the shape that fits the room."
+          />
+          <ul className="grid sm:grid-cols-2 gap-4 sm:gap-5">
+            {SPEAKER_FORMATS.map((f) => (
+              <li
+                key={f.format}
+                className="rounded-2xl border border-line bg-white p-5"
+              >
+                <p className="font-display text-lg text-ink leading-snug">
+                  {f.format}
+                </p>
+                <p className="mt-1.5 text-sm text-ink-soft leading-relaxed">
+                  {f.description}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+
+      <Section tone="alt">
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-14 items-start">
+          <SectionHeading
+            eyebrow="Ideal audiences"
             title="Built for the room you are about to fill."
           />
-          <ul className="grid sm:grid-cols-2 gap-4">
-            {AUDIENCES.map((a) => (
+          <ul className="grid sm:grid-cols-2 gap-3 sm:gap-4">
+            {SPEAKER_AUDIENCES.map((a) => (
               <li
                 key={a}
                 className="flex items-start gap-3 rounded-2xl bg-white border border-line p-5"
               >
                 <span
                   aria-hidden="true"
-                  className="mt-1 inline-flex h-2 w-2 rounded-full bg-brand"
+                  className="mt-1.5 inline-flex h-2 w-2 shrink-0 rounded-full bg-brand"
                 />
-                <span className="text-ink">{a}</span>
+                <span className="text-ink leading-snug">{a}</span>
               </li>
             ))}
           </ul>
@@ -160,16 +181,23 @@ export default function SpeakerPage() {
             </p>
             <div className="relative mt-4 aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
               <Image
-                src="/book/unapologetic-book-stack.jpg"
-                alt="Printed copies of Unapologetic — the book Nicole's talks are built around."
+                src="/photos/nicole-stephenson-speaking-3.jpg"
+                alt="Nicole Stephenson mid-keynote, microphone in hand."
                 fill
                 sizes="(min-width: 1024px) 36rem, 100vw"
                 className="object-cover"
               />
             </div>
-            <div className="pt-2">
+            <div className="pt-2 flex flex-wrap gap-3">
               <LinkButton href="/book" variant="secondary">
                 About the book
+              </LinkButton>
+              <LinkButton
+                href="/speaker/nicole-stephenson-one-sheet.pdf"
+                variant="secondary"
+                external
+              >
+                Download one-sheet (PDF)
               </LinkButton>
             </div>
           </div>
@@ -177,7 +205,7 @@ export default function SpeakerPage() {
       </Section>
 
       {upcoming.length > 0 ? (
-        <Section tone="default">
+        <Section tone="tint">
           <SectionHeading
             eyebrow="Upcoming stages"
             title="Where to find Nicole next."
@@ -190,30 +218,19 @@ export default function SpeakerPage() {
         </Section>
       ) : null}
 
-      {past.length > 0 ? (
+      {visiblePartners.length > 0 ? (
         <Section tone="default">
           <SectionHeading
-            eyebrow="Past stages"
-            title="Rooms that have already had Nicole."
+            eyebrow="Recent rooms"
+            title="A few of the organizations Narrativa has worked with."
+            align="center"
+            lead={
+              <Pill tone="brand">Partner relationships listed where confirmed</Pill>
+            }
           />
-          <ul className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {past.map((e) => (
-              <li
-                key={e.id}
-                className="rounded-2xl border border-line bg-white px-5 py-4"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                  {e.format}
-                </p>
-                <p className="mt-1 font-display text-lg text-ink leading-snug">
-                  {e.title}
-                </p>
-                {e.location ? (
-                  <p className="text-sm text-ink-soft">{e.location}</p>
-                ) : null}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-12">
+            <PartnerLogos partners={visiblePartners} />
+          </div>
         </Section>
       ) : null}
 
@@ -223,7 +240,7 @@ export default function SpeakerPage() {
         primary={{ label: "Submit a speaking inquiry", href: "/contact" }}
         secondary={{
           label: "Download speaker one-sheet",
-          href: "/speaker/nicole-speaker-one-sheet.pdf",
+          href: "/speaker/nicole-stephenson-one-sheet.pdf",
         }}
       />
     </>

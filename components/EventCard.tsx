@@ -18,12 +18,12 @@ export function EventCard({ event }: { event: Event }) {
             src={event.image}
             alt={`Event flyer — ${event.title}`}
             fill
-            sizes="(min-width: 1024px) 24rem, (min-width: 768px) 45vw, 100vw"
+            sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 100vw"
             className="object-cover"
           />
         </div>
       ) : null}
-      <div className="flex flex-col h-full p-7">
+      <div className="flex flex-col flex-1 p-6 sm:p-7">
         <div className="flex items-center justify-between gap-3">
           <span className="inline-flex items-center rounded-full bg-[color:var(--color-purple-50)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
             {event.format}
@@ -43,18 +43,18 @@ export function EventCard({ event }: { event: Event }) {
         <dl className="mt-4 space-y-1.5 text-sm text-ink-soft">
           {event.date ? (
             <div className="flex gap-2">
-              <dt className="font-medium text-ink">Date</dt>
+              <dt className="font-medium text-ink shrink-0">Date</dt>
               <dd>{formatDateRange(event.date, event.end_date)}</dd>
             </div>
           ) : null}
           {event.location ? (
             <div className="flex gap-2">
-              <dt className="font-medium text-ink">Where</dt>
+              <dt className="font-medium text-ink shrink-0">Where</dt>
               <dd>{event.location}</dd>
             </div>
           ) : null}
           <div className="flex gap-2">
-            <dt className="font-medium text-ink">Audience</dt>
+            <dt className="font-medium text-ink shrink-0">Audience</dt>
             <dd>{event.audience}</dd>
           </div>
         </dl>

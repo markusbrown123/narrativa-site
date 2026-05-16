@@ -7,9 +7,13 @@ import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { StatRow } from "@/components/StatRow";
 import { BookCover } from "@/components/BookCover";
+import { PartnerLogos } from "@/components/PartnerLogos";
+import { PodcastCard } from "@/components/MediaCard";
 import { publish, featured } from "@/lib/content";
 import { book } from "@/lib/mock/book";
 import { events } from "@/lib/mock/events";
+import { partners } from "@/lib/mock/partners";
+import { podcasts } from "@/lib/mock/podcasts";
 import { recognition } from "@/lib/mock/recognition";
 import { services } from "@/lib/mock/services";
 
@@ -19,6 +23,8 @@ export default function Home() {
     .slice(0, 3);
   const featuredServices = featured(services).slice(0, 3);
   const visibleRecognition = publish(recognition);
+  const visiblePartners = publish(partners);
+  const featuredPodcasts = publish(podcasts).slice(0, 3);
 
   return (
     <>
@@ -31,8 +37,8 @@ export default function Home() {
           aria-hidden="true"
           className="absolute -bottom-40 -left-20 h-[32rem] w-[32rem] rounded-full bg-[color:var(--color-purple-200)] blur-3xl opacity-40"
         />
-        <Container className="relative py-20 sm:py-28 lg:py-32">
-          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-center">
+        <Container className="relative py-20 sm:py-24 lg:py-28">
+          <div className="grid lg:grid-cols-[1.35fr_1fr] gap-10 lg:gap-16 items-center">
             <div className="space-y-7">
               <Eyebrow>Narrativa Consulting</Eyebrow>
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-ink">
@@ -54,8 +60,18 @@ export default function Home() {
                 </LinkButton>
               </div>
             </div>
-            <div className="relative flex justify-center lg:justify-end">
-              <BookCover size="xl" priority />
+            <div className="relative flex justify-center lg:justify-end gap-6 items-end">
+              <div className="hidden sm:block relative h-72 w-52 lg:h-80 lg:w-56 rounded-3xl overflow-hidden ring-1 ring-line shadow-[0_20px_60px_-25px_rgba(43,15,68,0.45)]">
+                <Image
+                  src="/photos/nicole-stephenson-headshot-plaid.jpg"
+                  alt="Nicole Stephenson, IOM — Founder of Narrativa Consulting and Lecturer at The Wharton School / University of Pennsylvania."
+                  fill
+                  sizes="(min-width: 1024px) 224px, 208px"
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              <BookCover size="lg" priority />
             </div>
           </div>
         </Container>
@@ -73,24 +89,34 @@ export default function Home() {
       </Section>
 
       <Section tone="tint">
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
-          <SectionHeading
-            eyebrow="Meet Nicole"
-            title={<>A dynamic voice for the leaders writing what&apos;s next.</>}
-          />
-          <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
-            <p>
-              Nicole Stephenson, IOM is a dynamic communicator, author,
-              transformational speaker, Founder of Narrativa Consulting, and
-              Lecturer at The Wharton School / University of Pennsylvania.
-            </p>
-            <p>
-              Her debut book — <em>Unapologetic: Boldly Lead the Life and Career
-              You Deserve</em> — explores authenticity, courage, self-advocacy,
-              confidence, mentorship, burnout, people-pleasing, career clarity,
-              and what it really means to redefine success.
-            </p>
-            <div className="pt-3">
+        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-10 lg:gap-14 items-center">
+          <div className="relative aspect-[3/4] max-w-sm w-full mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.45)]">
+            <Image
+              src="/photos/nicole-stephenson-power-women.jpg"
+              alt="Editorial portrait of Nicole Stephenson in an emerald green dress against a floral background — from Main Line Today's 2024 Power Women feature."
+              fill
+              sizes="(min-width: 1024px) 24rem, 20rem"
+              className="object-cover object-top"
+            />
+          </div>
+          <div className="space-y-6">
+            <SectionHeading
+              eyebrow="Meet Nicole"
+              title={<>A dynamic voice for the leaders writing what&apos;s next.</>}
+            />
+            <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
+              <p>
+                Nicole Stephenson, IOM is a dynamic communicator, author,
+                transformational speaker, Founder of Narrativa Consulting, and
+                Lecturer at The Wharton School / University of Pennsylvania.
+              </p>
+              <p>
+                Her debut book — <em>Unapologetic: Boldly Lead the Life and Career
+                You Deserve</em> — is a roadmap to authenticity, courage, and
+                sustainable personal and professional development.
+              </p>
+            </div>
+            <div className="pt-1">
               <LinkButton href="/about" variant="secondary">
                 More about Nicole
               </LinkButton>
@@ -105,7 +131,7 @@ export default function Home() {
             <SectionHeading
               eyebrow="Work with Narrativa"
               title="Three ways we move the needle."
-              lead="Each engagement is built around your specific room, your specific moment, and the body of work you want to leave behind."
+              lead="Speaker brand, visibility strategy, and the writing and design that make a body of work look like one."
             />
             <LinkButton href="/services" variant="secondary">
               See all services
@@ -160,7 +186,7 @@ export default function Home() {
               <SectionHeading
                 eyebrow="What's next"
                 title="Upcoming events."
-                lead="Where to find Nicole on stage, in print, and in person this season."
+                lead="Where to find Nicole on stage and in person this season."
               />
               <LinkButton href="/events" variant="secondary">
                 See all events
@@ -169,6 +195,28 @@ export default function Home() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {upcomingEvents.map((e) => (
                 <EventCard key={e.id} event={e} />
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
+      {featuredPodcasts.length > 0 ? (
+        <Section tone="tint">
+          <div className="space-y-12">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <SectionHeading
+                eyebrow="On the record"
+                title="In the press and on the show."
+                lead="Recent long-form conversations and podcast appearances."
+              />
+              <LinkButton href="/media" variant="secondary">
+                See all media
+              </LinkButton>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {featuredPodcasts.map((p) => (
+                <PodcastCard key={p.id} podcast={p} />
               ))}
             </div>
           </div>
@@ -184,17 +232,30 @@ export default function Home() {
           />
           <ul className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 text-center">
             {visibleRecognition.map((r) => (
-              <li key={r.id} className="space-y-1">
+              <li key={r.id} className="space-y-1.5">
                 <p className="font-display text-lg text-ink leading-snug">
                   {r.organization}
                 </p>
-                <p className="text-sm text-ink-soft">{r.award}</p>
+                <p className="text-sm text-ink-soft leading-snug">{r.award}</p>
                 {r.year ? (
                   <p className="text-xs text-muted">{r.year}</p>
                 ) : null}
               </li>
             ))}
           </ul>
+        </Section>
+      ) : null}
+
+      {visiblePartners.length > 0 ? (
+        <Section tone="default">
+          <SectionHeading
+            eyebrow="Partners & engagements"
+            title="Recent rooms Narrativa has been in."
+            align="center"
+          />
+          <div className="mt-14">
+            <PartnerLogos partners={visiblePartners} />
+          </div>
         </Section>
       ) : null}
 

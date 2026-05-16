@@ -44,7 +44,8 @@ export type PodcastKind =
   | "Interview"
   | "Spotify"
   | "Apple"
-  | "YouTube";
+  | "YouTube"
+  | "Vimeo";
 
 export interface Podcast extends BaseRecord {
   show: string;
@@ -104,4 +105,32 @@ export interface Recognition extends BaseRecord {
   url?: string;
   summary?: string;
   image?: string;
+}
+
+export interface Partner extends BaseRecord {
+  name: string;
+  logo: string;
+  relationship?: string;
+  url?: string;
+}
+
+export type PhotoCategory =
+  | "Headshot"
+  | "Speaking"
+  | "Portrait"
+  | "Book Launch"
+  | "Editorial";
+
+export interface Photo extends BaseRecord {
+  src: string;
+  alt: string;
+  category: PhotoCategory;
+  orientation: "portrait" | "landscape" | "square";
+  credit?: string;
+}
+
+export interface SpeakerTopic {
+  number: number;
+  title: string;
+  bullets: string[];
 }
