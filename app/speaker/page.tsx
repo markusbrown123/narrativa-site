@@ -89,7 +89,7 @@ export default function SpeakerPage() {
           title="What Nicole speaks about."
           lead="Each talk is tailored. Every booking begins with a discovery conversation so the talk matches your audience and moment."
         />
-        <div className="mt-14 grid lg:grid-cols-3 gap-6">
+        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {TALK_THEMES.map((talk) => (
             <article
               key={talk.name}
@@ -182,7 +182,7 @@ export default function SpeakerPage() {
             eyebrow="Upcoming stages"
             title="Where to find Nicole next."
           />
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {upcoming.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}
@@ -219,7 +219,7 @@ export default function SpeakerPage() {
 
       <CTA
         title="Add Nicole to the lineup."
-        body="Share your date, venue, and audience — we'll come back with availability, fees, and a recommended format."
+        body="Share your date, venue, and audience — we'll come back with availability and a recommended format."
         primary={{ label: "Submit a speaking inquiry", href: "/contact" }}
         secondary={{
           label: "Download speaker one-sheet",

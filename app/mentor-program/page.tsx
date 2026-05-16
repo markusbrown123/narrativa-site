@@ -8,7 +8,7 @@ import { Pill } from "@/components/Pill";
 export const metadata: Metadata = {
   title: "Mentor Program",
   description:
-    "A small, twice-yearly cohort for leaders rebuilding their narrative, voice, and platform — led by Nicole Stephenson.",
+    "A small, deliberate cohort for leaders rebuilding their narrative, voice, and platform — led by Nicole Stephenson.",
 };
 
 const PILLARS = [
@@ -79,7 +79,7 @@ export default function MentorProgramPage() {
           eyebrow="The work"
           title="Three pillars."
         />
-        <div className="mt-14 grid lg:grid-cols-3 gap-6">
+        <div className="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {PILLARS.map((p) => (
             <article
               key={p.title}

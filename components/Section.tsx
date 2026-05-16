@@ -18,7 +18,7 @@ export function Section({
     <section
       id={id}
       className={clsx(
-        "py-20 sm:py-24",
+        "py-16 sm:py-20 lg:py-24",
         tone === "default" && "bg-surface text-ink",
         tone === "tint" && "bg-surface-tint text-ink",
         tone === "alt" && "bg-surface-alt text-ink",

@@ -16,8 +16,8 @@ export function CTA({
 }) {
   return (
     <section className="bg-[color:var(--color-purple-900)] text-white">
-      <Container className="py-20 sm:py-24">
-        <div className="grid lg:grid-cols-[2fr_1fr] gap-10 items-end">
+      <Container className="py-16 sm:py-20 lg:py-24">
+        <div className="grid lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-end">
           <div className="space-y-5 max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--color-purple-200)]">
               {eyebrow}

@@ -22,8 +22,8 @@ export function PageHero({
         aria-hidden="true"
         className="absolute -bottom-40 -left-20 h-[28rem] w-[28rem] rounded-full bg-[color:var(--color-purple-200)] blur-3xl opacity-40"
       />
-      <Container className="relative py-20 sm:py-28">
-        <div className="max-w-3xl space-y-6">
+      <Container className="relative py-16 sm:py-24 lg:py-28">
+        <div className="max-w-3xl space-y-5 sm:space-y-6">
           {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
           <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-ink">
             {title}

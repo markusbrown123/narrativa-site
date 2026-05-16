@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { PageHero } from "@/components/PageHero";
 import { Section } from "@/components/Section";
+import { CONTACT } from "@/lib/contact";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -9,21 +10,22 @@ export const metadata: Metadata = {
     "Get in touch with Nicole Stephenson and Narrativa Consulting — for speaking, advisory, press, and book inquiries.",
 };
 
-const CHANNELS = [
+const INQUIRY_KINDS = [
   {
     label: "Speaking",
     description: "Keynotes, workshops, fireside, and panel inquiries.",
-    contact: "speaking@narrativaconsulting.com",
   },
   {
     label: "Press & media",
     description: "Interviews, features, podcast bookings, review copies.",
-    contact: "press@narrativaconsulting.com",
   },
   {
     label: "Consulting",
     description: "Advisory, ghostwriting, speaker brand, and event strategy.",
-    contact: "hello@narrativaconsulting.com",
+  },
+  {
+    label: "Mentor Program",
+    description: "Questions about the next cohort or how to apply.",
   },
 ];
 
@@ -38,44 +40,81 @@ export default function ContactPage() {
             <br className="hidden lg:block" /> you&apos;re trying to win.
           </>
         }
-        lead="Speaking, consulting, press, or a question about the mentor program — start with a note. We respond within three business days."
+        lead="Speaking, consulting, press, or a question about the mentor program — start with a note. Nicole reads every message."
       />
 
       <Section tone="default">
-        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-12">
-          <div className="rounded-3xl bg-white border border-line p-8 sm:p-10">
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-start">
+          <div className="rounded-3xl bg-white border border-line p-6 sm:p-10">
             <ContactForm />
           </div>
-          <aside className="space-y-8">
-            <div className="rounded-3xl bg-[color:var(--color-purple-50)] p-8">
+          <aside className="space-y-6 lg:sticky lg:top-24">
+            <div className="rounded-3xl bg-[color:var(--color-purple-50)] p-7 sm:p-8">
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
-                Where to send what
+                Direct
               </p>
-              <ul className="mt-5 space-y-5">
-                {CHANNELS.map((c) => (
-                  <li key={c.label}>
-                    <p className="font-display text-lg text-ink">{c.label}</p>
+              <ul className="mt-5 space-y-4">
+                <li>
+                  <p className="text-sm text-ink-soft">Email</p>
+                  <a
+                    href={`mailto:${CONTACT.email}`}
+                    className="mt-0.5 inline-block font-display text-lg text-ink hover:text-brand break-all"
+                  >
+                    {CONTACT.email}
+                  </a>
+                </li>
+                <li>
+                  <p className="text-sm text-ink-soft">Phone</p>
+                  <a
+                    href={CONTACT.phoneHref}
+                    className="mt-0.5 inline-block font-display text-lg text-ink hover:text-brand"
+                  >
+                    {CONTACT.phone}
+                  </a>
+                </li>
+                <li>
+                  <p className="text-sm text-ink-soft">Online</p>
+                  <a
+                    href={CONTACT.websiteHref}
+                    className="mt-0.5 inline-block font-display text-lg text-ink hover:text-brand"
+                  >
+                    {CONTACT.website}
+                  </a>
+                </li>
+              </ul>
+              <div className="mt-6 pt-6 border-t border-[color:var(--color-purple-200)] flex flex-wrap gap-3">
+                <a
+                  href={CONTACT.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand border border-[color:var(--color-purple-200)] hover:bg-[color:var(--color-purple-100)]"
+                >
+                  LinkedIn
+                </a>
+                <a
+                  href={CONTACT.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand border border-[color:var(--color-purple-200)] hover:bg-[color:var(--color-purple-100)]"
+                >
+                  Instagram
+                </a>
+              </div>
+            </div>
+            <div className="rounded-3xl border border-line p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+                What to send
+              </p>
+              <ul className="mt-5 space-y-4">
+                {INQUIRY_KINDS.map((kind) => (
+                  <li key={kind.label}>
+                    <p className="font-display text-lg text-ink">{kind.label}</p>
                     <p className="text-sm text-ink-soft mt-0.5 leading-relaxed">
-                      {c.description}
+                      {kind.description}
                     </p>
-                    <a
-                      href={`mailto:${c.contact}`}
-                      className="mt-1 inline-block text-sm font-semibold text-brand hover:underline"
-                    >
-                      {c.contact}
-                    </a>
                   </li>
                 ))}
               </ul>
-            </div>
-            <div className="rounded-3xl border border-line p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
-                Studio
-              </p>
-              <p className="mt-3 text-ink-soft leading-relaxed">
-                Philadelphia, PA — we work with clients globally and travel
-                often. Calls run on Eastern time, weekdays.
-              </p>
             </div>
           </aside>
         </div>

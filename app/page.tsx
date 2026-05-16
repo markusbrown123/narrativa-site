@@ -31,8 +31,8 @@ export default function Home() {
           aria-hidden="true"
           className="absolute -bottom-40 -left-20 h-[32rem] w-[32rem] rounded-full bg-[color:var(--color-purple-200)] blur-3xl opacity-40"
         />
-        <Container className="relative py-24 sm:py-32 lg:py-36">
-          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-14 items-center">
+        <Container className="relative py-20 sm:py-28 lg:py-32">
+          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-center">
             <div className="space-y-7">
               <Eyebrow>Narrativa Consulting</Eyebrow>
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-ink">
@@ -111,7 +111,7 @@ export default function Home() {
               See all services
             </LinkButton>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {featuredServices.map((s) => (
               <ServiceCard key={s.id} service={s} />
             ))}
@@ -166,7 +166,7 @@ export default function Home() {
                 See all events
               </LinkButton>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
               {upcomingEvents.map((e) => (
                 <EventCard key={e.id} event={e} />
               ))}
@@ -200,7 +200,7 @@ export default function Home() {
 
       <CTA
         title="Bring Nicole into your next room."
-        body="For speaking, advisory, and media — start with a note. We respond within three business days."
+        body="For speaking, advisory, and media — start with a note."
         primary={{ label: "Get in touch", href: "/contact" }}
         secondary={{ label: "Apply for the mentor program", href: "/mentor-program" }}
       />

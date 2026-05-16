@@ -40,8 +40,8 @@ export default function BookPage() {
           aria-hidden="true"
           className="absolute -top-32 -left-32 h-[36rem] w-[36rem] rounded-full bg-[color:var(--color-purple-400)] blur-3xl opacity-40"
         />
-        <Container className="relative py-24 sm:py-32">
-          <div className="grid lg:grid-cols-[1fr_1.3fr] gap-14 items-center">
+        <Container className="relative py-20 sm:py-28 lg:py-32">
+          <div className="grid lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-14 items-center">
             <div className="flex justify-center lg:justify-start">
               <BookCover size="xl" priority />
             </div>
@@ -110,7 +110,7 @@ export default function BookPage() {
           eyebrow="Themes"
           title="What the book is about."
         />
-        <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {[
             "Authenticity",
             "Courage",
@@ -138,7 +138,7 @@ export default function BookPage() {
           title="Unapologetic, in the wild."
           lead="Promo cards and quotes from the Unapologetic launch — share-ready snapshots of the book's themes and early endorsements."
         />
-        <div className="mt-12 grid gap-6 lg:grid-cols-[1.1fr_1fr_1fr]">
+        <div className="mt-12 grid gap-6 lg:gap-8 lg:grid-cols-[1.1fr_1fr_1fr]">
           <figure className="relative col-span-1 aspect-square overflow-hidden rounded-3xl border border-line bg-white lg:row-span-2 lg:aspect-auto">
             <Image
               src="/book/social/book-available-now.png"

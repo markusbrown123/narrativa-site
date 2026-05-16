@@ -31,7 +31,7 @@ export default function EventsPage() {
           title={`${upcoming.length} on the calendar.`}
         />
         {upcoming.length > 0 ? (
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {upcoming.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}
@@ -51,7 +51,7 @@ export default function EventsPage() {
             title="The road so far."
             lead="Selected past events. Recordings are available on request, where permitted."
           />
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {past.map((e) => (
               <EventCard key={e.id} event={e} />
             ))}
@@ -61,7 +61,7 @@ export default function EventsPage() {
 
       <CTA
         title="Invite Narrativa to your stage."
-        body="Tell us the audience, date, and dream takeaway — we'll respond within three business days."
+        body="Tell us the audience, date, and dream takeaway — Nicole will be in touch."
         primary={{ label: "Send a speaking inquiry", href: "/contact" }}
       />
     </>

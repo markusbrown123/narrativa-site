@@ -103,7 +103,7 @@ export default function AboutPage() {
             title="Where the work shows up."
             align="center"
           />
-          <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {visibleRecognition.map((r) => (
               <li
                 key={r.id}

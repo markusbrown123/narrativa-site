@@ -31,7 +31,7 @@ export default function MediaPage() {
             eyebrow="Press"
             title="Recent features and bylines."
           />
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {visiblePress.map((item) => (
               <PressCard key={item.id} item={item} />
             ))}
@@ -54,7 +54,7 @@ export default function MediaPage() {
             title="Listen in."
             lead="Recent long-form conversations — and where to find a fuller archive."
           />
-          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {visiblePodcasts.map((p) => (
               <PodcastCard key={p.id} podcast={p} />
             ))}

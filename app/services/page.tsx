@@ -16,22 +16,22 @@ const PROCESS = [
   {
     step: "01",
     title: "Discovery",
-    body: "We get on a 45-minute discovery call — your moment, your audience, your hard constraints, your real goal.",
+    body: "A focused intro call — your moment, your audience, your hard constraints, your real goal.",
   },
   {
     step: "02",
     title: "Proposal",
-    body: "You get a written proposal with the scope, the deliverables, the timeline, and the price — in one page.",
+    body: "A written proposal with the scope, the deliverables, and the timeline.",
   },
   {
     step: "03",
     title: "Build",
-    body: "We work in 2-week working sessions. You see drafts at 30%, 60%, and 100% — never just at the end.",
+    body: "Working sessions in regular increments. You see drafts in progress — not just at the end.",
   },
   {
     step: "04",
     title: "Launch",
-    body: "We hand off the final assets and a 60-day playbook. Optional retainer for ongoing platform support.",
+    body: "Hand-off of the final assets, with optional ongoing support if it makes sense.",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function ServicesPage() {
       />
 
       <Section tone="default" containerSize="wide">
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
           {visibleServices.map((s) => (
             <ServiceCard key={s.id} service={s} detailed />
           ))}
@@ -64,7 +64,7 @@ export default function ServicesPage() {
           title="Four steps. No mystery."
           lead="Engagements are intentionally short and tightly scoped. We say no to vague — and yes to repeatable."
         />
-        <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {PROCESS.map((p) => (
             <li
               key={p.step}
@@ -90,12 +90,11 @@ export default function ServicesPage() {
           />
           <div className="space-y-4 text-ink-soft leading-relaxed text-lg">
             <p>
-              Every engagement is scoped to the work in front of you. Speaking
-              fees, advisory retainers, and project work are quoted on
-              request.
+              Every engagement is scoped to the work in front of you. Speaking,
+              advisory, and project work are quoted on request.
             </p>
             <p>
-              Inquiries receive a response within three business days.
+              Send a note and Nicole will be in touch.
             </p>
           </div>
         </div>

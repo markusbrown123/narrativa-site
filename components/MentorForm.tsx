@@ -57,8 +57,8 @@ export function MentorForm() {
       <div className="rounded-3xl border border-[color:var(--color-purple-200)] bg-[color:var(--color-purple-50)] p-8">
         <p className="font-display text-2xl text-ink">Application received.</p>
         <p className="mt-2 text-ink-soft leading-relaxed">
-          We review applications in cohort cycles. You&apos;ll hear from us with
-          next steps and interview windows within ten business days.
+          Applications are reviewed in cohort cycles. We&apos;ll be in touch
+          with next steps when the next intake opens.
         </p>
         <Button
           variant="secondary"
@@ -73,7 +73,7 @@ export function MentorForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid sm:grid-cols-2 gap-5">
         <FieldShell label="Full name" htmlFor="mentor-name" required>
           <TextField
@@ -160,10 +160,9 @@ export function MentorForm() {
           {error}
         </p>
       ) : null}
-      <div className="flex items-center justify-between gap-4 pt-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
         <p className="text-xs text-muted">
-          Cohorts open twice a year. Applications close 30 days before each
-          start.
+          Applications open ahead of each cohort. Apply to be notified.
         </p>
         <Button type="submit" disabled={status === "submitting"} size="lg">
           {status === "submitting" ? "Submitting…" : "Apply"}

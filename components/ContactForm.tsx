@@ -51,9 +51,9 @@ export function ContactForm() {
       <div className="rounded-3xl border border-[color:var(--color-purple-200)] bg-[color:var(--color-purple-50)] p-8">
         <p className="font-display text-2xl text-ink">Thank you.</p>
         <p className="mt-2 text-ink-soft leading-relaxed">
-          Your note is in. Nicole and the Narrativa team will respond within
-          three business days. For time-sensitive media, please mark your
-          subject line accordingly.
+          Your note is in. Nicole reads every message personally and will be in
+          touch. For time-sensitive media, please mark your subject line
+          accordingly.
         </p>
         <Button
           variant="secondary"
@@ -68,7 +68,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="space-y-6">
       <div className="grid sm:grid-cols-2 gap-5">
         <FieldShell label="Your name" htmlFor="contact-name" required>
           <TextField
@@ -127,9 +127,9 @@ export function ContactForm() {
           {error}
         </p>
       ) : null}
-      <div className="flex items-center justify-between gap-4 pt-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-2">
         <p className="text-xs text-muted">
-          We reply within three business days.
+          Nicole reads every message personally.
         </p>
         <Button type="submit" disabled={status === "submitting"} size="lg">
           {status === "submitting" ? "Sending…" : "Send note"}
