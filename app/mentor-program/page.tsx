@@ -29,19 +29,19 @@ const PILLARS = [
 const FAQ = [
   {
     q: "Who is the program for?",
-    a: "Senior leaders, founders, and authors with a body of work and a season of visible work ahead — a book, a keynote tour, a fund, a launch.",
+    a: "Leaders, founders, and authors with a body of work and a season of visible work ahead — a book, a keynote tour, a launch, a new chapter.",
   },
   {
     q: "How is it structured?",
-    a: "Twelve weeks. Eight group sessions, four 1:1 sessions with Nicole, and a private community channel. Cohorts are capped at twelve.",
+    a: "Details on cohort schedule, format, and investment are shared with applicants. Reach out to learn more.",
   },
   {
     q: "When does it run?",
-    a: "Two cohorts a year — January–March and September–November. Applications close 30 days before each start.",
+    a: "Cohort dates are announced ahead of each intake. Apply to be notified when the next cohort opens.",
   },
   {
     q: "What is the investment?",
-    a: "Tuition is $9,500. Payment plans available. Partial scholarships are awarded to two seats per cohort.",
+    a: "Investment details are shared with applicants during the application process.",
   },
 ];
 
@@ -52,11 +52,11 @@ export default function MentorProgramPage() {
         eyebrow="Mentor Program"
         title={
           <>
-            A twelve-week cohort for
+            A cohort program for
             <br className="hidden lg:block" /> the unapologetic leader.
           </>
         }
-        lead="A small, deliberate group of leaders rebuilding their story, voice, and platform with Nicole — twice a year, twelve seats per cohort."
+        lead="A small, deliberate group of leaders rebuilding their story, voice, and platform with Nicole. Apply to be notified when the next cohort opens."
       >
         <div className="flex flex-wrap gap-3">
           <a
@@ -77,7 +77,7 @@ export default function MentorProgramPage() {
       <Section tone="default" id="details">
         <SectionHeading
           eyebrow="The work"
-          title="Three pillars, twelve weeks."
+          title="Three pillars."
         />
         <div className="mt-14 grid lg:grid-cols-3 gap-6">
           {PILLARS.map((p) => (
@@ -102,12 +102,12 @@ export default function MentorProgramPage() {
           />
           <ul className="grid sm:grid-cols-2 gap-4">
             {[
-              "8 live group sessions with Nicole (90 min each)",
-              "4 private 1:1 sessions with Nicole",
+              "Live group sessions with Nicole",
+              "Private 1:1 time with Nicole",
               "Bio, positioning, and signature talk built in cohort",
               "A pitch packet ready for podcasts and press",
               "Private community channel between cohorts",
-              "Lifetime access to Narrativa office hours",
+              "Ongoing access to Narrativa office hours",
             ].map((item) => (
               <li
                 key={item}

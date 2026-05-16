@@ -57,7 +57,7 @@ export const services: Service[] = [
   },
   {
     id: "svc-content-writing",
-    title: "Content & Writing",
+    title: "Content & Writing Services",
     status: "Published",
     featured: true,
     sort_order: 30,
@@ -111,7 +111,7 @@ export const services: Service[] = [
   },
   {
     id: "svc-media-production",
-    title: "Media & Production Referrals",
+    title: "Media & Production Service Referrals",
     status: "Published",
     featured: false,
     sort_order: 50,
@@ -163,7 +163,7 @@ export const services: Service[] = [
   },
   {
     id: "svc-event-strategy",
-    title: "Event Strategy",
+    title: "Event Strategy & Execution",
     status: "Published",
     featured: false,
     sort_order: 70,

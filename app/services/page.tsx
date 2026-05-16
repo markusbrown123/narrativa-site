@@ -85,23 +85,17 @@ export default function ServicesPage() {
       <Section tone="default">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           <SectionHeading
-            eyebrow="Pricing"
+            eyebrow="Engagements"
             title="Straightforward, by the engagement."
           />
           <div className="space-y-4 text-ink-soft leading-relaxed text-lg">
             <p>
-              Engagements start at <strong className="text-ink">$15K</strong> for
-              focused work and scale to <strong className="text-ink">$120K+</strong>{" "}
-              for multi-quarter platform builds.
+              Every engagement is scoped to the work in front of you. Speaking
+              fees, advisory retainers, and project work are quoted on
+              request.
             </p>
             <p>
-              Speaking fees are quoted separately by audience size, format, and
-              travel. Retainers are available for clients in active book or
-              launch cycles.
-            </p>
-            <p>
-              We work with a small, deliberate roster each quarter. Inquiries
-              receive a response within three business days.
+              Inquiries receive a response within three business days.
             </p>
           </div>
         </div>

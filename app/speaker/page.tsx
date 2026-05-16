@@ -1,52 +1,52 @@
 import type { Metadata } from "next";
+import Image from "next/image";
+import { BookCover } from "@/components/BookCover";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { Pill } from "@/components/Pill";
-import { Quote } from "@/components/Quote";
 import { publish } from "@/lib/content";
 import { events } from "@/lib/mock/events";
-import { book } from "@/lib/mock/book";
 
 export const metadata: Metadata = {
   title: "Speaker",
   description:
-    "Book Nicole Stephenson — author, Wharton lecturer, and transformational speaker — for your keynote, panel, workshop, or fireside.",
+    "Book Nicole Stephenson, IOM — author, Wharton lecturer, and transformational speaker — for your keynote, panel, workshop, or fireside.",
 };
 
-const SIGNATURE_TALKS = [
+const TALK_THEMES = [
   {
-    name: "The Unapologetic Leader",
+    name: "Unapologetic Leadership",
     audience: "Executive women · Leadership summits · Conferences",
     description:
-      "A keynote on the moment polite ambition stops paying — and what replaces it. Built around the framework from Unapologetic.",
-    formats: ["45-min keynote", "60-min keynote + Q&A", "90-min workshop"],
+      "A keynote built around the themes of Unapologetic: authenticity, courage, self-advocacy, and the work of leading without permission.",
+    formats: ["Keynote", "Fireside", "Workshop"],
   },
   {
-    name: "Narrative Authority",
-    audience: "Senior leaders · Founders · Marketing teams",
+    name: "Storytelling & Communication",
+    audience: "Founders · Operators · Communication teams",
     description:
-      "Authority isn't a louder voice — it's a story you can be trusted to tell the same way twice. How to build one.",
-    formats: ["45-min keynote", "Half-day intensive"],
+      "How leaders unlock potential in themselves, their teams, and their organizations through narrative, voice, and clear communication.",
+    formats: ["Keynote", "Workshop"],
   },
   {
-    name: "The Authenticity Premium",
-    audience: "Founders · Creators · Brand & marketing leaders",
+    name: "Redefining Success",
+    audience: "Career-stage women · Mid-career leaders · Mentorship programs",
     description:
-      "Why audiences reward leaders who tell the truth — and the specific cost paid by the ones who don't.",
-    formats: ["45-min keynote", "60-min fireside", "Panel"],
+      "A conversation on career clarity, burnout, people-pleasing, and what it really means to define success on your own terms.",
+    formats: ["Keynote", "Fireside", "Panel"],
   },
 ];
 
 const AUDIENCES = [
   "Executive leadership summits",
-  "Annual sales kickoffs",
   "Corporate ERGs and DEI programs",
   "Founder and operator conferences",
   "University and MBA programs",
   "Book clubs and author events",
+  "Women's leadership and mentorship programs",
 ];
 
 export default function SpeakerPage() {
@@ -59,35 +59,43 @@ export default function SpeakerPage() {
         eyebrow="Speaker"
         title={
           <>
-            The keynote your audience
-            <br className="hidden lg:block" /> still quotes a year later.
+            Book Nicole for your
+            <br className="hidden lg:block" /> next keynote or fireside.
           </>
         }
-        lead="Nicole Stephenson is a transformational speaker, Wharton lecturer, and the author of Unapologetic. She has spoken to thousands of leaders across stages from Wharton to SXSW."
+        lead="Nicole Stephenson, IOM is a transformational speaker, Lecturer at The Wharton School / University of Pennsylvania, Founder of Narrativa Consulting, and author of Unapologetic: Boldly Lead the Life and Career You Deserve."
       >
         <div className="flex flex-wrap gap-3">
           <LinkButton href="/contact" size="lg">
             Book Nicole
           </LinkButton>
           <LinkButton href="#talks" size="lg" variant="secondary">
-            See signature talks
+            See talk themes
+          </LinkButton>
+          <LinkButton
+            href="/speaker/nicole-speaker-one-sheet.pdf"
+            size="lg"
+            variant="secondary"
+            external
+          >
+            Download one-sheet (PDF)
           </LinkButton>
         </div>
       </PageHero>
 
       <Section tone="default" id="talks">
         <SectionHeading
-          eyebrow="Signature talks"
-          title="Three talks. Built for the rooms that matter."
-          lead="Each can be tailored — and Nicole will. Every booking begins with a 30-minute discovery call so the talk matches the moment."
+          eyebrow="Talk themes"
+          title="What Nicole speaks about."
+          lead="Each talk is tailored. Every booking begins with a discovery conversation so the talk matches your audience and moment."
         />
         <div className="mt-14 grid lg:grid-cols-3 gap-6">
-          {SIGNATURE_TALKS.map((talk) => (
+          {TALK_THEMES.map((talk) => (
             <article
               key={talk.name}
               className="flex flex-col h-full rounded-3xl border border-line bg-white p-8 hover:border-[color:var(--color-purple-300)] transition-all"
             >
-              <Eyebrow>Keynote</Eyebrow>
+              <Eyebrow>Theme</Eyebrow>
               <h3 className="mt-4 font-display text-2xl text-ink leading-snug">
                 {talk.name}
               </h3>
@@ -135,6 +143,39 @@ export default function SpeakerPage() {
         </div>
       </Section>
 
+      <Section tone="default">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
+          <div className="flex justify-center lg:justify-start">
+            <BookCover size="lg" />
+          </div>
+          <div className="space-y-5">
+            <Eyebrow>The book on stage</Eyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
+              Talks rooted in Unapologetic.
+            </h2>
+            <p className="text-lg text-ink-soft leading-relaxed">
+              Nicole&apos;s keynotes draw on the same material as her book —{" "}
+              <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>{" "}
+              — so attendees walk out with a through-line, not just takeaways.
+            </p>
+            <div className="relative mt-4 aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
+              <Image
+                src="/book/unapologetic-book-stack.jpg"
+                alt="Printed copies of Unapologetic — the book Nicole's talks are built around."
+                fill
+                sizes="(min-width: 1024px) 36rem, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="pt-2">
+              <LinkButton href="/book" variant="secondary">
+                About the book
+              </LinkButton>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       {upcoming.length > 0 ? (
         <Section tone="default">
           <SectionHeading
@@ -148,13 +189,6 @@ export default function SpeakerPage() {
           </div>
         </Section>
       ) : null}
-
-      <Section tone="alt">
-        <Quote
-          quote={book.praise[1].quote}
-          attribution={book.praise[1].attribution}
-        />
-      </Section>
 
       {past.length > 0 ? (
         <Section tone="default">
@@ -174,7 +208,9 @@ export default function SpeakerPage() {
                 <p className="mt-1 font-display text-lg text-ink leading-snug">
                   {e.title}
                 </p>
-                <p className="text-sm text-ink-soft">{e.location}</p>
+                {e.location ? (
+                  <p className="text-sm text-ink-soft">{e.location}</p>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -185,7 +221,10 @@ export default function SpeakerPage() {
         title="Add Nicole to the lineup."
         body="Share your date, venue, and audience — we'll come back with availability, fees, and a recommended format."
         primary={{ label: "Submit a speaking inquiry", href: "/contact" }}
-        secondary={{ label: "Download bio + one-sheet", href: "/contact" }}
+        secondary={{
+          label: "Download speaker one-sheet",
+          href: "/speaker/nicole-speaker-one-sheet.pdf",
+        }}
       />
     </>
   );

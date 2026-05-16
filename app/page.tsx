@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { CTA } from "@/components/CTA";
@@ -6,11 +7,9 @@ import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import { StatRow } from "@/components/StatRow";
 import { BookCover } from "@/components/BookCover";
-import { Quote } from "@/components/Quote";
 import { publish, featured } from "@/lib/content";
 import { book } from "@/lib/mock/book";
 import { events } from "@/lib/mock/events";
-import { press } from "@/lib/mock/press";
 import { recognition } from "@/lib/mock/recognition";
 import { services } from "@/lib/mock/services";
 
@@ -19,7 +18,6 @@ export default function Home() {
     .filter((e) => e.is_upcoming)
     .slice(0, 3);
   const featuredServices = featured(services).slice(0, 3);
-  const featuredPress = publish(press).slice(0, 4);
   const visibleRecognition = publish(recognition);
 
   return (
@@ -38,14 +36,14 @@ export default function Home() {
             <div className="space-y-7">
               <Eyebrow>Narrativa Consulting</Eyebrow>
               <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight text-ink">
-                Lead the room you are already in —{" "}
-                <span className="text-brand">unapologetically.</span>
+                Unlock human potential through{" "}
+                <span className="text-brand">storytelling.</span>
               </h1>
               <p className="text-lg sm:text-xl text-ink-soft leading-relaxed max-w-xl">
                 Narrativa Consulting helps individuals and organizations unlock
                 human potential through storytelling, communication,
-                authenticity, and leadership. Founded by author and Wharton
-                lecturer Nicole Stephenson.
+                authenticity, and leadership. Founded by author, transformational
+                speaker, and Wharton lecturer Nicole Stephenson, IOM.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
                 <LinkButton href="/book" size="lg">
@@ -55,19 +53,9 @@ export default function Home() {
                   Book Nicole to speak
                 </LinkButton>
               </div>
-              <div className="pt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-muted">
-                <span className="font-semibold text-ink">As featured in</span>
-                <span>Forbes</span>
-                <span aria-hidden="true">·</span>
-                <span>Fast Company</span>
-                <span aria-hidden="true">·</span>
-                <span>Wall Street Journal</span>
-                <span aria-hidden="true">·</span>
-                <span>HBR Women at Work</span>
-              </div>
             </div>
             <div className="relative flex justify-center lg:justify-end">
-              <BookCover size="xl" />
+              <BookCover size="xl" priority />
             </div>
           </div>
         </Container>
@@ -76,10 +64,10 @@ export default function Home() {
       <Section tone="default" containerSize="wide">
         <StatRow
           stats={[
-            { value: "10+", label: "Years coaching executives & founders" },
-            { value: "300", label: "Talks, keynotes, and workshops delivered" },
-            { value: "Wharton", label: "Lecturer in Marketing & Communication" },
-            { value: "2026", label: "Unapologetic publishes this fall" },
+            { value: "Wharton", label: "Lecturer at The Wharton School / University of Pennsylvania" },
+            { value: "Author", label: "Unapologetic: Boldly Lead the Life and Career You Deserve" },
+            { value: "Founder", label: "Narrativa Consulting" },
+            { value: "IOM", label: "Institute for Organization Management" },
           ]}
         />
       </Section>
@@ -92,16 +80,15 @@ export default function Home() {
           />
           <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
             <p>
-              Nicole Stephenson is a transformational speaker, communicator, and
-              the Founder of Narrativa Consulting. She lectures at The Wharton
-              School at the University of Pennsylvania, where she teaches the
-              language of leadership to the next generation of operators,
-              founders, and creators.
+              Nicole Stephenson, IOM is a dynamic communicator, author,
+              transformational speaker, Founder of Narrativa Consulting, and
+              Lecturer at The Wharton School / University of Pennsylvania.
             </p>
             <p>
               Her debut book — <em>Unapologetic: Boldly Lead the Life and Career
-              You Deserve</em> — arrives in the fall, and her work shows up in
-              every room where the story has finally outgrown the script.
+              You Deserve</em> — explores authenticity, courage, self-advocacy,
+              confidence, mentorship, burnout, people-pleasing, career clarity,
+              and what it really means to redefine success.
             </p>
             <div className="pt-3">
               <LinkButton href="/about" variant="secondary">
@@ -138,7 +125,7 @@ export default function Home() {
             <BookCover size="lg" />
           </div>
           <div className="space-y-6">
-            <Eyebrow>The Book — Fall 2026</Eyebrow>
+            <Eyebrow>The Book</Eyebrow>
             <h2 className="font-display text-4xl sm:text-5xl font-medium leading-[1.05] tracking-tight text-ink">
               {book.title}: {book.subtitle}
             </h2>
@@ -150,97 +137,66 @@ export default function Home() {
               <LinkButton href="/book" size="lg">
                 Read more
               </LinkButton>
-              <LinkButton href="/book#pre-order" variant="secondary" size="lg">
-                Pre-order
-              </LinkButton>
             </div>
           </div>
         </div>
-      </Section>
-
-      <Section tone="default">
-        <div className="space-y-12">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-            <SectionHeading
-              eyebrow="What's next"
-              title="Upcoming events."
-              lead="Where to find Nicole on stage, in print, and in person this season."
+        <div className="mt-16 lg:mt-20">
+          <div className="relative aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
+            <Image
+              src="/book/unapologetic-book-stack.jpg"
+              alt="A stack of Unapologetic by Nicole Stephenson — printed copies of the book in hand."
+              fill
+              sizes="(min-width: 1024px) 64rem, 100vw"
+              className="object-cover"
             />
-            <LinkButton href="/events" variant="secondary">
-              See all events
-            </LinkButton>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingEvents.map((e) => (
-              <EventCard key={e.id} event={e} />
-            ))}
           </div>
         </div>
       </Section>
 
-      <Section tone="tint">
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
-          <SectionHeading
-            eyebrow="In the press"
-            title="The story has been everywhere."
-            lead="A selection of the rooms that have asked Nicole to bring the work."
-          />
-          <div className="space-y-3">
-            {featuredPress.map((p) => (
-              <a
-                key={p.id}
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-2xl border border-line bg-white p-5 hover:border-[color:var(--color-purple-300)] hover:shadow-[0_10px_30px_-15px_rgba(107,44,145,0.3)] transition-all"
-              >
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                    {p.outlet}
-                  </p>
-                  <p className="mt-1 font-display text-xl text-ink leading-snug">
-                    {p.headline}
-                  </p>
-                </div>
-                <span className="text-sm font-semibold text-brand group-hover:translate-x-1 transition-transform">
-                  Read →
-                </span>
-              </a>
-            ))}
-            <div className="pt-2">
-              <LinkButton href="/media" variant="secondary">
-                Full media coverage
+      {upcomingEvents.length > 0 ? (
+        <Section tone="default">
+          <div className="space-y-12">
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <SectionHeading
+                eyebrow="What's next"
+                title="Upcoming events."
+                lead="Where to find Nicole on stage, in print, and in person this season."
+              />
+              <LinkButton href="/events" variant="secondary">
+                See all events
               </LinkButton>
             </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {upcomingEvents.map((e) => (
+                <EventCard key={e.id} event={e} />
+              ))}
+            </div>
           </div>
-        </div>
-      </Section>
+        </Section>
+      ) : null}
 
-      <Section tone="default">
-        <Quote
-          quote={book.praise[0].quote}
-          attribution={book.praise[0].attribution}
-        />
-      </Section>
-
-      <Section tone="alt">
-        <SectionHeading
-          eyebrow="Recognition"
-          title="Where the work shows up."
-          align="center"
-        />
-        <ul className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 text-center">
-          {visibleRecognition.map((r) => (
-            <li key={r.id} className="space-y-1">
-              <p className="font-display text-lg text-ink leading-snug">
-                {r.organization}
-              </p>
-              <p className="text-sm text-ink-soft">{r.award}</p>
-              <p className="text-xs text-muted">{r.year}</p>
-            </li>
-          ))}
-        </ul>
-      </Section>
+      {visibleRecognition.length > 0 ? (
+        <Section tone="alt">
+          <SectionHeading
+            eyebrow="Recognition"
+            title="Where the work shows up."
+            align="center"
+          />
+          <ul className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 text-center">
+            {visibleRecognition.map((r) => (
+              <li key={r.id} className="space-y-1">
+                <p className="font-display text-lg text-ink leading-snug">
+                  {r.organization}
+                </p>
+                <p className="text-sm text-ink-soft">{r.award}</p>
+                {r.year ? (
+                  <p className="text-xs text-muted">{r.year}</p>
+                ) : null}
+              </li>
+            ))}
+          </ul>
+        </Section>
+      ) : null}
 
       <CTA
         title="Bring Nicole into your next room."

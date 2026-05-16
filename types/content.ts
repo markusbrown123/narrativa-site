@@ -103,4 +103,5 @@ export interface Recognition extends BaseRecord {
   year: number;
   url?: string;
   summary?: string;
+  image?: string;
 }
