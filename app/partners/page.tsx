@@ -5,8 +5,8 @@ import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { PartnerLogos } from "@/components/PartnerLogos";
+import { getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { partners } from "@/lib/mock/partners";
 import type { Partner } from "@/types/content";
 
 export const metadata: Metadata = {
@@ -15,7 +15,8 @@ export const metadata: Metadata = {
     "Recent organizations, events, and rooms Narrativa Consulting has been a part of.",
 };
 
-export default function PartnersPage() {
+export default async function PartnersPage() {
+  const partners = await getPartners();
   const visible = publish(partners);
   const confirmed: Partner[] = visible.filter((p) => p.relationship);
   const logosOnly: Partner[] = visible.filter((p) => !p.relationship);

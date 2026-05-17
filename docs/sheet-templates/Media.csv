@@ -1,0 +1,2 @@
+id,status,featured,sort_order,title,kind,source,summary,url,image_url,published_date,created_at,updated_at
+med-newsletter-example,Draft,FALSE,10,Example newsletter feature,Newsletter,LinkedIn,Short description of a media item that doesn't fit Podcasts or Press.,https://example.com/article,,2026-05-16,2026-05-16,2026-05-16

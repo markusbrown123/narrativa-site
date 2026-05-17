@@ -1,9 +1,20 @@
 # Updating site content
 
-Site content lives in typed TypeScript files under `lib/mock/`. Anything in
-these files renders on the site the next time it builds — there is no database
-yet. Each record uses a small, sheet-friendly set of fields so the same shape
-can later be served from Google Sheets without changing how pages consume it.
+Nicole's primary workflow is now **Google Sheets**. See
+[`google-sheets-cms.md`](./google-sheets-cms.md) for the day-to-day
+"add an event / hide a service / paste a Dropbox link" workflow.
+
+This doc covers the **bundled mock data** under `lib/mock/`, which is
+the fallback the site uses when:
+
+- the Google Sheet env vars are missing, OR
+- a single sheet tab is unreachable / empty / mis-spelled.
+
+Pages call async getters from `lib/cms/contentSource.ts`
+(`getEvents()`, `getServices()`, etc.). Those getters return the live
+sheet data when configured and the mock data otherwise. The two
+sources share the same TypeScript shape, so editing either one
+updates the site without changing page code.
 
 This doc covers the three areas that change most often: events, partners, and
 services. Everything else (press, podcasts, recognition, photos, the book) uses
@@ -235,22 +246,23 @@ The current verified service categories are:
 
 ---
 
-## Future: Google Sheets
+## Google Sheets (live CMS)
 
-The schemas above are intentionally flat and use simple strings, ISO dates,
-and short controlled vocabularies (`status`, `format`, `icon`) — they map 1:1
-to a Google Sheet with one row per record and one column per field.
+The Google Sheets adapter is now live. See:
 
-When we wire that up:
-1. The Sheet will mirror the TypeScript types in `types/content.ts`.
-   Each sheet (Events, Partners, Services, etc.) has the same columns as the
-   matching `*.ts` file.
-2. A small adapter will read the sheet, validate rows against the existing
-   types, and replace the contents of `lib/mock/*.ts` at build time. Pages
-   keep importing `events`, `partners`, etc. — no other code changes.
-3. The `status` column is the on/off switch: `Draft` / `Archived` rows never
-   reach the site; only `Ready to Publish` / `Published` do.
-4. Dates stay in `YYYY-MM-DD` to avoid timezone surprises.
+- [`google-sheets-cms.md`](./google-sheets-cms.md) — how the adapter
+  works, env vars, tab names, and column reference.
+- [`dropbox-media-workflow.md`](./dropbox-media-workflow.md) — how
+  Nicole adds images and PDFs via Dropbox share links.
+- [`sheet-templates/`](./sheet-templates/) — CSV templates for each
+  tab. Import into a fresh Google Sheet, or copy/paste the headers
+  into an existing one.
 
-Until that integration ships, keep editing the TypeScript files directly and
-commit the change. No special workflow required.
+Quick rules of thumb:
+
+- `status = "Draft"` or `"Archived"` → hidden, both in mock data and
+  in the live sheet.
+- Pages stay backwards-compatible: if the sheet is unconfigured (or
+  one tab fails), the mock data here is what renders.
+- Verify which source is live by visiting `/api/content-health` on
+  your local or deployed site.

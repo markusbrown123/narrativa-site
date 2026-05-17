@@ -19,14 +19,17 @@ import {
   SmartMediaGallery,
 } from "@/components/SmartMediaGallery";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
+import {
+  getAmazonBookUrl,
+  getEvents,
+  getPartners,
+  getPodcasts,
+  getPress,
+  getPrimaryBook,
+  getRecognition,
+  getServices,
+} from "@/lib/cms/contentSource";
 import { publish, featured } from "@/lib/content";
-import { AMAZON_BOOK_URL, book } from "@/lib/mock/book";
-import { events } from "@/lib/mock/events";
-import { partners } from "@/lib/mock/partners";
-import { podcasts } from "@/lib/mock/podcasts";
-import { press } from "@/lib/mock/press";
-import { recognition } from "@/lib/mock/recognition";
-import { services } from "@/lib/mock/services";
 
 const HOME_CONSTELLATION: ConstellationItem[] = [
   {
@@ -141,7 +144,27 @@ const RAIL: RailItem[] = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const [
+    events,
+    partners,
+    services,
+    recognition,
+    podcasts,
+    press,
+    book,
+    amazonUrl,
+  ] = await Promise.all([
+    getEvents(),
+    getPartners(),
+    getServices(),
+    getRecognition(),
+    getPodcasts(),
+    getPress(),
+    getPrimaryBook(),
+    getAmazonBookUrl(),
+  ]);
+
   const upcomingEvents = publish(events).filter((e) => e.is_upcoming);
   const nextEvent = upcomingEvents[0] ?? null;
   const featuredServices = featured(services).slice(0, 3);
@@ -172,7 +195,7 @@ export default function Home() {
       kicker: "The book",
       title: "Read Unapologetic",
       body: "Out now on Amazon — the field guide to leading the life and career you deserve.",
-      href: AMAZON_BOOK_URL,
+      href: amazonUrl,
     },
     {
       kicker: "Work together",

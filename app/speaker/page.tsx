@@ -8,9 +8,8 @@ import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { Pill } from "@/components/Pill";
 import { PartnerLogos } from "@/components/PartnerLogos";
+import { getEvents, getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { events } from "@/lib/mock/events";
-import { partners } from "@/lib/mock/partners";
 import {
   SPEAKER_AUDIENCES,
   SPEAKER_FORMATS,
@@ -23,7 +22,8 @@ export const metadata: Metadata = {
     "Book Nicole Stephenson, IOM — author, Wharton lecturer, and transformational speaker — for your keynote, fireside, breakout, retreat, or workshop.",
 };
 
-export default function SpeakerPage() {
+export default async function SpeakerPage() {
+  const [events, partners] = await Promise.all([getEvents(), getPartners()]);
   const upcoming = publish(events).filter((e) => e.is_upcoming);
   const visiblePartners = publish(partners);
 

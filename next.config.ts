@@ -8,6 +8,19 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.join(__dirname),
   },
+
+  // Allow next/image to load Dropbox-hosted assets that Nicole pastes
+  // into the Google Sheet. We accept both the share host and the
+  // direct content host since `normalizeDropboxUrl` rewrites to the
+  // latter — covering the share host keeps it safe if a row slips
+  // through un-normalized.
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "www.dropbox.com" },
+      { protocol: "https", hostname: "dropbox.com" },
+      { protocol: "https", hostname: "dl.dropboxusercontent.com" },
+    ],
+  },
 };
 
 export default nextConfig;

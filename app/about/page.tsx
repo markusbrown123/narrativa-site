@@ -9,9 +9,8 @@ import { PageHero } from "@/components/PageHero";
 import { ParallaxVisualPanel } from "@/components/ParallaxVisualPanel";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Section, SectionHeading } from "@/components/Section";
+import { getPrimaryBook, getRecognition } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { book } from "@/lib/mock/book";
-import { recognition } from "@/lib/mock/recognition";
 
 const ABOUT_RAIL: RailItem[] = [
   {
@@ -59,7 +58,11 @@ export const metadata: Metadata = {
     "Nicole Stephenson, IOM is a dynamic communicator, author, transformational speaker, Founder of Narrativa Consulting, and Lecturer at The Wharton School / University of Pennsylvania.",
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [recognition, book] = await Promise.all([
+    getRecognition(),
+    getPrimaryBook(),
+  ]);
   const visibleRecognition = publish(recognition);
   return (
     <>

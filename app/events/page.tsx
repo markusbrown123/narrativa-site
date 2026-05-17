@@ -5,8 +5,8 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
+import { getEvents } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { events } from "@/lib/mock/events";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -14,7 +14,8 @@ export const metadata: Metadata = {
     "Upcoming keynotes, workshops, panels, and book events with Nicole Stephenson and Narrativa Consulting.",
 };
 
-export default function EventsPage() {
+export default async function EventsPage() {
+  const events = await getEvents();
   const all = publish(events);
   const upcoming = all.filter((e) => e.is_upcoming);
   const [nextEvent, ...moreUpcoming] = upcoming;

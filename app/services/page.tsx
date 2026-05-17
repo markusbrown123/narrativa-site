@@ -6,8 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
+import { getServices } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { services } from "@/lib/mock/services";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -91,7 +91,8 @@ const PHASES: Phase[] = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
   const visibleServices = publish(services);
   const serviceById = new Map(visibleServices.map((s) => [s.id, s]));
 

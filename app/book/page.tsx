@@ -9,12 +9,15 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { Quote } from "@/components/Quote";
 import { Container } from "@/components/Container";
-import { AMAZON_BOOK_URL, book } from "@/lib/mock/book";
+import { getAmazonBookUrl, getPrimaryBook } from "@/lib/cms/contentSource";
 
-export const metadata: Metadata = {
-  title: "Unapologetic — the book",
-  description: `${book.title}: ${book.subtitle}. ${book.tagline}`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const book = await getPrimaryBook();
+  return {
+    title: "Unapologetic — the book",
+    description: `${book.title}: ${book.subtitle}. ${book.tagline}`,
+  };
+}
 
 const SOCIAL_PROMOS: { src: string; alt: string }[] = [
   {
@@ -39,7 +42,11 @@ const SOCIAL_PROMOS: { src: string; alt: string }[] = [
   },
 ];
 
-export default function BookPage() {
+export default async function BookPage() {
+  const [book, amazonUrl] = await Promise.all([
+    getPrimaryBook(),
+    getAmazonBookUrl(),
+  ]);
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center hero-backdrop-drift">
@@ -84,7 +91,7 @@ export default function BookPage() {
                 </p>
               ) : null}
               <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
-                <LinkButton href={AMAZON_BOOK_URL} external variant="light" size="lg">
+                <LinkButton href={amazonUrl} external variant="light" size="lg">
                   Order on Amazon
                 </LinkButton>
                 <LinkButton
@@ -274,7 +281,7 @@ export default function BookPage() {
         </Section>
       ) : null}
 
-      <PremiumBookCTA />
+      <PremiumBookCTA amazonUrl={amazonUrl} />
     </>
   );
 }

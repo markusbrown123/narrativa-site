@@ -6,9 +6,8 @@ import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { PodcastCard, PressCard } from "@/components/MediaCard";
 import { SmartMediaGallery } from "@/components/SmartMediaGallery";
+import { getPodcasts, getPress } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import { podcasts } from "@/lib/mock/podcasts";
-import { press } from "@/lib/mock/press";
 
 export const metadata: Metadata = {
   title: "Media",
@@ -16,7 +15,8 @@ export const metadata: Metadata = {
     "Podcast interviews, press features, and recent media appearances with Nicole Stephenson and Narrativa Consulting.",
 };
 
-export default function MediaPage() {
+export default async function MediaPage() {
+  const [podcasts, press] = await Promise.all([getPodcasts(), getPress()]);
   const visiblePodcasts = publish(podcasts);
   const visiblePress = publish(press);
 

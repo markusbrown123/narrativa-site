@@ -11,7 +11,7 @@ import { AMAZON_BOOK_URL } from "@/lib/mock/book";
  * — speaking and branded/organizational copies — without inventing any
  * bulk pricing.
  */
-export function PremiumBookCTA() {
+export function PremiumBookCTA({ amazonUrl = AMAZON_BOOK_URL }: { amazonUrl?: string } = {}) {
   return (
     <section className="relative isolate overflow-hidden bg-[color:var(--color-purple-900)] text-white">
       <div className="absolute inset-0">
@@ -53,7 +53,7 @@ export function PremiumBookCTA() {
               event.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
-              <LinkButton href={AMAZON_BOOK_URL} external variant="light" size="lg">
+              <LinkButton href={amazonUrl} external variant="light" size="lg">
                 Order on Amazon
               </LinkButton>
               <Link
@@ -78,7 +78,7 @@ export function PremiumBookCTA() {
                 readers, teams, and book clubs.
               </p>
               <a
-                href={AMAZON_BOOK_URL}
+                href={amazonUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white hover:text-[color:var(--color-purple-200)]"
