@@ -148,6 +148,30 @@ all the facts (date, venue, role, link) are confirmed.
 
 ---
 
+## The book (Unapologetic) — purchase links
+
+`lib/mock/book.ts` exports the verified `book` record plus a named
+constant for the Amazon purchase URL:
+
+```ts
+export const AMAZON_BOOK_URL =
+  "https://www.amazon.com/UNAPOLOGETIC-Boldly-Lead-Career-Deserve/dp/B0GP3RZ4SR";
+```
+
+The book page hero CTA and the closing book CTA band both link to this
+URL. The homepage momentum strip also points at it. If the canonical
+Amazon listing ever changes:
+
+1. Update `AMAZON_BOOK_URL` in `lib/mock/book.ts`. Every page that
+   imports it picks up the new value automatically.
+2. The `book.purchase_links` array also includes a `{ label: "Order on
+   Amazon", url: AMAZON_BOOK_URL }` entry — keep this entry in sync.
+
+Do not add other retailers until Nicole confirms them. The site is
+intentionally strict about not inventing purchase channels.
+
+---
+
 ## Services
 
 `lib/mock/services.ts` exports a `Service[]`. Each service looks like:

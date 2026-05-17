@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { BookCover } from "@/components/BookCover";
-import { CTA } from "@/components/CTA";
+import { ParallaxVisualPanel } from "@/components/ParallaxVisualPanel";
+import { PremiumBookCTA } from "@/components/PremiumBookCTA";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { Quote } from "@/components/Quote";
 import { Container } from "@/components/Container";
-import { book } from "@/lib/mock/book";
+import { AMAZON_BOOK_URL, book } from "@/lib/mock/book";
 
 export const metadata: Metadata = {
   title: "Unapologetic — the book",
@@ -55,7 +57,7 @@ export default function BookPage() {
         <Container className="relative w-full py-20 sm:py-24 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
             <div className="relative order-1 flex justify-center lg:justify-start">
-              <div className="relative">
+              <ParallaxVisualPanel intensity={24} scale={0.03} innerClassName="relative">
                 {/* Glow halo behind cover */}
                 <div
                   aria-hidden="true"
@@ -66,7 +68,7 @@ export default function BookPage() {
                   className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-white/10 blur-2xl"
                 />
                 <BookCover size="xl" priority className="drop-shadow-[0_50px_90px_rgba(15,5,25,0.6)]" />
-              </div>
+              </ParallaxVisualPanel>
             </div>
             <div className="order-2 space-y-7">
               <Eyebrow tone="light">A book by Nicole Stephenson, IOM</Eyebrow>
@@ -92,34 +94,29 @@ export default function BookPage() {
                 </p>
               ) : null}
               <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
-                {book.purchase_links.length > 0 ? (
-                  book.purchase_links.map((link) => (
-                    <LinkButton
-                      key={link.url}
-                      href={link.url}
-                      external
-                      variant="light"
-                      size="lg"
-                    >
-                      {link.label}
-                    </LinkButton>
-                  ))
-                ) : (
-                  <>
-                    <LinkButton href="/contact" variant="light" size="lg">
-                      Order copies for your team
-                    </LinkButton>
-                    <LinkButton
-                      href="#themes"
-                      size="lg"
-                      variant="ghost"
-                      className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
-                    >
-                      What it&apos;s about
-                    </LinkButton>
-                  </>
-                )}
+                <LinkButton href={AMAZON_BOOK_URL} external variant="light" size="lg">
+                  Order on Amazon
+                </LinkButton>
+                <LinkButton
+                  href="#themes"
+                  size="lg"
+                  variant="ghost"
+                  className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+                >
+                  What it&apos;s about
+                </LinkButton>
+                <LinkButton
+                  href="/contact"
+                  size="lg"
+                  variant="ghost"
+                  className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+                >
+                  Bulk + book events
+                </LinkButton>
               </div>
+              <p className="pt-1 text-xs uppercase tracking-[0.22em] text-[color:var(--color-purple-200)]">
+                Print + Kindle on Amazon
+              </p>
             </div>
           </div>
         </Container>
@@ -170,7 +167,7 @@ export default function BookPage() {
 
       <Section tone="alt">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
+          <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
             <Image
               src="/photos/book-launch-author-holding-book.jpg"
               alt="Nicole Stephenson holding up Unapologetic at her book launch event."
@@ -178,7 +175,7 @@ export default function BookPage() {
               sizes="(min-width: 1024px) 24rem, 22rem"
               className="object-cover"
             />
-          </div>
+          </ScrollReveal>
           <div className="space-y-5">
             <Eyebrow>From the launch</Eyebrow>
             <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
@@ -287,47 +284,7 @@ export default function BookPage() {
         </Section>
       ) : null}
 
-      <Section tone="alt" containerSize="wide">
-        <div className="relative overflow-hidden rounded-[2rem] border border-line bg-[color:var(--color-purple-900)] text-white shadow-[0_40px_120px_-50px_rgba(43,15,68,0.6)]">
-          <div className="relative aspect-[3/1.4] w-full sm:aspect-[3/1.1] lg:aspect-[3/1]">
-            <Image
-              src="/book/unapologetic-book-stack.jpg"
-              alt="A stack of Unapologetic by Nicole Stephenson — printed copies side by side."
-              fill
-              sizes="(min-width: 1024px) 72rem, 100vw"
-              className="object-cover opacity-80"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-r from-[color:var(--color-purple-900)] via-[color:var(--color-purple-900)]/60 to-transparent"
-            />
-            <div className="absolute inset-0 flex items-end p-8 sm:p-10 lg:p-14">
-              <div className="max-w-xl space-y-4">
-                <Eyebrow tone="light">In print</Eyebrow>
-                <h2 className="font-display text-3xl leading-[1.1] tracking-tight sm:text-4xl lg:text-5xl">
-                  Order. Gift. Read in cohort.
-                </h2>
-                <p className="text-base leading-relaxed text-[color:var(--color-purple-100)] sm:text-lg">
-                  For bulk orders, book clubs, leadership retreats, and
-                  launch-week speaking — get in touch.
-                </p>
-                <div className="pt-2">
-                  <LinkButton href="/contact" variant="light" size="lg">
-                    Inquire about bulk + events
-                  </LinkButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      <CTA
-        title="Bring Unapologetic to your team or event."
-        body="Bulk orders, book clubs, leadership retreats, and launch-week speaking — start with a note."
-        primary={{ label: "Inquire about bulk + events", href: "/contact" }}
-        secondary={{ label: "See Nicole's speaking", href: "/speaker" }}
-      />
+      <PremiumBookCTA />
     </>
   );
 }

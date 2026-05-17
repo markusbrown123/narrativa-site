@@ -2,9 +2,12 @@ import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { BookFeaturePanel } from "@/components/BookFeaturePanel";
+import { Container } from "@/components/Container";
 import { EditorialImageRail, type RailItem } from "@/components/EditorialImageRail";
+import { HomeMomentumStrip } from "@/components/HomeMomentumStrip";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { PremiumHomeHero } from "@/components/PremiumHomeHero";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { ServiceCard } from "@/components/ServiceCard";
 import {
@@ -13,7 +16,7 @@ import {
 } from "@/components/SmartMediaGallery";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
 import { publish, featured } from "@/lib/content";
-import { book } from "@/lib/mock/book";
+import { AMAZON_BOOK_URL, book } from "@/lib/mock/book";
 import { events } from "@/lib/mock/events";
 import { partners } from "@/lib/mock/partners";
 import { podcasts } from "@/lib/mock/podcasts";
@@ -96,9 +99,48 @@ export default function Home() {
     ...visiblePress.slice(0, 2).map((item) => ({ kind: "press" as const, item })),
   ];
 
+  const momentumItems = [
+    {
+      kicker: "Speaking",
+      title: "Book Nicole's keynote",
+      body: "Storytelling, leadership, and the unapologetic career — for stages, summits, and offsites.",
+      href: "/speaker",
+    },
+    {
+      kicker: "The book",
+      title: "Read Unapologetic",
+      body: "Out now on Amazon — the field guide to leading the life and career you deserve.",
+      href: AMAZON_BOOK_URL,
+    },
+    {
+      kicker: "Work together",
+      title: "Narrativa services",
+      body: "Speaker brand, visibility strategy, content, and the assets that get you booked.",
+      href: "/services",
+    },
+    {
+      kicker: "Mentor program",
+      title: "Apply to be mentored",
+      body: "A focused cohort for the leaders building what's next — by application.",
+      href: "/mentor-program",
+    },
+  ];
+
   return (
     <>
       <PremiumHomeHero nextEvent={nextEvent} />
+
+      {/* Momentum strip — four quick on-ramps below the hero. Replaces
+          the white silence between the hero and the editorial sections. */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-[color:var(--color-purple-100)] via-white to-[color:var(--color-purple-50)] py-12 sm:py-16">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[color:var(--color-purple-300)]/70 to-transparent"
+        />
+        <Container>
+          <HomeMomentumStrip items={momentumItems} />
+        </Container>
+      </section>
 
       {/* Meet Nicole — landscape Wharton image rotates the visual type
           away from the portrait composition in the hero. */}
@@ -196,7 +238,9 @@ export default function Home() {
 
       {/* Book feature panel — single editorial book treatment (front cover only) */}
       <Section tone="alt">
-        <BookFeaturePanel book={book} />
+        <ScrollReveal direction="up" duration={800}>
+          <BookFeaturePanel book={book} />
+        </ScrollReveal>
       </Section>
 
       {/* Three featured services */}
@@ -213,14 +257,24 @@ export default function Home() {
             </LinkButton>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {featuredServices.map((s) => (
-              <ServiceCard key={s.id} service={s} />
+            {featuredServices.map((s, i) => (
+              <ScrollReveal
+                key={s.id}
+                direction="up"
+                delay={i * 100}
+                duration={700}
+                className="h-full"
+              >
+                <ServiceCard service={s} />
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </Section>
 
-      {/* Upcoming event — full panel treatment with flyer and details */}
+      {/* Upcoming event — full panel treatment with flyer and details. If
+          nothing is published, the whole section is dropped so we never
+          show a lonely "Upcoming events" label. */}
       {nextEvent ? (
         <Section tone="alt">
           <div className="flex flex-col gap-10">
@@ -234,7 +288,9 @@ export default function Home() {
                 See all events
               </LinkButton>
             </div>
-            <UpcomingEventFeature event={nextEvent} variant="panel" />
+            <ScrollReveal direction="up" duration={800}>
+              <UpcomingEventFeature event={nextEvent} variant="panel" />
+            </ScrollReveal>
           </div>
         </Section>
       ) : null}
@@ -281,9 +337,13 @@ export default function Home() {
               </p>
             </div>
             <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {visibleRecognition.map((r) => (
-                <li
+              {visibleRecognition.map((r, i) => (
+                <ScrollReveal
+                  as="li"
                   key={r.id}
+                  direction="up"
+                  delay={i * 80}
+                  duration={650}
                   className="group flex flex-col gap-3 rounded-3xl border border-line bg-white p-6 transition-colors hover:border-[color:var(--color-purple-200)]"
                 >
                   <div className="flex items-baseline justify-between gap-3">
@@ -306,7 +366,7 @@ export default function Home() {
                   <p className="text-sm leading-snug text-ink-soft">
                     {r.award}
                   </p>
-                </li>
+                </ScrollReveal>
               ))}
             </ul>
           </div>

@@ -4,10 +4,14 @@ import type { Book } from "@/types/content";
  * Verified details for Unapologetic. The publisher and release date are
  * taken from Nicole's "Announcement.docx" (Tender Fire Books, March
  * 2026). The book cover, back-cover description, ISBN, and price are
- * taken from the printed back cover. Praise quotes and retailer links
- * are intentionally left empty until Nicole shares them — we do not
- * invent testimonials or purchase links.
+ * taken from the printed back cover. The Amazon purchase link is the
+ * confirmed Unapologetic listing on Amazon. Praise quotes and other
+ * retailer links are intentionally left empty until Nicole shares them
+ * — we do not invent testimonials or purchase links.
  */
+export const AMAZON_BOOK_URL =
+  "https://www.amazon.com/UNAPOLOGETIC-Boldly-Lead-Career-Deserve/dp/B0GP3RZ4SR";
+
 export const book: Book = {
   id: "book-unapologetic",
   title: "Unapologetic",
@@ -25,7 +29,9 @@ export const book: Book = {
   release_date: "2026-03-01",
   cover_image: "/book/unapologetic-front-cover.jpg",
   praise: [],
-  purchase_links: [],
+  purchase_links: [
+    { label: "Order on Amazon", url: AMAZON_BOOK_URL },
+  ],
   excerpts: [
     {
       heading: "What if the very thing you've been taught to hide…",

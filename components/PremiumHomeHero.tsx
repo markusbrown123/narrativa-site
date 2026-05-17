@@ -4,6 +4,8 @@ import type { Event } from "@/types/content";
 import { LinkButton } from "./Button";
 import { Container } from "./Container";
 import { HeroRotator, type HeroPhoto } from "./HeroRotator";
+import { ParallaxVisualPanel } from "./ParallaxVisualPanel";
+import { ScrollReveal } from "./ScrollReveal";
 import { UpcomingEventFeature } from "./UpcomingEventFeature";
 import { clsx } from "@/lib/clsx";
 
@@ -45,23 +47,23 @@ export function PremiumHomeHero({
   return (
     <section
       className={clsx(
-        "relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)]",
+        "relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)] hero-backdrop-drift",
         "min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center",
         className,
       )}
     >
-      {/* Layered background — glow orbs + grain + soft conic gradient */}
+      {/* Layered background — animated glow orbs + grain. Pure decoration. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-44 -right-32 h-[44rem] w-[44rem] rounded-full bg-[color:var(--color-purple-100)] opacity-60 blur-3xl"
+        className="pointer-events-none absolute -top-44 -right-32 h-[44rem] w-[44rem] rounded-full bg-[color:var(--color-purple-100)] opacity-60 blur-3xl hero-orb-pulse"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-56 -left-24 h-[40rem] w-[40rem] rounded-full bg-[color:var(--color-purple-200)] opacity-40 blur-3xl"
+        className="pointer-events-none absolute -bottom-56 -left-24 h-[40rem] w-[40rem] rounded-full bg-[color:var(--color-purple-200)] opacity-40 blur-3xl hero-orb-pulse-alt"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-1/3 left-1/2 hidden h-72 w-72 -translate-x-1/2 rounded-full bg-[color:var(--color-purple-50)] opacity-50 blur-3xl lg:block"
+        className="pointer-events-none absolute top-1/3 left-1/2 hidden h-72 w-72 -translate-x-1/2 rounded-full bg-[color:var(--color-purple-50)] opacity-50 blur-3xl lg:block hero-orb-pulse"
       />
       <div
         aria-hidden="true"
@@ -111,20 +113,32 @@ export function PremiumHomeHero({
             </div>
 
             <ul className="flex flex-wrap gap-2 pt-2">
-              {IDENTITY_CHIPS.map((chip) => (
-                <li
+              {IDENTITY_CHIPS.map((chip, i) => (
+                <ScrollReveal
                   key={chip}
+                  as="li"
+                  direction="up"
+                  delay={120 + i * 90}
+                  duration={650}
                   className="inline-flex items-center rounded-full border border-[color:var(--color-purple-200)] bg-white/80 px-3.5 py-1.5 text-xs font-medium tracking-wide text-[color:var(--color-purple-800)] backdrop-blur"
                 >
                   {chip}
-                </li>
+                </ScrollReveal>
               ))}
             </ul>
           </div>
 
-          {/* Visual composition — rotating portrait + book + speaking inset */}
+          {/* Visual composition — rotating portrait + book + speaking inset.
+              ParallaxVisualPanel adds subtle scroll-driven motion, with
+              two opposing intensities so the foreground insets drift
+              against the main portrait. */}
           <div className="relative order-1 lg:order-2">
-            <div className="relative mx-auto w-full max-w-[28rem] lg:ml-auto lg:mr-0">
+            <ParallaxVisualPanel
+              className="mx-auto w-full max-w-[28rem] lg:ml-auto lg:mr-0"
+              intensity={28}
+              scale={0.02}
+              innerClassName="relative"
+            >
               {/* Soft halo */}
               <div
                 aria-hidden="true"
@@ -147,61 +161,76 @@ export function PremiumHomeHero({
                 className="aspect-[4/5] w-full rounded-[2.25rem] bg-surface-tint shadow-[0_40px_100px_-40px_rgba(43,15,68,0.55)] ring-1 ring-[color:var(--color-purple-200)]"
               />
 
-              {/* Floating book inset — pairs the portrait with a non-portrait visual */}
-              <Link
-                href="/book"
-                className="pointer-events-auto absolute -top-4 right-4 z-10 flex items-center gap-3 rounded-2xl border border-line bg-white/95 px-3.5 py-2.5 shadow-[0_25px_50px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-colors hover:border-[color:var(--color-purple-300)] sm:-top-6 sm:right-6"
+              {/* Floating book inset — pairs the portrait with a non-portrait visual.
+                  Wrapped in a parallax panel with stronger intensity so it
+                  appears to float independently as the page scrolls. */}
+              <ParallaxVisualPanel
+                className="absolute -top-4 right-4 z-10 sm:-top-6 sm:right-6"
+                intensity={44}
+                scale={0.03}
               >
-                <span className="relative h-14 w-10 shrink-0 overflow-hidden rounded-sm shadow-md">
-                  <Image
-                    src="/book/unapologetic-front-cover.jpg"
-                    alt=""
-                    fill
-                    sizes="40px"
-                    className="object-cover"
-                  />
-                </span>
-                <span className="block leading-tight">
-                  <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-brand">
-                    New book · March 2026
+                <Link
+                  href="/book"
+                  className="hero-float pointer-events-auto flex items-center gap-3 rounded-2xl border border-line bg-white/95 px-3.5 py-2.5 shadow-[0_25px_50px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-colors hover:border-[color:var(--color-purple-300)]"
+                >
+                  <span className="relative h-14 w-10 shrink-0 overflow-hidden rounded-sm shadow-md">
+                    <Image
+                      src="/book/unapologetic-front-cover.jpg"
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-cover"
+                    />
                   </span>
-                  <span className="font-display text-base text-ink">
-                    Unapologetic
+                  <span className="block leading-tight">
+                    <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-brand">
+                      New book · March 2026
+                    </span>
+                    <span className="font-display text-base text-ink">
+                      Unapologetic
+                    </span>
                   </span>
-                </span>
-              </Link>
+                </Link>
+              </ParallaxVisualPanel>
 
-              {/* Floating speaking thumbnail — adds a dynamic action shot */}
-              <Link
-                href="/speaker"
-                className="pointer-events-auto absolute -bottom-8 -left-4 z-10 hidden overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5 sm:block"
+              {/* Floating speaking thumbnail — drifts the opposite direction
+                  on scroll so the composition feels alive. */}
+              <ParallaxVisualPanel
+                className="absolute -bottom-8 -left-4 z-10 hidden sm:block"
+                intensity={-36}
+                scale={0.02}
               >
-                <span className="relative block h-28 w-44">
-                  <Image
-                    src="/photos/nicole-stephenson-speaking-2.jpg"
-                    alt="Nicole Stephenson on stage with a microphone, mid-keynote."
-                    fill
-                    sizes="176px"
-                    className="object-cover"
-                  />
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
-                  />
-                  <span className="absolute inset-x-3 bottom-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white">
-                    On stage
+                <Link
+                  href="/speaker"
+                  className="pointer-events-auto block overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5"
+                >
+                  <span className="relative block h-28 w-44">
+                    <Image
+                      src="/photos/nicole-stephenson-speaking-2.jpg"
+                      alt="Nicole Stephenson on stage with a microphone, mid-keynote."
+                      fill
+                      sizes="176px"
+                      className="object-cover"
+                    />
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
+                    />
+                    <span className="absolute inset-x-3 bottom-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white">
+                      On stage
+                    </span>
                   </span>
-                </span>
-              </Link>
-            </div>
+                </Link>
+              </ParallaxVisualPanel>
+            </ParallaxVisualPanel>
           </div>
         </div>
 
         {/* Now / Upcoming strip — surfaces the next confirmed event */}
         {nextEvent ? (
-          <div className="relative mt-12 sm:mt-16">
+          <ScrollReveal direction="up" delay={120} className="relative mt-12 sm:mt-16">
             <UpcomingEventFeature event={nextEvent} variant="glass" />
-          </div>
+          </ScrollReveal>
         ) : null}
       </Container>
     </section>

@@ -15,8 +15,24 @@ export function CTA({
   secondary?: { label: string; href: string };
 }) {
   return (
-    <section className="bg-[color:var(--color-purple-900)] text-white">
-      <Container className="py-16 sm:py-20 lg:py-24">
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -top-44 -left-32 h-[34rem] w-[34rem] rounded-full bg-[color:var(--color-purple-500)] opacity-40 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -bottom-44 -right-24 h-[36rem] w-[36rem] rounded-full bg-[color:var(--color-purple-700)] opacity-60 blur-3xl"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 bg-grain opacity-25 mix-blend-overlay"
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent"
+      />
+      <Container className="relative py-16 sm:py-20 lg:py-24">
         <div className="grid lg:grid-cols-[2fr_1fr] gap-8 lg:gap-12 items-end">
           <div className="space-y-5 max-w-2xl">
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[color:var(--color-purple-200)]">
