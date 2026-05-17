@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { BookCover } from "@/components/BookCover";
+import { HeroAtmosphere } from "@/components/HeroAtmosphere";
 import { ParallaxVisualPanel } from "@/components/ParallaxVisualPanel";
 import { PremiumBookCTA } from "@/components/PremiumBookCTA";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -41,19 +42,8 @@ const SOCIAL_PROMOS: { src: string; alt: string }[] = [
 export default function BookPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-40 -left-32 h-[44rem] w-[44rem] rounded-full bg-[color:var(--color-purple-500)] blur-3xl opacity-40"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-40 -right-32 h-[36rem] w-[36rem] rounded-full bg-[color:var(--color-purple-700)] blur-3xl opacity-50"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 mix-blend-overlay bg-grain opacity-30"
-        />
+      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center hero-backdrop-drift">
+        <HeroAtmosphere tone="dark" />
         <Container className="relative w-full py-20 sm:py-24 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
             <div className="relative order-1 flex justify-center lg:justify-start">

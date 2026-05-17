@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { Container } from "./Container";
+import { HeroAtmosphere } from "./HeroAtmosphere";
+import { HeroDepthScene } from "./HeroDepthScene";
 import { clsx } from "@/lib/clsx";
 
 type Tone = "lavender" | "dark";
 type Variant = "centered" | "split";
+type TitleSize = "default" | "compact";
 
 export interface PageHeroImage {
   src: string;
@@ -28,6 +31,8 @@ export interface PageHeroProps {
   /** Visual element to render in the right column instead of an image. */
   rightSlot?: React.ReactNode;
   className?: string;
+  /** Slightly smaller title for pages with long headlines (e.g. /about). */
+  titleSize?: TitleSize;
 }
 
 /**
@@ -43,6 +48,7 @@ export interface PageHeroProps {
  *   - take min-height calc(100vh - nav) on desktop so CTAs land above the fold
  *   - use the `.hero-title-page` clamp() typography from globals.css
  *   - never sit on pure white
+ *   - layer HeroAtmosphere for depth + subtle motion
  */
 export function PageHero({
   eyebrow,
@@ -54,6 +60,7 @@ export function PageHero({
   image,
   rightSlot,
   className,
+  titleSize = "default",
 }: PageHeroProps) {
   const isDark = tone === "dark";
   const isSplit = variant === "split";
@@ -65,37 +72,16 @@ export function PageHero({
         // Minimum height = viewport minus sticky nav (h-16 / sm:h-20)
         "min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)]",
         isDark
-          ? "bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white"
-          : "bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)] text-ink",
+          ? "bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white hero-backdrop-drift"
+          : "bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)] text-ink hero-backdrop-drift",
         className,
       )}
     >
-      {/* Decorative glow orbs */}
-      <div
-        aria-hidden="true"
-        className={clsx(
-          "pointer-events-none absolute -top-40 -right-32 h-[44rem] w-[44rem] rounded-full blur-3xl",
-          isDark
-            ? "bg-[color:var(--color-purple-500)] opacity-30"
-            : "bg-[color:var(--color-purple-200)] opacity-70",
-        )}
-      />
-      <div
-        aria-hidden="true"
-        className={clsx(
-          "pointer-events-none absolute -bottom-44 -left-20 h-[36rem] w-[36rem] rounded-full blur-3xl",
-          isDark
-            ? "bg-[color:var(--color-purple-700)] opacity-40"
-            : "bg-[color:var(--color-purple-100)] opacity-80",
-        )}
-      />
-      <div
-        aria-hidden="true"
-        className={clsx(
-          "pointer-events-none absolute inset-0 mix-blend-multiply bg-grain",
-          isDark ? "opacity-[0.25]" : "opacity-[0.18]",
-        )}
-      />
+      {/* Spline-style dimensional backdrop — rotating gradient mesh,
+          floating orbs, layered glass planes, mouse parallax. Replaces
+          the flat lavender / dark fill with real depth. */}
+      <HeroDepthScene tone={tone} intensity={0.8} />
+      <HeroAtmosphere tone={tone} withPanel={false} />
 
       <Container
         size={isSplit ? "wide" : "default"}
@@ -109,6 +95,7 @@ export function PageHero({
             lead={lead}
             image={image}
             rightSlot={rightSlot}
+            titleSize={titleSize}
           >
             {children}
           </SplitLayout>
@@ -118,6 +105,7 @@ export function PageHero({
             eyebrow={eyebrow}
             title={title}
             lead={lead}
+            titleSize={titleSize}
           >
             {children}
           </CenteredLayout>
@@ -151,14 +139,17 @@ function HeroEyebrow({
 function HeroTitle({
   children,
   tone,
+  size,
 }: {
   children: React.ReactNode;
   tone: Tone;
+  size: TitleSize;
 }) {
   return (
     <h1
       className={clsx(
-        "font-display font-medium tracking-tight hero-title-page",
+        "font-display font-medium tracking-tight",
+        size === "compact" ? "hero-title-page-compact" : "hero-title-page",
         tone === "dark" ? "text-white" : "text-ink",
       )}
     >
@@ -193,18 +184,22 @@ function CenteredLayout({
   title,
   lead,
   tone,
+  titleSize,
   children,
 }: {
   eyebrow?: string;
   title: React.ReactNode;
   lead?: React.ReactNode;
   tone: Tone;
+  titleSize: TitleSize;
   children?: React.ReactNode;
 }) {
   return (
     <div className="mx-auto flex w-full max-w-[980px] flex-col items-center gap-7 text-center">
       {eyebrow ? <HeroEyebrow tone={tone}>{eyebrow}</HeroEyebrow> : null}
-      <HeroTitle tone={tone}>{title}</HeroTitle>
+      <HeroTitle tone={tone} size={titleSize}>
+        {title}
+      </HeroTitle>
       {lead ? (
         <div className="max-w-2xl">
           <HeroLead tone={tone}>{lead}</HeroLead>
@@ -226,6 +221,7 @@ function SplitLayout({
   tone,
   image,
   rightSlot,
+  titleSize,
   children,
 }: {
   eyebrow?: string;
@@ -234,13 +230,16 @@ function SplitLayout({
   tone: Tone;
   image?: PageHeroImage;
   rightSlot?: React.ReactNode;
+  titleSize: TitleSize;
   children?: React.ReactNode;
 }) {
   return (
     <div className="grid items-center gap-12 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
       <div className="order-2 flex flex-col gap-6 lg:order-1">
         {eyebrow ? <HeroEyebrow tone={tone}>{eyebrow}</HeroEyebrow> : null}
-        <HeroTitle tone={tone}>{title}</HeroTitle>
+        <HeroTitle tone={tone} size={titleSize}>
+          {title}
+        </HeroTitle>
         {lead ? (
           <div className="max-w-xl">
             <HeroLead tone={tone}>{lead}</HeroLead>
@@ -265,12 +264,12 @@ function SplitImage({ image, tone }: { image: PageHeroImage; tone: Tone }) {
         ? "aspect-[4/3]"
         : "aspect-[4/5]";
   return (
-    <div className="relative mx-auto w-full max-w-[32rem] lg:ml-auto lg:mr-0">
+    <div className="relative mx-auto w-full max-w-[32rem] lg:ml-auto lg:mr-0 portrait-float">
       {/* Soft halo */}
       <div
         aria-hidden="true"
         className={clsx(
-          "pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] blur-2xl",
+          "pointer-events-none absolute -inset-6 -z-10 rounded-[3rem] blur-2xl hero-orb-drift-alt",
           tone === "dark"
             ? "bg-gradient-to-br from-[color:var(--color-purple-500)] via-[color:var(--color-purple-700)] to-[color:var(--color-purple-900)] opacity-60"
             : "bg-gradient-to-br from-[color:var(--color-purple-200)] via-white to-[color:var(--color-purple-100)] opacity-80",

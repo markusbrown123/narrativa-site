@@ -4,7 +4,10 @@ import { BookFeaturePanel } from "@/components/BookFeaturePanel";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { EditorialImageRail, type RailItem } from "@/components/EditorialImageRail";
+import { FloatingAccentLayer } from "@/components/FloatingAccentLayer";
 import { PageHero } from "@/components/PageHero";
+import { ParallaxVisualPanel } from "@/components/ParallaxVisualPanel";
+import { ScrollReveal } from "@/components/ScrollReveal";
 import { Section, SectionHeading } from "@/components/Section";
 import { publish } from "@/lib/content";
 import { book } from "@/lib/mock/book";
@@ -64,8 +67,17 @@ export default function AboutPage() {
         eyebrow="About"
         variant="split"
         tone="lavender"
-        title="A Communicator, Author, and Founder of Narrativa Consulting."
-        lead="Nicole Stephenson, IOM is a dynamic communicator, author, transformational speaker, Founder of Narrativa Consulting, and Lecturer at The Wharton School / University of Pennsylvania."
+        titleSize="compact"
+        title={
+          // "A Communicator," is wrapped in a `whitespace-nowrap` span so the
+          // leading article can never wrap onto its own line at any breakpoint.
+          // Paired with `hero-title-page-compact` typography and
+          // `text-wrap: balance` for editorial line breaks.
+          <>
+            <span className="whitespace-nowrap">A Communicator,</span>{" "}
+            Author, and Founder of Narrativa Consulting.
+          </>
+        }
         image={{
           src: "/photos/nicole-stephenson-wharton.jpg",
           alt: "Nicole Stephenson on the University of Pennsylvania campus in front of the Wharton glass facade, in a floral dress and white blazer.",
@@ -85,59 +97,92 @@ export default function AboutPage() {
         </LinkButton>
       </PageHero>
 
-      <Section tone="tint">
-        <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-16 items-start">
-          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
-            <Image
-              src="/photos/nicole-stephenson-headshot-blue.jpg"
-              alt="Nicole Stephenson — studio headshot in a royal blue top."
-              fill
-              sizes="(min-width: 1024px) 24rem, 22rem"
-              className="object-cover"
+      <Section tone="tint" className="relative overflow-hidden">
+        <FloatingAccentLayer variant="pale" />
+        <div className="relative grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-16 items-start">
+          <ParallaxVisualPanel
+            className="mx-auto w-full max-w-sm lg:mx-0"
+            intensity={32}
+            scale={0.025}
+            innerClassName="relative"
+          >
+            {/* Soft halo behind portrait */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-br from-[color:var(--color-purple-200)] via-white to-[color:var(--color-purple-100)] opacity-80 blur-2xl hero-orb-drift-alt"
             />
-          </div>
+            <div
+              aria-hidden="true"
+              className="absolute -top-4 -left-4 hidden h-20 w-20 rounded-3xl border border-[color:var(--color-purple-300)] sm:block"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute -bottom-5 -right-5 hidden h-24 w-24 rounded-3xl border border-[color:var(--color-purple-300)] sm:block"
+            />
+            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)] portrait-float">
+              <Image
+                src="/photos/nicole-stephenson-headshot-blue.jpg"
+                alt="Nicole Stephenson — studio headshot in a royal blue top."
+                fill
+                sizes="(min-width: 1024px) 24rem, 22rem"
+                className="object-cover"
+              />
+            </div>
+          </ParallaxVisualPanel>
           <div className="space-y-6">
-            <SectionHeading eyebrow="Bio" title={<>The full picture.</>} />
+            <ScrollReveal direction="up" duration={700}>
+              <SectionHeading eyebrow="Bio" title={<>The full picture.</>} />
+            </ScrollReveal>
             <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
-              <p>
-                Nicole Stephenson, IOM is a dynamic communicator, author, and
-                transformational speaker dedicated to helping individuals and
-                organizations redefine success and step confidently into their
-                full potential.
-              </p>
-              <p>
-                Her career began at KYW Newsradio in Philadelphia, where she
-                entered the workforce during the 2008 financial crisis and
-                quickly distinguished herself across the newsroom and marketing
-                departments. She helped shape the station&apos;s first digital
-                marketing role — launching its Facebook presence when social
-                media was still emerging — and rose to become Marketing
-                Director at 22, the youngest woman and only female director
-                among senior leaders.
-              </p>
-              <p>
-                Her path then led her to The Main Line Chamber of Commerce,
-                where she initially joined as an assistant through a mentorship
-                connection and quickly advanced to become Executive Director of
-                the Society of Professional Women. Over a decade in that role,
-                she led transformative programming, hosted high-profile
-                speakers, and built a thriving community focused on advancing
-                women in leadership.
-              </p>
-              <p>
-                She spent three years writing her debut book,{" "}
-                <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>,
-                a powerful exploration of how women can overcome self-doubt
-                through mentorship, sponsorship, and skill-building.
-              </p>
-              <p>
-                Today, as Founder of{" "}
-                <strong className="text-ink">Narrativa Consulting</strong> and a
-                Lecturer in the Wharton Communication Program at the University
-                of Pennsylvania, she empowers leaders, teams, and emerging
-                professionals to communicate with clarity and lead with
-                authenticity. She also serves on the board of Girls Spark.
-              </p>
+              <ScrollReveal direction="up" duration={700} delay={80}>
+                <p>
+                  Nicole Stephenson, IOM is a dynamic communicator, author, and
+                  transformational speaker dedicated to helping individuals and
+                  organizations redefine success and step confidently into their
+                  full potential.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" duration={700} delay={140}>
+                <p>
+                  Her career began at KYW Newsradio in Philadelphia, where she
+                  entered the workforce during the 2008 financial crisis and
+                  quickly distinguished herself across the newsroom and marketing
+                  departments. She helped shape the station&apos;s first digital
+                  marketing role — launching its Facebook presence when social
+                  media was still emerging — and rose to become Marketing
+                  Director at 22, the youngest woman and only female director
+                  among senior leaders.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" duration={700} delay={200}>
+                <p>
+                  Her path then led her to The Main Line Chamber of Commerce,
+                  where she initially joined as an assistant through a mentorship
+                  connection and quickly advanced to become Executive Director of
+                  the Society of Professional Women. Over a decade in that role,
+                  she led transformative programming, hosted high-profile
+                  speakers, and built a thriving community focused on advancing
+                  women in leadership.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" duration={700} delay={260}>
+                <p>
+                  She spent three years writing her debut book,{" "}
+                  <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>,
+                  a powerful exploration of how women can overcome self-doubt
+                  through mentorship, sponsorship, and skill-building.
+                </p>
+              </ScrollReveal>
+              <ScrollReveal direction="up" duration={700} delay={320}>
+                <p>
+                  Today, as Founder of{" "}
+                  <strong className="text-ink">Narrativa Consulting</strong> and a
+                  Lecturer in the Wharton Communication Program at the University
+                  of Pennsylvania, she empowers leaders, teams, and emerging
+                  professionals to communicate with clarity and lead with
+                  authenticity. She also serves on the board of Girls Spark.
+                </p>
+              </ScrollReveal>
             </div>
           </div>
         </div>
@@ -168,10 +213,14 @@ export default function AboutPage() {
             align="center"
           />
           <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {visibleRecognition.map((r) => (
-              <li
+            {visibleRecognition.map((r, i) => (
+              <ScrollReveal
+                as="li"
                 key={r.id}
-                className="overflow-hidden rounded-3xl bg-white border border-line"
+                direction="up"
+                delay={i * 70}
+                duration={650}
+                className="overflow-hidden rounded-3xl bg-white border border-line card-lift hover:border-[color:var(--color-purple-200)]"
               >
                 {r.image ? (
                   <div className="relative aspect-[4/3] w-full bg-surface-tint">
@@ -200,7 +249,7 @@ export default function AboutPage() {
                     </p>
                   ) : null}
                 </div>
-              </li>
+              </ScrollReveal>
             ))}
           </ul>
         </Section>

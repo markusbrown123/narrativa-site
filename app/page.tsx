@@ -5,6 +5,10 @@ import { BookFeaturePanel } from "@/components/BookFeaturePanel";
 import { Container } from "@/components/Container";
 import { EditorialImageRail, type RailItem } from "@/components/EditorialImageRail";
 import { HomeMomentumStrip } from "@/components/HomeMomentumStrip";
+import {
+  ParallaxImageConstellation,
+  type ConstellationItem,
+} from "@/components/ParallaxImageConstellation";
 import { PartnerLogos } from "@/components/PartnerLogos";
 import { PremiumHomeHero } from "@/components/PremiumHomeHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -23,6 +27,64 @@ import { podcasts } from "@/lib/mock/podcasts";
 import { press } from "@/lib/mock/press";
 import { recognition } from "@/lib/mock/recognition";
 import { services } from "@/lib/mock/services";
+
+const HOME_CONSTELLATION: ConstellationItem[] = [
+  {
+    src: "/photos/nicole-stephenson-speaking-1.jpg",
+    alt: "Nicole Stephenson on stage with a handheld microphone.",
+    x: 22,
+    y: 36,
+    width: 17,
+    aspect: "landscape",
+    depth: 0.6,
+    rotate: -4,
+    caption: "On stage",
+  },
+  {
+    src: "/photos/nicole-stephenson-power-women.jpg",
+    alt: "Nicole Stephenson in an emerald dress for Main Line Today's Power Women feature.",
+    x: 54,
+    y: 50,
+    width: 15,
+    aspect: "portrait",
+    depth: 1.1,
+    rotate: 3,
+    caption: "Power Women '24",
+  },
+  {
+    src: "/book/unapologetic-front-cover.jpg",
+    alt: "Front cover of Nicole Stephenson's book Unapologetic.",
+    x: 78,
+    y: 30,
+    width: 11,
+    aspect: "portrait",
+    depth: 0.9,
+    rotate: -5,
+    caption: "Unapologetic",
+  },
+  {
+    src: "/photos/book-launch-author-with-display.jpg",
+    alt: "Nicole at her Unapologetic book launch, beside a purple-draped table of copies.",
+    x: 36,
+    y: 76,
+    width: 16,
+    aspect: "landscape",
+    depth: 0.75,
+    rotate: 5,
+    caption: "Book launch",
+  },
+  {
+    src: "/events/lehigh-valley-womens-summit.png",
+    alt: "Poster for the 2026 Lehigh Valley Women's Summit.",
+    x: 70,
+    y: 76,
+    width: 12,
+    aspect: "portrait",
+    depth: 1.3,
+    rotate: -2,
+    caption: "2026 Summit",
+  },
+];
 
 const RAIL: RailItem[] = [
   {
@@ -216,6 +278,33 @@ export default function Home() {
           </div>
         </div>
       </Section>
+
+      {/* Parallax image constellation — floating editorial cluster.
+          Cards rest, drift, and parallax to mouse + scroll so the cluster
+          reads as a layered scene instead of a flat collage. */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)] py-20 sm:py-24">
+        <Container size="wide" className="relative">
+          <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+            <div className="space-y-6">
+              <Eyebrow>A constellation of work</Eyebrow>
+              <h2 className="font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink sm:text-5xl">
+                Stages, pages, and rooms — all moving.
+              </h2>
+              <p className="max-w-xl text-lg leading-relaxed text-ink-soft">
+                A drifting cluster of speaking moments, the book, and the
+                next confirmed stage. Move your cursor — the cards shift
+                with you.
+              </p>
+              <div className="pt-1">
+                <LinkButton href="/about" variant="secondary">
+                  See Nicole&apos;s story
+                </LinkButton>
+              </div>
+            </div>
+            <ParallaxImageConstellation items={HOME_CONSTELLATION} />
+          </div>
+        </Container>
+      </section>
 
       {/* Editorial image rail — auto-scrolling marquee of mixed visual types */}
       <Section tone="alt" containerSize="wide">

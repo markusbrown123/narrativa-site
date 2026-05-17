@@ -3,6 +3,8 @@ import Link from "next/link";
 import type { Event } from "@/types/content";
 import { LinkButton } from "./Button";
 import { Container } from "./Container";
+import { FloatingVisualLayer } from "./FloatingVisualLayer";
+import { HeroDepthScene } from "./HeroDepthScene";
 import { HeroRotator, type HeroPhoto } from "./HeroRotator";
 import { ParallaxVisualPanel } from "./ParallaxVisualPanel";
 import { ScrollReveal } from "./ScrollReveal";
@@ -52,23 +54,11 @@ export function PremiumHomeHero({
         className,
       )}
     >
-      {/* Layered background — animated glow orbs + grain. Pure decoration. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-44 -right-32 h-[44rem] w-[44rem] rounded-full bg-[color:var(--color-purple-100)] opacity-60 blur-3xl hero-orb-pulse"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-56 -left-24 h-[40rem] w-[40rem] rounded-full bg-[color:var(--color-purple-200)] opacity-40 blur-3xl hero-orb-pulse-alt"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute top-1/3 left-1/2 hidden h-72 w-72 -translate-x-1/2 rounded-full bg-[color:var(--color-purple-50)] opacity-50 blur-3xl lg:block hero-orb-pulse"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-grain opacity-[0.18] mix-blend-multiply"
-      />
+      {/* Dimensional backdrop — Spline-style depth scene (rotating
+          gradient mesh, floating orbs, layered glass planes, mouse
+          parallax) topped with a sparse floating-shapes layer. */}
+      <HeroDepthScene tone="lavender" intensity={0.9} />
+      <FloatingVisualLayer tone="lavender" density="sparse" />
 
       <Container className="relative w-full pt-14 pb-14 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">

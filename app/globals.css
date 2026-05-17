@@ -148,12 +148,31 @@ summary:focus-visible {
   font-size: clamp(3rem, 13vw, 4.4rem);
   line-height: 0.95;
   letter-spacing: -0.01em;
+  /* `balance` distributes lines evenly so a single short word never
+     ends up orphaned on its own line (e.g. the leading "A" in
+     "A Communicator, Author, and Founder…"). */
+  text-wrap: balance;
 }
 
 .hero-title-page {
   font-size: clamp(3rem, 13vw, 4.4rem);
   line-height: 0.95;
   letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+/* Slightly smaller variant for pages whose title is long enough that
+   the desktop floor of hero-title-page produces awkward line breaks
+   (currently /about). Keeps the editorial feel while letting more of
+   the headline land per line. */
+.hero-title-page-compact {
+  /* Floor of 2.25rem (~36px) keeps a non-breaking "A Communicator,"
+     fully on one line at 320px wide — preventing the leading "A" from
+     ever wrapping alone on the About hero. */
+  font-size: clamp(2.25rem, 10vw, 3.6rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 @media (min-width: 640px) {
@@ -164,6 +183,10 @@ summary:focus-visible {
   .hero-title-page {
     font-size: clamp(4rem, 7vw, 6.5rem);
     line-height: 0.92;
+  }
+  .hero-title-page-compact {
+    font-size: clamp(3.25rem, 5.4vw, 5rem);
+    line-height: 0.96;
   }
 }
 
@@ -249,6 +272,184 @@ summary:focus-visible {
   animation: hero-float 6s ease-in-out infinite;
 }
 
+/* Slow drift used by floating accent shapes behind hero copy. The
+   small translate keeps the orb visually "alive" without crossing
+   into gimmicky territory. */
+@keyframes hero-orb-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(2%, -3%, 0) scale(1.04);
+  }
+  66% {
+    transform: translate3d(-3%, 2%, 0) scale(0.97);
+  }
+}
+
+.hero-orb-drift {
+  animation: hero-orb-drift 24s ease-in-out infinite;
+}
+
+@keyframes hero-orb-drift-alt {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-3%, 3%, 0) scale(1.06);
+  }
+}
+
+.hero-orb-drift-alt {
+  animation: hero-orb-drift-alt 28s ease-in-out infinite;
+}
+
+/* Floating abstract shapes — slow rotation + gentle vertical drift
+   for the squiggle/ring accents layered behind heroes. */
+@keyframes hero-shape-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(6deg);
+  }
+}
+
+.hero-shape-float {
+  animation: hero-shape-float 12s ease-in-out infinite;
+}
+
+@keyframes hero-shape-float-alt {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(8px, -6px, 0) rotate(-4deg);
+  }
+}
+
+.hero-shape-float-alt {
+  animation: hero-shape-float-alt 16s ease-in-out infinite;
+}
+
+/* Gentle continuous portrait float — slightly larger amplitude than
+   hero-float so a single portrait card reads as alive on its own. */
+@keyframes portrait-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
+.portrait-float {
+  animation: portrait-float 9s ease-in-out infinite;
+}
+
+/* Soft glow sweep used on top of layered glass panels to suggest
+   light traveling across the card. Pure decoration — `pointer-events:
+   none` is assumed on the consumer element. */
+@keyframes hero-glow-sweep {
+  0% {
+    opacity: 0.18;
+    transform: translate3d(-15%, 0, 0);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.18;
+    transform: translate3d(15%, 0, 0);
+  }
+}
+
+.hero-glow-sweep {
+  animation: hero-glow-sweep 18s ease-in-out infinite;
+}
+
+/* Subtle hover lift used on cards across the site. Pairs with a small
+   shadow change for premium feel. Defined here so individual cards can
+   opt in with one class instead of repeating the same Tailwind chain. */
+.card-lift {
+  transition:
+    transform 350ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 350ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 350ms ease;
+}
+.card-lift:hover {
+  transform: translate3d(0, -4px, 0);
+  box-shadow: 0 30px 60px -30px rgba(36, 16, 47, 0.35);
+}
+
+/* Depth-scene background — slow rotating conic gradient mesh used by
+   HeroDepthScene. The wide blur on top of this transforms the rotation
+   into a soft churn rather than a visible wheel. */
+@keyframes depth-mesh-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.depth-mesh-rotate {
+  animation: depth-mesh-rotate 60s linear infinite;
+}
+
+/* Floating 3D-feeling orb drift — combines a vertical "rise" with a
+   barely perceptible horizontal sway. Used on the depth-scene orbs. */
+@keyframes depth-orb-rise {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) scale(1.04);
+  }
+}
+
+.depth-orb-rise {
+  animation: depth-orb-rise 11s ease-in-out infinite;
+}
+
+.depth-delay-2 {
+  animation-delay: -2.5s;
+  animation-duration: 14s;
+}
+
+.depth-delay-3 {
+  animation-delay: -5s;
+  animation-duration: 9s;
+}
+
+.depth-delay-4 {
+  animation-delay: -7.5s;
+  animation-duration: 12s;
+}
+
+/* Floating image constellation card drift — used by
+   ParallaxImageConstellation. Pairs gentle vertical motion with a tiny
+   rotation so each card feels independently buoyant. */
+@keyframes constellation-drift {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(var(--card-rot, 0deg));
+  }
+  50% {
+    transform: translate3d(0, -10px, 0)
+      rotate(calc(var(--card-rot, 0deg) + 1deg));
+  }
+}
+
+.constellation-drift {
+  animation: constellation-drift 10s ease-in-out infinite;
+}
+
+.constellation-drift-alt {
+  animation: constellation-drift 13s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
 /* Subtle film-grain noise used to break up flat lavender/dark sections.
    Inlined SVG so no extra asset is needed. */
 .bg-grain {
@@ -264,5 +465,8 @@ summary:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+  .card-lift:hover {
+    transform: none !important;
   }
 }
