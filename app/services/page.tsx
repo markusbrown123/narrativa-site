@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
@@ -41,24 +42,33 @@ export default function ServicesPage() {
     <>
       <PageHero
         eyebrow="Services"
-        title={
-          <>
-            How Narrativa shows up
-            <br className="hidden lg:block" /> for your work.
-          </>
-        }
+        variant="centered"
+        tone="lavender"
+        title="Build, Elevate, and Monetize Your Speaking Brand."
         lead="A focused set of engagements built for leaders, authors, and organizations turning a body of work into a platform — and a platform into a business."
-      />
+      >
+        <LinkButton href="/contact" size="lg">
+          Start a conversation
+        </LinkButton>
+        <LinkButton href="#services" size="lg" variant="secondary">
+          See the menu
+        </LinkButton>
+      </PageHero>
 
-      <Section tone="default" containerSize="wide">
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+      <Section tone="tint" containerSize="wide" id="services">
+        <SectionHeading
+          eyebrow="The menu"
+          title="Seven ways Narrativa partners with you."
+          lead="Each engagement is scoped to the work in front of you — bundled or standalone, depending on the moment."
+        />
+        <div className="mt-14 grid md:grid-cols-2 gap-6 lg:gap-8">
           {visibleServices.map((s) => (
             <ServiceCard key={s.id} service={s} detailed />
           ))}
         </div>
       </Section>
 
-      <Section tone="tint">
+      <Section tone="alt">
         <SectionHeading
           eyebrow="How we work"
           title="Four steps. No mystery."
@@ -68,9 +78,9 @@ export default function ServicesPage() {
           {PROCESS.map((p) => (
             <li
               key={p.step}
-              className="rounded-3xl bg-white border border-line p-7"
+              className="rounded-3xl bg-white border border-[color:var(--color-purple-200)] p-7"
             >
-              <p className="font-display text-4xl text-[color:var(--color-purple-300)] font-medium">
+              <p className="font-display text-4xl text-[color:var(--color-purple-500)] font-medium">
                 {p.step}
               </p>
               <h3 className="mt-3 font-display text-xl text-ink leading-snug">
@@ -82,7 +92,7 @@ export default function ServicesPage() {
         </ol>
       </Section>
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           <SectionHeading
             eyebrow="Engagements"

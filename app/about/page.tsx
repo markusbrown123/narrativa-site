@@ -62,31 +62,37 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About"
-        title={
-          <>
-            A communicator, author, and the founder
-            <br className="hidden lg:block" /> of Narrativa Consulting.
-          </>
-        }
+        variant="split"
+        tone="lavender"
+        title="A Communicator, Author, and Founder of Narrativa Consulting."
         lead="Nicole Stephenson, IOM is a dynamic communicator, author, transformational speaker, Founder of Narrativa Consulting, and Lecturer at The Wharton School / University of Pennsylvania."
+        image={{
+          src: "/photos/nicole-stephenson-wharton.jpg",
+          alt: "Nicole Stephenson on the University of Pennsylvania campus in front of the Wharton glass facade, in a floral dress and white blazer.",
+          objectPosition: "center 22%",
+          aspect: "portrait",
+          caption: {
+            label: "Wharton Communication Program",
+            value: "University of Pennsylvania",
+          },
+        }}
       >
-        <div className="flex flex-wrap gap-3">
-          <LinkButton href="/speaker">Book Nicole to speak</LinkButton>
-          <LinkButton href="/contact" variant="secondary">
-            Get in touch
-          </LinkButton>
-        </div>
+        <LinkButton href="/speaker" size="lg">
+          Book Nicole to speak
+        </LinkButton>
+        <LinkButton href="/contact" size="lg" variant="secondary">
+          Get in touch
+        </LinkButton>
       </PageHero>
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 lg:gap-16 items-start">
-          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
+          <div className="relative aspect-[3/4] w-full max-w-sm mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
             <Image
-              src="/photos/nicole-stephenson-headshot-plaid.jpg"
-              alt="Nicole Stephenson, IOM — studio portrait in a navy and red plaid blazer."
+              src="/photos/nicole-stephenson-headshot-blue.jpg"
+              alt="Nicole Stephenson — studio headshot in a royal blue top."
               fill
               sizes="(min-width: 1024px) 24rem, 22rem"
-              priority
               className="object-cover"
             />
           </div>
@@ -137,7 +143,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="tint" containerSize="wide">
+      <Section tone="alt" containerSize="wide">
         <div className="flex flex-col gap-8">
           <SectionHeading
             eyebrow="A look around"
@@ -150,7 +156,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section tone="default">
+      <Section tone="tint">
         <BookFeaturePanel book={book} />
       </Section>
 

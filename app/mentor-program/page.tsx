@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { MentorForm } from "@/components/MentorForm";
 import { PageHero } from "@/components/PageHero";
@@ -50,31 +51,31 @@ export default function MentorProgramPage() {
     <>
       <PageHero
         eyebrow="Mentor Program"
-        title={
-          <>
-            A cohort program for
-            <br className="hidden lg:block" /> the unapologetic leader.
-          </>
-        }
+        variant="split"
+        tone="dark"
+        title="Mentorship That Moves You Forward."
         lead="A small, deliberate group of leaders rebuilding their story, voice, and platform with Nicole. Apply to be notified when the next cohort opens."
+        image={{
+          src: "/photos/nicole-stephenson-portrait-outdoor.jpg",
+          alt: "Nicole Stephenson — outdoor portrait in a striped dress with a rolling lawn behind her.",
+          objectPosition: "center 25%",
+          aspect: "portrait",
+        }}
       >
-        <div className="flex flex-wrap gap-3">
-          <a
-            href="#apply"
-            className="inline-flex items-center justify-center rounded-full bg-brand px-7 py-3.5 text-base font-medium text-white hover:bg-[color:var(--color-purple-700)]"
-          >
-            Apply now
-          </a>
-          <a
-            href="#details"
-            className="inline-flex items-center justify-center rounded-full border border-[color:var(--color-purple-200)] bg-white px-7 py-3.5 text-base font-medium text-brand hover:bg-[color:var(--color-purple-50)]"
-          >
-            See details
-          </a>
-        </div>
+        <LinkButton href="#apply" size="lg" variant="light">
+          Apply now
+        </LinkButton>
+        <LinkButton
+          href="#details"
+          size="lg"
+          variant="ghost"
+          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+        >
+          See details
+        </LinkButton>
       </PageHero>
 
-      <Section tone="default" id="details">
+      <Section tone="tint" id="details">
         <SectionHeading
           eyebrow="The work"
           title="Three pillars."
@@ -94,7 +95,7 @@ export default function MentorProgramPage() {
         </div>
       </Section>
 
-      <Section tone="tint">
+      <Section tone="alt">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           <SectionHeading
             eyebrow="What you get"
@@ -124,7 +125,7 @@ export default function MentorProgramPage() {
         </div>
       </Section>
 
-      <Section tone="default">
+      <Section tone="tint">
         <SectionHeading eyebrow="FAQ" title="Common questions." />
         <dl className="mt-12 grid lg:grid-cols-2 gap-x-12 gap-y-10">
           {FAQ.map((f) => (

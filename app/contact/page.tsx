@@ -34,16 +34,13 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title={
-          <>
-            Let&apos;s talk about the room
-            <br className="hidden lg:block" /> you&apos;re trying to win.
-          </>
-        }
+        variant="centered"
+        tone="lavender"
+        title="Let's Talk About the Room You're Trying to Win."
         lead="Speaking, consulting, press, or a question about the mentor program — start with a note. Nicole reads every message."
       />
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-14 items-start">
           <div className="rounded-3xl bg-white border border-line p-6 sm:p-10">
             <ContactForm />

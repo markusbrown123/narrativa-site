@@ -28,7 +28,7 @@ export function SiteHeader() {
     setOpenedAt(next ? pathname : null);
 
   return (
-    <header className="sticky top-0 z-40 bg-surface/85 backdrop-blur supports-[backdrop-filter]:bg-surface/70 border-b border-line">
+    <header className="sticky top-0 z-40 bg-[color:var(--color-purple-50)]/90 backdrop-blur supports-[backdrop-filter]:bg-[color:var(--color-purple-50)]/75 border-b border-[color:var(--color-purple-200)]">
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Logo />
@@ -41,14 +41,22 @@ export function SiteHeader() {
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? "page" : undefined}
                   className={clsx(
-                    "px-3 py-2 rounded-full text-sm font-medium transition-colors",
+                    "relative px-3 py-2 rounded-full text-sm font-medium transition-colors",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-purple-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-purple-50)]",
                     active
-                      ? "text-brand bg-[color:var(--color-purple-50)]"
-                      : "text-ink-soft hover:text-brand hover:bg-[color:var(--color-purple-50)]",
+                      ? "text-[color:var(--color-purple-900)] bg-[color:var(--color-purple-200)]"
+                      : "text-ink-soft hover:text-[color:var(--color-purple-800)] hover:bg-[color:var(--color-purple-100)]",
                   )}
                 >
                   {item.label}
+                  {active ? (
+                    <span
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-x-3 -bottom-0.5 h-[2px] rounded-full bg-[color:var(--color-teal-500)]"
+                    />
+                  ) : null}
                 </Link>
               );
             })}
@@ -62,7 +70,7 @@ export function SiteHeader() {
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full text-ink hover:bg-[color:var(--color-purple-50)]"
+            className="lg:hidden inline-flex items-center justify-center h-10 w-10 rounded-full text-ink hover:bg-[color:var(--color-purple-100)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-purple-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-purple-50)]"
             onClick={() => setOpen(!open)}
           >
             <span className="sr-only">Toggle menu</span>
@@ -110,11 +118,12 @@ export function SiteHeader() {
                   <Link
                     key={item.href}
                     href={item.href}
+                    aria-current={active ? "page" : undefined}
                     className={clsx(
-                      "px-4 py-3 rounded-2xl text-base font-medium",
+                      "px-4 py-3 rounded-2xl text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-purple-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-purple-50)]",
                       active
-                        ? "text-brand bg-[color:var(--color-purple-50)]"
-                        : "text-ink hover:bg-[color:var(--color-purple-50)]",
+                        ? "text-[color:var(--color-purple-900)] bg-[color:var(--color-purple-200)] border-l-2 border-[color:var(--color-teal-500)]"
+                        : "text-ink hover:bg-[color:var(--color-purple-100)]",
                     )}
                   >
                     {item.label}
@@ -123,7 +132,7 @@ export function SiteHeader() {
               })}
               <Link
                 href="/contact"
-                className="mt-3 inline-flex items-center justify-center rounded-full bg-brand px-5 py-3 text-white font-medium"
+                className="mt-3 inline-flex items-center justify-center rounded-full bg-brand px-5 py-3 text-white font-medium hover:bg-[color:var(--color-purple-700)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--color-purple-600)] focus-visible:ring-offset-2 focus-visible:ring-offset-[color:var(--color-purple-50)]"
               >
                 Contact
               </Link>

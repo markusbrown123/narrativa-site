@@ -176,7 +176,7 @@ export default function Home() {
       </Section>
 
       {/* Editorial image rail — auto-scrolling marquee of mixed visual types */}
-      <Section tone="default" containerSize="wide">
+      <Section tone="alt" containerSize="wide">
         <div className="flex flex-col gap-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
@@ -200,7 +200,7 @@ export default function Home() {
       </Section>
 
       {/* Three featured services */}
-      <Section tone="default">
+      <Section tone="tint">
         <div className="flex flex-col gap-12">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
@@ -222,7 +222,7 @@ export default function Home() {
 
       {/* Upcoming event — full panel treatment with flyer and details */}
       {nextEvent ? (
-        <Section tone="tint">
+        <Section tone="alt">
           <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <SectionHeading
@@ -241,7 +241,7 @@ export default function Home() {
 
       {/* Smart media gallery */}
       {featuredMedia || supportingMedia.length > 0 ? (
-        <Section tone="default" containerSize="wide">
+        <Section tone="tint" containerSize="wide">
           <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
               <SectionHeading
@@ -315,7 +315,7 @@ export default function Home() {
 
       {/* Partners */}
       {visiblePartners.length > 0 ? (
-        <Section tone="default">
+        <Section tone="alt">
           <SectionHeading
             eyebrow="Partners & engagements"
             title="Recent rooms Narrativa has been in."

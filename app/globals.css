@@ -1,31 +1,45 @@
 @import "tailwindcss";
 
-/* Narrativa Consulting brand tokens */
+/* Narrativa Consulting brand tokens
+ *
+ * Color palette is locked to the brief: deep purple #24102F, primary
+ * #5A2896, mid #6B2FA3, book #8B2AA6, lavender #F6EEFB / strong #EADBF4
+ * / pale #FCF8FF, teal accent #3CA082. The numbered `--color-purple-*`
+ * stops below map onto those values so existing components keep working.
+ */
 :root {
-  --color-purple-50: #f6effb;
-  --color-purple-100: #ebddf4;
-  --color-purple-200: #d6bbe8;
-  --color-purple-300: #b78cd6;
-  --color-purple-400: #9560c0;
-  --color-purple-500: #7b3da8;
-  --color-purple-600: #6b2c91;
-  --color-purple-700: #561f76;
-  --color-purple-800: #401758;
-  --color-purple-900: #2a0e3b;
+  --color-purple-50: #fcf8ff;  /* pale lavender */
+  --color-purple-100: #f6eefb; /* lavender */
+  --color-purple-200: #eadbf4; /* strong lavender */
+  --color-purple-300: #c8a3e0;
+  --color-purple-400: #a06bcc;
+  --color-purple-500: #8b2aa6; /* book purple */
+  --color-purple-600: #5a2896; /* primary purple */
+  --color-purple-700: #6b2fa3; /* mid purple (for hover/strong) */
+  --color-purple-800: #3a1554;
+  --color-purple-900: #24102f; /* deep purple */
 
-  --color-lavender: #ebddf4;
-  --color-lavender-soft: #f6effb;
+  --color-lavender: #f6eefb;
+  --color-lavender-soft: #fcf8ff;
+  --color-lavender-strong: #eadbf4;
 
-  --color-green-700: #1f4d3a;
-  --color-green-800: #163828;
+  --color-teal-500: #3ca082;   /* accent */
+  --color-teal-600: #2f8067;
+  --color-teal-700: #25624f;
 
-  --color-ink: #1a1322;
-  --color-ink-soft: #4a3f56;
-  --color-muted: #6b6376;
-  --color-line: #e7e2ec;
+  /* Legacy green tokens still referenced in a few components — kept as
+     aliases of the teal palette so existing classes resolve to the new
+     accent color. */
+  --color-green-700: var(--color-teal-600);
+  --color-green-800: var(--color-teal-700);
+
+  --color-ink: #1b1223;
+  --color-ink-soft: #3a2d49;
+  --color-muted: #5b5065;
+  --color-line: #e7dff0;
   --color-surface: #ffffff;
-  --color-surface-alt: #f7f5f9;
-  --color-surface-tint: #faf7fc;
+  --color-surface-alt: #f4ecfb; /* lavender-leaning alt surface */
+  --color-surface-tint: #fcf8ff; /* pale lavender */
 }
 
 @theme inline {
@@ -36,9 +50,10 @@
   --color-brand-strong: var(--color-purple-700);
   --color-brand-soft: var(--color-purple-100);
   --color-brand-tint: var(--color-purple-50);
+  --color-brand-deep: var(--color-purple-900);
 
-  --color-accent: var(--color-green-700);
-  --color-accent-strong: var(--color-green-800);
+  --color-accent: var(--color-teal-500);
+  --color-accent-strong: var(--color-teal-600);
 
   --color-ink: var(--color-ink);
   --color-ink-soft: var(--color-ink-soft);
@@ -59,9 +74,14 @@
   --color-purple-800: var(--color-purple-800);
   --color-purple-900: var(--color-purple-900);
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-teal-500: var(--color-teal-500);
+  --color-teal-600: var(--color-teal-600);
+  --color-teal-700: var(--color-teal-700);
+
+  --font-sans: var(--font-body), "Lato", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), "Cormorant Garamond", "Libre Baskerville",
+    Georgia, "Times New Roman", serif;
+  --font-mono: ui-monospace, monospace;
 }
 
 html {
@@ -71,20 +91,87 @@ html {
 body {
   background: var(--color-surface);
   color: var(--color-ink);
-  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-feature-settings: "ss01", "cv11";
+  font-family: var(--font-body), "Lato", ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 .font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.01em;
+  font-family: var(--font-display), "Cormorant Garamond", "Libre Baskerville",
+    Georgia, serif;
+  letter-spacing: -0.005em;
 }
 
 ::selection {
   background: var(--color-purple-200);
   color: var(--color-purple-900);
+}
+
+/* Branded focus-visible states.
+ *
+ * Browsers default to a blue outline on focus. We override that with a
+ * lavender focus ring + teal halo so keyboard users get clear, on-brand
+ * feedback. The `:focus:not(:focus-visible)` reset prevents mouse focus
+ * from showing the ring, but `focus-visible` keeps the ring for keyboard
+ * navigation — accessibility is preserved.
+ */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-purple-600);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(60, 160, 130, 0.28);
+  border-radius: 0.5rem;
+}
+
+/* For interactive elements that already have a rounded shape, keep the
+   ring rounded with them rather than forcing a rectangular halo. */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--color-purple-600);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(60, 160, 130, 0.28);
+}
+
+/* Hero typography utilities matching the design spec.
+ *
+ * Mobile sizing is handled by clamp() floors. Above ~640px the desktop
+ * floors kick in via the min() in clamp. */
+.hero-title-home {
+  font-size: clamp(3rem, 13vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.hero-title-page {
+  font-size: clamp(3rem, 13vw, 4.4rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 640px) {
+  .hero-title-home {
+    font-size: clamp(4.75rem, 8vw, 7.75rem);
+    line-height: 0.92;
+  }
+  .hero-title-page {
+    font-size: clamp(4rem, 7vw, 6.5rem);
+    line-height: 0.92;
+  }
+}
+
+.hero-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 600;
+  font-size: 0.75rem;
 }
 
 /* Editorial image rail — seamless marquee. The track contains two
@@ -99,9 +186,20 @@ body {
   }
 }
 
-/* Subtle film-grain noise used to break up flat white sections.
+/* Subtle film-grain noise used to break up flat lavender/dark sections.
    Inlined SVG so no extra asset is needed. */
 .bg-grain {
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.16  0 0 0 0 0.07  0 0 0 0 0.22  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
   background-repeat: repeat;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

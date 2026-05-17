@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
@@ -44,11 +45,26 @@ export default function MediaPage() {
     <>
       <PageHero
         eyebrow="Media"
-        title="In the press, on the show, on the record."
+        variant="split"
+        tone="lavender"
+        title="Stories, Interviews, and Press."
         lead="A running list of recent press features, podcast appearances, and on-camera conversations."
-      />
+        image={{
+          src: "/media/influential-women-headshot.png",
+          alt: "Cover image for Nicole Stephenson's Influential Women long-form video interview.",
+          aspect: "portrait",
+          caption: { label: "On camera", value: "Influential Women interview" },
+        }}
+      >
+        <LinkButton href="#featured" size="lg">
+          Watch & listen
+        </LinkButton>
+        <LinkButton href="/contact" size="lg" variant="secondary">
+          Press inquiries
+        </LinkButton>
+      </PageHero>
 
-      <Section tone="default" containerSize="wide">
+      <Section tone="tint" containerSize="wide">
         <div className="grid items-center gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14">
           <div className="space-y-5 lg:order-1">
             <Eyebrow>For press</Eyebrow>
@@ -88,7 +104,7 @@ export default function MediaPage() {
       </Section>
 
       {featured || galleryTiles.length > 0 ? (
-        <Section tone="tint" containerSize="wide">
+        <Section tone="alt" containerSize="wide" id="featured">
           <SectionHeading
             eyebrow="Featured"
             title="The interviews and conversations leading the year."
@@ -105,7 +121,7 @@ export default function MediaPage() {
       ) : null}
 
       {remainingPodcasts.length > 0 ? (
-        <Section tone="default" containerSize="wide">
+        <Section tone="tint" containerSize="wide">
           <SectionHeading
             eyebrow="Podcasts & interviews"
             title="Listen and watch."
@@ -134,7 +150,7 @@ export default function MediaPage() {
       ) : null}
 
       {visiblePress.length === 0 && remainingPodcasts.length === 0 ? (
-        <Section tone="default" containerSize="wide">
+        <Section tone="tint" containerSize="wide">
           <SectionHeading eyebrow="More coming" title="Coming soon." />
           <p className="mt-6 max-w-2xl text-lg text-ink-soft">
             Additional press features and podcast appearances are being added.

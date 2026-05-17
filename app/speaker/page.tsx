@@ -31,38 +31,46 @@ export default function SpeakerPage() {
     <>
       <PageHero
         eyebrow="Speaker"
-        title={
-          <>
-            Book Nicole for your
-            <br className="hidden lg:block" /> next keynote or fireside.
-          </>
-        }
+        variant="split"
+        tone="dark"
+        title="Book Nicole for Your Next Keynote or Fireside."
         lead="Nicole Stephenson, IOM is a transformational speaker, Lecturer at The Wharton School / University of Pennsylvania, Founder of Narrativa Consulting, and author of Unapologetic: Boldly Lead the Life and Career You Deserve."
+        image={{
+          src: "/photos/nicole-stephenson-speaking-1.jpg",
+          alt: "Nicole Stephenson on stage with a handheld microphone, mid-keynote.",
+          objectPosition: "center 25%",
+          aspect: "portrait",
+          caption: { label: "On stage", value: "Keynotes & firesides" },
+        }}
       >
-        <div className="flex flex-wrap gap-3">
-          <LinkButton href="/contact" size="lg">
-            Book Nicole
-          </LinkButton>
-          <LinkButton href="#talks" size="lg" variant="secondary">
-            See talk themes
-          </LinkButton>
-          <LinkButton
-            href="/speaker/nicole-stephenson-one-sheet.pdf"
-            size="lg"
-            variant="secondary"
-            external
-          >
-            Download one-sheet (PDF)
-          </LinkButton>
-        </div>
+        <LinkButton href="/contact" size="lg" variant="light">
+          Book Nicole
+        </LinkButton>
+        <LinkButton
+          href="#talks"
+          size="lg"
+          variant="ghost"
+          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+        >
+          See talk themes
+        </LinkButton>
+        <LinkButton
+          href="/speaker/nicole-stephenson-one-sheet.pdf"
+          size="lg"
+          variant="ghost"
+          external
+          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+        >
+          One-sheet (PDF)
+        </LinkButton>
       </PageHero>
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
-          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
+          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
             <Image
-              src="/photos/nicole-stephenson-speaking-1.jpg"
-              alt="Nicole Stephenson speaking into a microphone on stage."
+              src="/photos/nicole-stephenson-speaking-2.jpg"
+              alt="Nicole Stephenson holding a microphone, smiling toward the audience."
               fill
               sizes="(min-width: 1024px) 24rem, 22rem"
               className="object-cover"
@@ -86,7 +94,7 @@ export default function SpeakerPage() {
         </div>
       </Section>
 
-      <Section tone="tint" id="talks">
+      <Section tone="alt" id="talks">
         <SectionHeading
           eyebrow="Talk themes"
           title="What Nicole speaks about."
@@ -117,7 +125,7 @@ export default function SpeakerPage() {
         </div>
       </Section>
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1fr_1.4fr] gap-12 items-start">
           <SectionHeading
             eyebrow="Engagement formats"
@@ -164,22 +172,22 @@ export default function SpeakerPage() {
         </div>
       </Section>
 
-      <Section tone="default">
-        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
+      <Section tone="tint">
+        <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center rounded-[2rem] bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] p-8 sm:p-12 text-white shadow-[0_40px_120px_-50px_rgba(36,16,47,0.6)]">
           <div className="flex justify-center lg:justify-start">
             <BookCover size="lg" />
           </div>
           <div className="space-y-5">
-            <Eyebrow>The book on stage</Eyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
+            <Eyebrow tone="light">The book on stage</Eyebrow>
+            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-white">
               Talks rooted in Unapologetic.
             </h2>
-            <p className="text-lg text-ink-soft leading-relaxed">
+            <p className="text-lg text-[color:var(--color-purple-100)] leading-relaxed">
               Nicole&apos;s keynotes draw on the same material as her book —{" "}
               <em>Unapologetic: Boldly Lead the Life and Career You Deserve</em>{" "}
               — so attendees walk out with a through-line, not just takeaways.
             </p>
-            <div className="relative mt-4 aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_90px_-40px_rgba(43,15,68,0.45)]">
+            <div className="relative mt-4 aspect-[3/2.2] w-full overflow-hidden rounded-3xl ring-1 ring-white/15 shadow-[0_30px_90px_-40px_rgba(0,0,0,0.45)]">
               <Image
                 src="/photos/nicole-stephenson-speaking-3.jpg"
                 alt="Nicole Stephenson mid-keynote, microphone in hand."
@@ -189,13 +197,14 @@ export default function SpeakerPage() {
               />
             </div>
             <div className="pt-2 flex flex-wrap gap-3">
-              <LinkButton href="/book" variant="secondary">
+              <LinkButton href="/book" variant="light">
                 About the book
               </LinkButton>
               <LinkButton
                 href="/speaker/nicole-stephenson-one-sheet.pdf"
-                variant="secondary"
+                variant="ghost"
                 external
+                className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
               >
                 Download one-sheet (PDF)
               </LinkButton>
@@ -219,7 +228,7 @@ export default function SpeakerPage() {
       ) : null}
 
       {visiblePartners.length > 0 ? (
-        <Section tone="default">
+        <Section tone="alt">
           <SectionHeading
             eyebrow="Recent rooms"
             title="A few of the organizations Narrativa has worked with."

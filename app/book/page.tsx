@@ -39,19 +39,38 @@ const SOCIAL_PROMOS: { src: string; alt: string }[] = [
 export default function BookPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-700)] to-[color:var(--color-purple-500)] text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center">
         <div
           aria-hidden="true"
-          className="absolute -top-32 -left-32 h-[36rem] w-[36rem] rounded-full bg-[color:var(--color-purple-400)] blur-3xl opacity-40"
+          className="pointer-events-none absolute -top-40 -left-32 h-[44rem] w-[44rem] rounded-full bg-[color:var(--color-purple-500)] blur-3xl opacity-40"
         />
-        <Container className="relative py-20 sm:py-28 lg:py-32">
-          <div className="grid lg:grid-cols-[1fr_1.3fr] gap-10 lg:gap-14 items-center">
-            <div className="flex justify-center lg:justify-start">
-              <BookCover size="xl" priority />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -bottom-40 -right-32 h-[36rem] w-[36rem] rounded-full bg-[color:var(--color-purple-700)] blur-3xl opacity-50"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 mix-blend-overlay bg-grain opacity-30"
+        />
+        <Container className="relative w-full py-20 sm:py-24 lg:py-28">
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+            <div className="relative order-1 flex justify-center lg:justify-start">
+              <div className="relative">
+                {/* Glow halo behind cover */}
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] bg-gradient-to-br from-[color:var(--color-purple-400)] via-[color:var(--color-purple-500)] to-[color:var(--color-purple-700)] opacity-70 blur-3xl"
+                />
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-white/10 blur-2xl"
+                />
+                <BookCover size="xl" priority className="drop-shadow-[0_50px_90px_rgba(15,5,25,0.6)]" />
+              </div>
             </div>
-            <div className="space-y-6">
+            <div className="order-2 space-y-7">
               <Eyebrow tone="light">A book by Nicole Stephenson, IOM</Eyebrow>
-              <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-medium leading-[1.02] tracking-tight">
+              <h1 className="font-display font-medium tracking-tight text-white hero-title-page">
                 {book.title}.
               </h1>
               <p className="font-display text-2xl sm:text-3xl text-[color:var(--color-purple-100)] italic leading-snug">
@@ -72,9 +91,9 @@ export default function BookPage() {
                     : null}
                 </p>
               ) : null}
-              {book.purchase_links.length > 0 ? (
-                <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
-                  {book.purchase_links.map((link) => (
+              <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
+                {book.purchase_links.length > 0 ? (
+                  book.purchase_links.map((link) => (
                     <LinkButton
                       key={link.url}
                       href={link.url}
@@ -84,16 +103,29 @@ export default function BookPage() {
                     >
                       {link.label}
                     </LinkButton>
-                  ))}
-                </div>
-              ) : null}
+                  ))
+                ) : (
+                  <>
+                    <LinkButton href="/contact" variant="light" size="lg">
+                      Order copies for your team
+                    </LinkButton>
+                    <LinkButton
+                      href="#themes"
+                      size="lg"
+                      variant="ghost"
+                      className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+                    >
+                      What it&apos;s about
+                    </LinkButton>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-
         </Container>
       </section>
 
-      <Section tone="default">
+      <Section tone="tint">
         <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
           <SectionHeading
             eyebrow="About the book"
@@ -112,7 +144,7 @@ export default function BookPage() {
         </div>
       </Section>
 
-      <Section tone="tint">
+      <Section tone="tint" id="themes">
         <SectionHeading eyebrow="Themes" title="What the book is about." />
         <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {[
@@ -136,9 +168,9 @@ export default function BookPage() {
         </ul>
       </Section>
 
-      <Section tone="default">
+      <Section tone="alt">
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-line shadow-[0_30px_70px_-30px_rgba(43,15,68,0.4)]">
+          <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
             <Image
               src="/photos/book-launch-author-holding-book.jpg"
               alt="Nicole Stephenson holding up Unapologetic at her book launch event."
@@ -214,7 +246,7 @@ export default function BookPage() {
       </Section>
 
       {book.excerpts.length > 0 ? (
-        <Section tone="default">
+        <Section tone="tint">
           <SectionHeading eyebrow="Inside" title="A taste of the book." />
           <div className="mt-14 grid lg:grid-cols-3 gap-6">
             {book.excerpts.map((e) => (

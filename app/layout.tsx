@@ -1,20 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Fraunces } from "next/font/google";
+import { Cormorant_Garamond, Lato } from "next/font/google";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const lato = Lato({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["300", "400", "700", "900"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const fraunces = Fraunces({
+const cormorant = Cormorant_Garamond({
   variable: "--font-display",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -44,7 +40,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${fraunces.variable} h-full antialiased`}
+      className={`${lato.variable} ${cormorant.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-surface text-ink">
         <SiteHeader />

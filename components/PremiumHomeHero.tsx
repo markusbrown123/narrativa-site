@@ -45,7 +45,8 @@ export function PremiumHomeHero({
   return (
     <section
       className={clsx(
-        "relative overflow-hidden bg-gradient-to-b from-[color:var(--color-purple-50)] via-surface-tint to-surface",
+        "relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)]",
+        "min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center",
         className,
       )}
     >
@@ -67,11 +68,11 @@ export function PremiumHomeHero({
         className="pointer-events-none absolute inset-0 bg-grain opacity-[0.18] mix-blend-multiply"
       />
 
-      <Container className="relative pt-14 pb-14 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
-        <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">
+      <Container className="relative w-full pt-14 pb-14 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">
           {/* Editorial copy */}
-          <div className="order-2 space-y-7 lg:order-1 lg:pt-4">
-            <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-brand backdrop-blur">
+          <div className="order-2 space-y-7 lg:order-1">
+            <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur">
               <span
                 aria-hidden="true"
                 className="inline-flex h-1.5 w-1.5 rounded-full bg-brand"
@@ -79,15 +80,13 @@ export function PremiumHomeHero({
               Nicole Stephenson, IOM · Narrativa Consulting
             </p>
 
-            <h1 className="font-display text-[2.75rem] leading-[1.02] tracking-tight text-ink sm:text-6xl lg:text-[4.5rem]">
-              Lead like the story
-              <br />
-              you came to{" "}
+            <h1 className="font-display font-medium tracking-tight text-ink hero-title-home">
+              Lead Like the Story You Came to{" "}
               <span className="relative inline-block">
-                <span className="relative z-10 text-brand">tell.</span>
+                <span className="relative z-10 text-brand">Tell.</span>
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-1 bottom-1 h-2 -skew-y-1 bg-[color:var(--color-purple-100)]"
+                  className="absolute inset-x-1 bottom-1 h-2 -skew-y-1 bg-[color:var(--color-purple-200)]"
                 />
               </span>
             </h1>

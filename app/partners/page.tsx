@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
@@ -23,12 +24,21 @@ export default function PartnersPage() {
     <>
       <PageHero
         eyebrow="Partners"
-        title="Rooms Narrativa has been in."
+        variant="centered"
+        tone="lavender"
+        title="Partners and Organizations."
         lead="A selection of recent partner organizations, hosts, and engagement venues. Specific relationships are noted where confirmed."
-      />
+      >
+        <LinkButton href="/contact" size="lg">
+          Become a partner
+        </LinkButton>
+        <LinkButton href="/speaker" size="lg" variant="secondary">
+          Book Nicole to speak
+        </LinkButton>
+      </PageHero>
 
       {confirmed.length > 0 ? (
-        <Section tone="default" containerSize="wide">
+        <Section tone="tint" containerSize="wide">
           <SectionHeading
             eyebrow="Confirmed engagements"
             title="Where Nicole's role is on the record."
@@ -65,7 +75,7 @@ export default function PartnersPage() {
       ) : null}
 
       {logosOnly.length > 0 ? (
-        <Section tone="tint" containerSize="wide">
+        <Section tone="alt" containerSize="wide">
           <SectionHeading
             eyebrow="Recent rooms"
             title="Organizations Nicole has worked with."
