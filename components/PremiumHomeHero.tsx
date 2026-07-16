@@ -60,8 +60,8 @@ export function PremiumHomeHero({
       <HeroDepthScene tone="lavender" intensity={0.9} />
       <FloatingVisualLayer tone="lavender" density="sparse" />
 
-      <Container className="relative w-full pt-14 pb-14 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">
+      <Container className="relative w-full pt-6 pb-8 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
+        <div className="grid items-center gap-6 sm:gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">
           {/* Byline pill — sits above the portrait on mobile, and inside the
               copy column on desktop (the copy of it just below is lg-only). */}
           <p className="order-first inline-flex w-fit items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur lg:hidden">
@@ -72,7 +72,7 @@ export function PremiumHomeHero({
             Nicole Stephenson, IOM · Narrativa Consulting
           </p>
           {/* Editorial copy */}
-          <div className="order-2 space-y-7 lg:order-1">
+          <div className="order-2 space-y-5 sm:space-y-7 lg:order-1">
             <p className="hidden items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur lg:inline-flex">
               <span
                 aria-hidden="true"
@@ -227,7 +227,7 @@ export function PremiumHomeHero({
 
         {/* Now / Upcoming strip — surfaces the next confirmed event */}
         {nextEvent ? (
-          <ScrollReveal direction="up" delay={120} className="relative mt-12 sm:mt-16">
+          <ScrollReveal direction="up" delay={120} className="relative mt-8 sm:mt-16">
             <UpcomingEventFeature event={nextEvent} variant="glass" />
           </ScrollReveal>
         ) : null}
