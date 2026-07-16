@@ -69,7 +69,12 @@ function FeaturedTile({ tile }: { tile: Tile }) {
       href={tile.item.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex min-h-[20rem] flex-col justify-end overflow-hidden rounded-3xl border border-line bg-[color:var(--color-purple-900)] text-white shadow-[0_30px_80px_-40px_rgba(43,15,68,0.55)] transition-transform duration-500 motion-safe:hover:-translate-y-1 sm:min-h-[24rem] lg:min-h-full"
+      className={clsx(
+        "group relative flex min-h-[20rem] flex-col justify-end overflow-hidden rounded-3xl border border-line bg-[color:var(--color-purple-900)] text-white shadow-[0_30px_80px_-40px_rgba(43,15,68,0.55)] transition-transform duration-500 motion-safe:hover:-translate-y-1 sm:min-h-[24rem]",
+        // Only stretch to match the tile grid when there's an image to fill
+        // the space — otherwise it becomes a large empty gradient block.
+        image ? "lg:min-h-full" : "lg:min-h-[24rem]",
+      )}
     >
       {image ? (
         <>

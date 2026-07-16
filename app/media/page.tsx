@@ -25,8 +25,13 @@ export default async function MediaPage() {
   const visiblePodcasts = publish(podcasts);
   const visiblePress = publish(press);
 
+  // Prefer a podcast that has an image for the large featured tile, so it
+  // never renders as a big empty gradient block.
   const featured =
-    visiblePodcasts.find((p) => p.id === "pod-influential-women-video") ??
+    visiblePodcasts.find(
+      (p) => p.id === "pod-influential-women-video" && p.image,
+    ) ??
+    visiblePodcasts.find((p) => p.image) ??
     visiblePodcasts[0];
   const galleryTiles = [
     ...visiblePodcasts
