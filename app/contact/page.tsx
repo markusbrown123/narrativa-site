@@ -21,7 +21,7 @@ const INQUIRY_KINDS = [
   },
   {
     label: "Consulting",
-    description: "Advisory, ghostwriting, speaker brand, and event strategy.",
+    description: "Advisory, speaker brand, and event strategy.",
   },
   {
     label: "Mentor Program",
@@ -61,15 +61,6 @@ export default function ContactPage() {
                   </a>
                 </li>
                 <li>
-                  <p className="text-sm text-ink-soft">Phone</p>
-                  <a
-                    href={CONTACT.phoneHref}
-                    className="mt-0.5 inline-block font-display text-lg text-ink hover:text-brand"
-                  >
-                    {CONTACT.phone}
-                  </a>
-                </li>
-                <li>
                   <p className="text-sm text-ink-soft">Online</p>
                   <a
                     href={CONTACT.websiteHref}
@@ -95,6 +86,14 @@ export default function ContactPage() {
                   className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand border border-[color:var(--color-purple-200)] hover:bg-[color:var(--color-purple-100)]"
                 >
                   Instagram
+                </a>
+                <a
+                  href={CONTACT.tiktok}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-brand border border-[color:var(--color-purple-200)] hover:bg-[color:var(--color-purple-100)]"
+                >
+                  TikTok
                 </a>
               </div>
             </div>

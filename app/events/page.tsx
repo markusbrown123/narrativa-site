@@ -27,7 +27,7 @@ export default async function EventsPage() {
         eyebrow="Events"
         variant="split"
         tone="dark"
-        title="Events, Launches, and Live Experiences."
+        title="Events and Live Experiences."
         lead="Keynotes, workshops, fireside conversations, and the Unapologetic book tour — in one place."
         image={
           nextEvent?.image
@@ -114,7 +114,7 @@ export default async function EventsPage() {
       ) : null}
 
       <CTA
-        title="Invite Narrativa to your stage."
+        title="Invite Nicole to your stage."
         body="Tell us the audience, date, and dream takeaway — Nicole will be in touch."
         primary={{ label: "Send a speaking inquiry", href: "/contact" }}
       />
