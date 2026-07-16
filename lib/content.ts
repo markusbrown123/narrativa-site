@@ -33,7 +33,9 @@ export function formatDate(
     year: "numeric",
   },
 ): string {
-  return new Date(iso).toLocaleDateString("en-US", options);
+  // Date-only ISO strings (e.g. "2026-07-26") parse as UTC midnight, so we
+  // format in UTC to avoid shifting a day backward in the viewer's timezone.
+  return new Date(iso).toLocaleDateString("en-US", { timeZone: "UTC", ...options });
 }
 
 export function formatDateRange(start: string, end?: string): string {
@@ -41,13 +43,14 @@ export function formatDateRange(start: string, end?: string): string {
   const startDate = new Date(start);
   const endDate = new Date(end);
   const sameMonth =
-    startDate.getMonth() === endDate.getMonth() &&
-    startDate.getFullYear() === endDate.getFullYear();
+    startDate.getUTCMonth() === endDate.getUTCMonth() &&
+    startDate.getUTCFullYear() === endDate.getUTCFullYear();
   if (sameMonth) {
     return `${startDate.toLocaleDateString("en-US", {
+      timeZone: "UTC",
       month: "long",
       day: "numeric",
-    })}–${endDate.getDate()}, ${endDate.getFullYear()}`;
+    })}–${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`;
   }
   return `${formatDate(start)} – ${formatDate(end)}`;
 }

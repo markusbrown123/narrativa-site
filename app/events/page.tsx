@@ -5,7 +5,10 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
-import { getEvents } from "@/lib/cms/contentSource";
+// Sourced directly from code (not the Google Sheet) so Nicole's first-round
+// event corrections render live. Revert to getEvents() to hand control back
+// to the Google Sheet CMS.
+import { events as eventsData } from "@/lib/mock/events";
 import { publish } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -15,7 +18,7 @@ export const metadata: Metadata = {
 };
 
 export default async function EventsPage() {
-  const events = await getEvents();
+  const events = eventsData;
   const all = publish(events);
   const upcoming = all.filter((e) => e.is_upcoming);
   const [nextEvent, ...moreUpcoming] = upcoming;

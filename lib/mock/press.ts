@@ -46,7 +46,8 @@ export const press: Press[] = [
     id: "press-lock-haven-rebecca-gross-2019",
     title:
       "Lock Haven University — Rebecca Gross Young Alumni Award",
-    status: "Published",
+    // Source URL returns 404 — archived until a working link is confirmed.
+    status: "Archived",
     featured: true,
     sort_order: 30,
     created_at: "2019-05-20T00:00:00Z",
@@ -63,7 +64,8 @@ export const press: Press[] = [
   {
     id: "press-drexel-vision-forward-2018",
     title: "Drexel VisionForward profile — Nicole Stephenson",
-    status: "Published",
+    // Source URL returns 404 — archived until a working link is confirmed.
+    status: "Archived",
     featured: false,
     sort_order: 40,
     created_at: "2018-03-01T00:00:00Z",
@@ -79,7 +81,9 @@ export const press: Press[] = [
   {
     id: "press-forge-wealth-women-and-wealth",
     title: "Forge Wealth — Women & Wealth featuring Nicole Stephenson",
-    status: "Published",
+    // Source URL returns 404 — archived; the Women & Wealth conversation
+    // now lives on the Media page as the working YouTube video.
+    status: "Archived",
     featured: false,
     sort_order: 50,
     created_at: "2026-05-16T00:00:00Z",
@@ -91,6 +95,56 @@ export const press: Press[] = [
     url: "https://www.forgewealth.com/women-wealth-nicole-stephenson-director-of-the-society-of-professional-women-mlcc",
     summary:
       "Forge Wealth's Women & Wealth feature with Nicole — published alongside the podcast episode.",
+    kind: "Feature",
+  },
+  {
+    id: "press-mainline-tonight-summer-job",
+    title: "Main Line Tonight — My Summer Job: Nicole Stephenson",
+    status: "Published",
+    featured: true,
+    sort_order: 5,
+    created_at: "2024-08-01T00:00:00Z",
+    updated_at: "2026-07-16T00:00:00Z",
+    outlet: "Main Line Tonight",
+    headline: "My Summer Job: Nicole Stephenson",
+    published_at: "2024-08-01",
+    url: "https://mainlinetonight.com/my-summer-job-nicole-stephenson/",
+    summary:
+      "Main Line Tonight profiles Nicole Stephenson in its My Summer Job feature.",
+    kind: "Profile",
+  },
+  {
+    id: "press-mainline-today-power-women",
+    title: "Main Line Today — Power Women of the Western Suburbs",
+    status: "Published",
+    featured: true,
+    sort_order: 6,
+    created_at: "2024-11-01T00:00:00Z",
+    updated_at: "2026-07-16T00:00:00Z",
+    outlet: "Main Line Today",
+    headline: "Power Women of the Western Suburbs",
+    published_at: "2024-11-01",
+    url: "https://mainlinetoday.com/life-style/power-women-western-suburbs/",
+    summary:
+      "Nicole Stephenson is featured among Main Line Today's Power Women of the Western Suburbs.",
+    kind: "Feature",
+  },
+  {
+    id: "press-mainline-media-news-iom-2024",
+    title:
+      "Main Line Media News — Nicole Stephenson graduates from Institute for Organization Management",
+    status: "Published",
+    featured: false,
+    sort_order: 7,
+    created_at: "2024-08-15T00:00:00Z",
+    updated_at: "2026-07-16T00:00:00Z",
+    outlet: "Main Line Media News",
+    headline:
+      "Nicole Stephenson of the Main Line Chamber of Commerce graduates from Institute for Organization Management",
+    published_at: "2024-08-15",
+    url: "https://www.mainlinemedianews.com/2024/08/15/nicole-stephenson-of-the-main-line-chamber-of-commerce-graduates-from-institute-for-organization-management/",
+    summary:
+      "Main Line Media News reports on Nicole's graduation from the U.S. Chamber of Commerce Foundation's Institute for Organization Management (IOM).",
     kind: "Feature",
   },
 ];

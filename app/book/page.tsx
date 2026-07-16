@@ -85,7 +85,7 @@ export default async function BookPage() {
                   {book.release_date
                     ? `Released ${new Date(book.release_date).toLocaleDateString(
                         "en-US",
-                        { month: "long", year: "numeric" },
+                        { timeZone: "UTC", month: "long", year: "numeric" },
                       )}`
                     : null}
                 </p>
@@ -127,12 +127,69 @@ export default async function BookPage() {
           />
           <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
             <p>{book.description}</p>
+            <div>
+              <p className="text-ink font-medium">In this book, you&apos;ll learn how to:</p>
+              <ul className="mt-4 space-y-2.5">
+                {[
+                  "Reclaim your confidence and stop second-guessing yourself",
+                  "Break free from people-pleasing without burning bridges",
+                  "Identify your true strengths and advocate for what you deserve",
+                  "Navigate self-doubt, burnout, and the fear of being “too much”",
+                  "Redefine success on your own terms — and actually go get it",
+                ].map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span
+                      aria-hidden="true"
+                      className="mt-2.5 h-1.5 w-1.5 flex-none rounded-full bg-brand"
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
             <p>
               <em>Unapologetic</em> is more than a career guide. It is an
               invitation to stop shrinking, stop apologizing, and start trusting
               yourself. Because when you lead from who you truly are, success
               stops feeling like something you chase and starts feeling like
               something you create.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section tone="tint">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
+          <SectionHeading
+            eyebrow="Where to buy"
+            title={<>Get your copy.</>}
+          />
+          <div className="space-y-6">
+            <div className="flex flex-wrap gap-3">
+              <LinkButton href={amazonUrl} external variant="primary" size="lg">
+                Amazon
+              </LinkButton>
+              <LinkButton
+                href="https://www.barnesandnoble.com/w/unapologetic-nicole-stephenson/1150349544?ean=9798240931321"
+                external
+                variant="secondary"
+                size="lg"
+              >
+                Barnes &amp; Noble
+              </LinkButton>
+              <LinkButton
+                href="https://bookshop.org/p/books/unapologetic-boldly-lead-the-life-and-career-you-deserve-nicole-stephenson/8c7bd104ad76ace8?ean=9798987476093"
+                external
+                variant="secondary"
+                size="lg"
+              >
+                Bookshop.org
+              </LinkButton>
+            </div>
+            <p className="text-base text-ink-soft leading-relaxed">
+              Also distributed through IngramSpark for booksellers and
+              libraries — ISBN 9798987476093 (print) and 9798240931321.
+              Available in print and Kindle editions.
             </p>
           </div>
         </div>

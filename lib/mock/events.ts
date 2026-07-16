@@ -10,9 +10,9 @@ export const events: Event[] = [
   {
     id: "evt-lehigh-valley-womens-summit-2026",
     title: "Lehigh Valley Women's Summit 2026",
-    // Flyer confirms date, venue, and Breakout Session Speaker role.
-    status: "Published",
-    featured: true,
+    // June 4, 2026 event has passed — archived at Nicole's request.
+    status: "Archived",
+    featured: false,
     sort_order: 10,
     created_at: "2026-05-15T00:00:00Z",
     updated_at: "2026-05-16T00:00:00Z",
@@ -67,23 +67,61 @@ export const events: Event[] = [
   },
   {
     id: "evt-northeast-institute-teaching",
-    title: "Northeast Institute — Faculty teaching",
-    // Promo graphic confirms Nicole is teaching at Northeast Institute,
-    // the U.S. Chamber of Commerce Institute for Organization Management.
-    // The graphic does not give a date or session detail, so this stays
-    // Draft until Nicole confirms.
-    status: "Draft",
-    featured: false,
+    title: "Faculty — Institute for Organization Management (IOM)",
+    // Nicole is on faculty at the Northeast Institute (U.S. Chamber of
+    // Commerce Foundation's IOM), July 26–30 at Villanova University.
+    // Private event — no registration link; the URL points to the
+    // program's informational "About IOM" page.
+    status: "Published",
+    featured: true,
     sort_order: 40,
     created_at: "2026-05-15T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
-    date: "",
-    location: "Northeast Institute — U.S. Chamber of Commerce IOM",
+    updated_at: "2026-07-16T00:00:00Z",
+    date: "2026-07-26",
+    end_date: "2026-07-30",
+    location: "Villanova University, Villanova, PA",
     format: "Workshop",
     audience: "Institute for Organization Management students",
     summary:
-      "Faculty teaching session at the Northeast Institute, the U.S. Chamber of Commerce Foundation's Institute for Organization Management.",
+      "Nicole serves on faculty at the Northeast Institute — the U.S. Chamber of Commerce Foundation's Institute for Organization Management (IOM), July 26–30 at Villanova University. This is a private event.",
+    url: "https://www.uschamber.com/program/institute-for-organization-management/about-iom",
+    cta_label: "About the Institute",
     image: "/events/northeast-institute-teaching.png",
-    is_upcoming: false,
+    is_upcoming: true,
+  },
+  {
+    id: "evt-realm-fine-fashion-jewelry-2026",
+    title: "REALM Fine + Fashion Jewelry",
+    // By-invitation-only event — no public registration link.
+    status: "Published",
+    featured: false,
+    sort_order: 50,
+    created_at: "2026-07-16T00:00:00Z",
+    updated_at: "2026-07-16T00:00:00Z",
+    date: "2026-09-22",
+    location: "By invitation only",
+    format: "Book Event",
+    audience: "REALM Fine + Fashion Jewelry guests",
+    summary:
+      "A private REALM Fine + Fashion Jewelry event. By invitation only — email Nicole at nicole@narrativaconsulting.com if you're interested.",
+    is_upcoming: true,
+  },
+  {
+    id: "evt-second-time-books-2026",
+    title: "Book Signing — Second Time Books",
+    status: "Published",
+    featured: false,
+    sort_order: 60,
+    created_at: "2026-07-16T00:00:00Z",
+    updated_at: "2026-07-16T00:00:00Z",
+    date: "2026-09-26",
+    location: "Second Time Books, 114 Creek Rd, Mount Laurel, NJ 08054",
+    format: "Book Event",
+    audience: "Readers and the local community",
+    summary:
+      "Meet Nicole and pick up a copy of Unapologetic at Second Time Books, 10:00 am – 3:00 pm.",
+    url: "https://secondtimebooksonline.com",
+    cta_label: "Visit Second Time Books",
+    is_upcoming: true,
   },
 ];

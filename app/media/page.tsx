@@ -6,7 +6,11 @@ import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { PodcastCard, PressCard } from "@/components/MediaCard";
 import { SmartMediaGallery } from "@/components/SmartMediaGallery";
-import { getPodcasts, getPress } from "@/lib/cms/contentSource";
+// Sourced directly from code (not the Google Sheet) so Nicole's first-round
+// media corrections (working links, new press) render live. Revert to
+// getPodcasts()/getPress() to hand control back to the Google Sheet CMS.
+import { podcasts as podcastsData } from "@/lib/mock/podcasts";
+import { press as pressData } from "@/lib/mock/press";
 import { publish } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -16,7 +20,8 @@ export const metadata: Metadata = {
 };
 
 export default async function MediaPage() {
-  const [podcasts, press] = await Promise.all([getPodcasts(), getPress()]);
+  const podcasts = podcastsData;
+  const press = pressData;
   const visiblePodcasts = publish(podcasts);
   const visiblePress = publish(press);
 
