@@ -8,8 +8,11 @@ import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { Pill } from "@/components/Pill";
 import { PartnerLogos } from "@/components/PartnerLogos";
-import { getEvents, getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
+// Events + partners come from code so Nicole's first-round edits render
+// consistently with the rest of the site (the Google Sheet is stale here).
+import { events as eventsData } from "@/lib/mock/events";
+import { partners as partnersData } from "@/lib/mock/partners";
 import {
   SPEAKER_AUDIENCES,
   SPEAKER_FORMATS,
@@ -23,7 +26,8 @@ export const metadata: Metadata = {
 };
 
 export default async function SpeakerPage() {
-  const [events, partners] = await Promise.all([getEvents(), getPartners()]);
+  const events = eventsData;
+  const partners = partnersData;
   const upcoming = publish(events).filter((e) => e.is_upcoming);
   const visiblePartners = publish(partners);
 
