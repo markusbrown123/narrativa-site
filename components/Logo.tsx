@@ -34,7 +34,7 @@ export function Logo({
       />
       <span
         className={clsx(
-          "hidden sm:inline-block border-l pl-3 text-xs uppercase tracking-[0.28em] font-semibold",
+          "inline-block border-l pl-2 sm:pl-3 text-[0.65rem] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.28em] font-semibold",
           tone === "ink"
             ? "border-line text-brand"
             : "border-[color:var(--color-purple-700)] text-[color:var(--color-purple-200)]",

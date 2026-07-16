@@ -155,7 +155,7 @@ export function PremiumHomeHero({
                   Wrapped in a parallax panel with stronger intensity so it
                   appears to float independently as the page scrolls. */}
               <ParallaxVisualPanel
-                className="absolute -top-4 right-4 z-10 sm:-top-6 sm:right-6"
+                className="absolute -top-4 right-4 z-10 hidden sm:-top-6 sm:right-6 lg:block"
                 intensity={44}
                 scale={0.03}
               >
@@ -186,7 +186,7 @@ export function PremiumHomeHero({
               {/* Floating speaking thumbnail — drifts the opposite direction
                   on scroll so the composition feels alive. */}
               <ParallaxVisualPanel
-                className="absolute -bottom-8 -left-4 z-10 hidden sm:block"
+                className="absolute -bottom-8 -left-4 z-10 hidden lg:block"
                 intensity={-36}
                 scale={0.02}
               >
