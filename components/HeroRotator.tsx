@@ -44,7 +44,8 @@ export function HeroRotator({
             alt={photo.alt}
             fill
             sizes={sizes}
-            preload={isDefault}
+            priority={isDefault}
+            loading={isDefault ? undefined : "eager"}
             className={clsx(
               "object-cover transition-opacity duration-700 ease-out",
               isActive ? "opacity-100" : "opacity-0",
