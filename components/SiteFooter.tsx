@@ -57,6 +57,19 @@ function InstagramIcon({ className }: { className?: string }) {
   );
 }
 
+function TikTokIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+      className={className}
+    >
+      <path d="M16.5 3c.32 1.86 1.4 3.32 3.2 3.66v2.55c-1.16.11-2.24-.2-3.2-.79v5.9c0 3.44-2.6 5.68-5.6 5.68-2.86 0-5.15-2.13-5.15-4.9 0-2.9 2.36-4.98 5.4-4.72v2.62c-.34-.1-.72-.16-1.13-.13-1.2.1-2.06.96-2 2.2.05 1.16.9 1.98 2 1.98 1.24 0 2.13-.96 2.13-2.4V3h2.35z" />
+    </svg>
+  );
+}
+
 export function SiteFooter() {
   return (
     <footer className="bg-[color:var(--color-purple-900)] text-white">
@@ -87,6 +100,15 @@ export function SiteFooter() {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-purple-700)] text-[color:var(--color-purple-100)] hover:text-white hover:border-white transition-colors"
               >
                 <InstagramIcon className="h-[18px] w-[18px]" />
+              </a>
+              <a
+                href={CONTACT.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Nicole Stephenson on TikTok"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--color-purple-700)] text-[color:var(--color-purple-100)] hover:text-white hover:border-white transition-colors"
+              >
+                <TikTokIcon className="h-[18px] w-[18px]" />
               </a>
             </div>
           </div>
@@ -120,14 +142,6 @@ export function SiteFooter() {
                   className="hover:text-white transition-colors"
                 >
                   {CONTACT.email}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={CONTACT.phoneHref}
-                  className="hover:text-white transition-colors"
-                >
-                  {CONTACT.phone}
                 </a>
               </li>
               <li>
