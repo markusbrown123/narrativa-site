@@ -5,10 +5,7 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
-// Sourced directly from code (not the Google Sheet) so Nicole's first-round
-// event corrections render live. Revert to getEvents() to hand control back
-// to the Google Sheet CMS.
-import { events as eventsData } from "@/lib/mock/events";
+import { getEvents } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -18,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function EventsPage() {
-  const events = eventsData;
+  const events = await getEvents();
   const all = publish(events);
   const upcoming = all.filter((e) => e.is_upcoming);
   const [nextEvent, ...moreUpcoming] = upcoming;
@@ -30,7 +27,7 @@ export default async function EventsPage() {
         eyebrow="Events"
         variant="split"
         tone="dark"
-        title="Events and Live Experiences."
+        title="Events, Launches, and Live Experiences."
         lead="Keynotes, workshops, fireside conversations, and the Unapologetic book tour — in one place."
         image={
           nextEvent?.image
@@ -117,7 +114,7 @@ export default async function EventsPage() {
       ) : null}
 
       <CTA
-        title="Invite Nicole to your stage."
+        title="Invite Narrativa to your stage."
         body="Tell us the audience, date, and dream takeaway — Nicole will be in touch."
         primary={{ label: "Send a speaking inquiry", href: "/contact" }}
       />

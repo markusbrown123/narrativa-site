@@ -19,7 +19,6 @@ export function BookFeaturePanel({
 }) {
   const releaseLabel = book.release_date
     ? new Date(book.release_date).toLocaleDateString("en-US", {
-        timeZone: "UTC",
         month: "long",
         year: "numeric",
       })

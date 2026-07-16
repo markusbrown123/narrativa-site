@@ -5,9 +5,7 @@ import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { PartnerLogos } from "@/components/PartnerLogos";
-// Sourced directly from code (not the Google Sheet) so all six partner logos
-// render live. Revert to getPartners() to hand control back to the Sheet CMS.
-import { partners as partnersData } from "@/lib/mock/partners";
+import { getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
 import type { Partner } from "@/types/content";
 
@@ -18,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PartnersPage() {
-  const partners = partnersData;
+  const partners = await getPartners();
   const visible = publish(partners);
   const confirmed: Partner[] = visible.filter((p) => p.relationship);
   const logosOnly: Partner[] = visible.filter((p) => !p.relationship);

@@ -21,17 +21,14 @@ import {
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
 import {
   getAmazonBookUrl,
+  getEvents,
+  getPartners,
+  getPodcasts,
+  getPress,
   getPrimaryBook,
   getRecognition,
   getServices,
 } from "@/lib/cms/contentSource";
-// Events / partners / podcasts / press come from code so Nicole's first-round
-// edits render consistently with the /events, /media, and /partners pages
-// (the Google Sheet is stale and can't be edited from here).
-import { events as eventsData } from "@/lib/mock/events";
-import { partners as partnersData } from "@/lib/mock/partners";
-import { podcasts as podcastsData } from "@/lib/mock/podcasts";
-import { press as pressData } from "@/lib/mock/press";
 import { publish, featured } from "@/lib/content";
 
 const HOME_CONSTELLATION: ConstellationItem[] = [
@@ -149,20 +146,24 @@ const RAIL: RailItem[] = [
 
 export default async function Home() {
   const [
+    events,
+    partners,
     services,
     recognition,
+    podcasts,
+    press,
     book,
     amazonUrl,
   ] = await Promise.all([
+    getEvents(),
+    getPartners(),
     getServices(),
     getRecognition(),
+    getPodcasts(),
+    getPress(),
     getPrimaryBook(),
     getAmazonBookUrl(),
   ]);
-  const events = eventsData;
-  const partners = partnersData;
-  const podcasts = podcastsData;
-  const press = pressData;
 
   const upcomingEvents = publish(events).filter((e) => e.is_upcoming);
   const nextEvent = upcomingEvents[0] ?? null;
@@ -173,10 +174,7 @@ export default async function Home() {
   const visiblePodcasts = publish(podcasts);
   const visiblePress = publish(press);
   const featuredMedia =
-    visiblePodcasts.find(
-      (p) => p.id === "pod-influential-women-video" && p.image,
-    ) ??
-    visiblePodcasts.find((p) => p.image) ??
+    visiblePodcasts.find((p) => p.id === "pod-influential-women-video") ??
     visiblePodcasts[0];
   const supportingMedia = [
     ...visiblePodcasts

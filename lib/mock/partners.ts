@@ -22,7 +22,7 @@ export const partners: Partner[] = [
   {
     id: "ptr-west-chester-university",
     title: "West Chester University",
-    status: "Published",
+    status: "Draft",
     featured: false,
     sort_order: 20,
     created_at: "2026-05-16T00:00:00Z",
@@ -33,7 +33,7 @@ export const partners: Partner[] = [
   {
     id: "ptr-realm-jewelry",
     title: "REALM Fine + Fashion Jewelry",
-    status: "Published",
+    status: "Draft",
     featured: false,
     sort_order: 30,
     created_at: "2026-05-16T00:00:00Z",
@@ -44,7 +44,7 @@ export const partners: Partner[] = [
   {
     id: "ptr-challenger-gray-christmas",
     title: "Challenger, Gray & Christmas",
-    status: "Published",
+    status: "Draft",
     featured: false,
     sort_order: 40,
     created_at: "2026-05-16T00:00:00Z",
@@ -55,7 +55,7 @@ export const partners: Partner[] = [
   {
     id: "ptr-mastec-power-delivery-east",
     title: "MasTec Power Delivery — East Region",
-    status: "Published",
+    status: "Draft",
     featured: false,
     sort_order: 50,
     created_at: "2026-05-16T00:00:00Z",
@@ -66,7 +66,7 @@ export const partners: Partner[] = [
   {
     id: "ptr-northeast-institute",
     title: "Northeast Institute (U.S. Chamber of Commerce IOM)",
-    status: "Published",
+    status: "Draft",
     featured: false,
     sort_order: 60,
     created_at: "2026-05-16T00:00:00Z",

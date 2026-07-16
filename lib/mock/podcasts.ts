@@ -19,10 +19,10 @@ export const podcasts: Podcast[] = [
     host: "Jodi",
     episode_title: "From Fear to Fearless: Saying Yes Before You're Ready",
     released_at: "2026-01-22",
-    kind: "YouTube",
+    kind: "Apple",
     summary:
       "Nicole joins the Beyond Empty Nest podcast for a conversation about saying yes before you feel ready — the fear, the leap, and the work of becoming.",
-    url: "https://www.youtube.com/watch?v=yM9torVTEiI",
+    url: "https://podcasts.apple.com/us/podcast/beyond-empty-nest/id1671650000",
   },
   {
     id: "pod-women-and-wealth-forge",
@@ -37,10 +37,10 @@ export const podcasts: Podcast[] = [
     episode_title:
       "Nicole Stephenson, Director of the Society of Professional Women",
     released_at: "",
-    kind: "YouTube",
+    kind: "Podcast",
     summary:
       "A long-form conversation with Forge Wealth president Regina McCann Hess on the Women & Wealth podcast.",
-    url: "https://www.youtube.com/watch?v=bueUMqKLNsU",
+    url: "https://www.forgewealth.com/women-wealth-nicole-stephenson-director-of-the-society-of-professional-women-mlcc",
   },
   {
     id: "pod-brilliantly-resilient",
@@ -55,10 +55,10 @@ export const podcasts: Podcast[] = [
     episode_title:
       "Kudos Folder: The Mindset of Owning What You've Achieved",
     released_at: "",
-    kind: "YouTube",
+    kind: "Podcast",
     summary:
       "Nicole sits down with Mary Fran Bontempo on the Brilliantly Resilient podcast — a conversation about resilience, claiming your wins, and the kudos folder mindset.",
-    url: "https://www.youtube.com/watch?v=X591dugkfLA",
+    url: "https://www.linkedin.com/pulse/kudos-folder-mindset-owning-what-youve-achieved-author-bontempo-nrbse/",
   },
   {
     id: "pod-influential-women-video",
