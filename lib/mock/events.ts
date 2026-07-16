@@ -122,6 +122,7 @@ export const events: Event[] = [
       "Meet Nicole and pick up a copy of Unapologetic at Second Time Books, 10:00 am – 3:00 pm.",
     url: "https://secondtimebooksonline.com",
     cta_label: "Visit Second Time Books",
+    image: "/events/second-time-books.jpg",
     is_upcoming: true,
   },
 ];

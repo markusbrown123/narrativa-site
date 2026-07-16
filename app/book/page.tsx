@@ -223,21 +223,22 @@ export default async function BookPage() {
         <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
           <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
             <Image
-              src="/photos/book-launch-author-holding-book.jpg"
-              alt="Nicole Stephenson holding up Unapologetic at her book launch event."
+              src="/photos/nicole-author-portrait.jpg"
+              alt="Nicole Stephenson holding her book Unapologetic."
               fill
               sizes="(min-width: 1024px) 24rem, 22rem"
               className="object-cover"
             />
           </ScrollReveal>
           <div className="space-y-5">
-            <Eyebrow>From the launch</Eyebrow>
+            <Eyebrow>The author</Eyebrow>
             <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
-              Unapologetic, in the wild.
+              Unapologetic, in person.
             </h2>
             <p className="text-lg text-ink-soft leading-relaxed">
-              Snapshots from the book launch — author, books, and a room of
-              readers picking up their copies.
+              Nicole Stephenson with the book she spent three years writing — a
+              practical, affirming roadmap to leading the life and career you
+              deserve.
             </p>
           </div>
         </div>
