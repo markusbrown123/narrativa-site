@@ -62,9 +62,18 @@ export function PremiumHomeHero({
 
       <Container className="relative w-full pt-14 pb-14 sm:pt-20 sm:pb-20 lg:pt-24 lg:pb-24">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr] lg:gap-14 xl:gap-20">
+          {/* Byline pill — sits above the portrait on mobile, and inside the
+              copy column on desktop (the copy of it just below is lg-only). */}
+          <p className="order-first inline-flex w-fit items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur lg:hidden">
+            <span
+              aria-hidden="true"
+              className="inline-flex h-1.5 w-1.5 rounded-full bg-brand"
+            />
+            Nicole Stephenson, IOM · Narrativa Consulting
+          </p>
           {/* Editorial copy */}
           <div className="order-2 space-y-7 lg:order-1">
-            <p className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur">
+            <p className="hidden items-center gap-2 rounded-full border border-[color:var(--color-purple-200)] bg-white/70 px-3.5 py-1.5 hero-eyebrow text-brand backdrop-blur lg:inline-flex">
               <span
                 aria-hidden="true"
                 className="inline-flex h-1.5 w-1.5 rounded-full bg-brand"
