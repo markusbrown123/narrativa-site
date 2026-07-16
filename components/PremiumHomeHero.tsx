@@ -192,7 +192,7 @@ export function PremiumHomeHero({
               >
                 <Link
                   href="/speaker"
-                  className="pointer-events-auto block overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5"
+                  className="pointer-events-auto inline-block overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5"
                 >
                   <span className="relative block h-28 w-44">
                     <Image
