@@ -13,6 +13,11 @@
 # testing
 /coverage
 
+# website skill scratch output (playwright-cli, design-taste-frontend, awesome-design)
+/.playwright-cli/
+/.taste-skill/
+/.design-refs/
+
 # next.js
 /.next/
 /out/
