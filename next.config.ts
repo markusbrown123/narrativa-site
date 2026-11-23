@@ -16,7 +16,10 @@ const nextConfig: NextConfig = {
   // through un-normalized.
   // Retired pages send visitors (and old links) somewhere useful.
   async redirects() {
-    return [{ source: "/mentor-program", destination: "/", permanent: true }];
+    return [
+      { source: "/services", destination: "/speaker", permanent: true },
+      { source: "/mentor-program", destination: "/", permanent: true },
+    ];
   },
 
   images: {

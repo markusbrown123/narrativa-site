@@ -11,7 +11,6 @@ const NAV: { label: string; href: string }[] = [
   { label: "About", href: "/about" },
   { label: "Book", href: "/book" },
   { label: "Speaker", href: "/speaker" },
-  { label: "Services", href: "/services" },
   { label: "Events", href: "/events" },
   { label: "Media", href: "/media" },
   { label: "Partners", href: "/partners" },

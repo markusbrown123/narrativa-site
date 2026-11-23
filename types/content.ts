@@ -69,23 +69,6 @@ export interface Press extends BaseRecord {
   image?: string;
 }
 
-export interface Service extends BaseRecord {
-  slug: string;
-  tagline: string;
-  description: string;
-  outcomes: string[];
-  deliverables: string[];
-  ideal_for: string;
-  icon:
-    | "spark"
-    | "compass"
-    | "pen"
-    | "stage"
-    | "camera"
-    | "calendar"
-    | "globe";
-}
-
 export interface Book extends BaseRecord {
   subtitle: string;
   tagline: string;

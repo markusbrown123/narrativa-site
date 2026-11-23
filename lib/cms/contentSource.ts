@@ -1,7 +1,7 @@
 /**
  * Single content entry point for the rest of the app.
  *
- * Pages call `getEvents()`, `getServices()`, etc. — they don't know
+ * Pages call `getEvents()`, `getPartners()`, etc. — they don't know
  * (or care) whether the data came from Google Sheets or the bundled
  * mock files. The selection happens here based on env vars:
  *
@@ -23,7 +23,6 @@ import type {
   Podcast,
   Press,
   Recognition,
-  Service,
 } from "@/types/content";
 import { book as mockBook, AMAZON_BOOK_URL } from "@/lib/mock/book";
 import { events as mockEvents } from "@/lib/mock/events";
@@ -32,7 +31,6 @@ import { photos as mockPhotos } from "@/lib/mock/photos";
 import { podcasts as mockPodcasts } from "@/lib/mock/podcasts";
 import { press as mockPress } from "@/lib/mock/press";
 import { recognition as mockRecognition } from "@/lib/mock/recognition";
-import { services as mockServices } from "@/lib/mock/services";
 import {
   defaultRevalidateSeconds,
   fetchSheetTab,
@@ -48,7 +46,6 @@ import {
   mapPodcast,
   mapPress,
   mapRecognition,
-  mapService,
   mapSettings,
 } from "./mappers";
 import type {
@@ -67,7 +64,6 @@ function mockBundle(): ContentBundle {
   return {
     events: mockEvents,
     partners: mockPartners,
-    services: mockServices,
     books: [mockBook],
     media: [],
     podcasts: mockPodcasts,
@@ -136,15 +132,6 @@ async function loadBundle(): Promise<{
     if (partners.usedFallback) anyFallback = true;
     if (partners.error) errors.partners = partners.error;
 
-    const services = await loadTabOrMock(
-      config,
-      "Services",
-      mock.services,
-      (rows) => rows.map(mapService),
-    );
-    if (services.usedFallback) anyFallback = true;
-    if (services.error) errors.services = services.error;
-
     const books = await loadTabOrMock(config, "Books", mock.books, (rows) =>
       rows.map(mapBook),
     );
@@ -199,7 +186,6 @@ async function loadBundle(): Promise<{
     const bundle: ContentBundle = {
       events: events.value,
       partners: partners.value,
-      services: services.value,
       books: books.value,
       media: media.value,
       podcasts: podcasts.value,
@@ -280,7 +266,6 @@ function countsFor(bundle: ContentBundle): ContentHealth["counts"] {
   return {
     events: bundle.events.length,
     partners: bundle.partners.length,
-    services: bundle.services.length,
     books: bundle.books.length,
     media: bundle.media.length,
     podcasts: bundle.podcasts.length,
@@ -301,11 +286,6 @@ export async function getEvents(): Promise<Event[]> {
 export async function getPartners(): Promise<Partner[]> {
   const { bundle } = await loadBundle();
   return bundle.partners;
-}
-
-export async function getServices(): Promise<Service[]> {
-  const { bundle } = await loadBundle();
-  return bundle.services;
 }
 
 export async function getBooks(): Promise<Book[]> {

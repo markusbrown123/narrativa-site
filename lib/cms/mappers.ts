@@ -15,10 +15,9 @@ import type {
   PodcastKind,
   Press,
   Recognition,
-  Service,
 } from "@/types/content";
 import { normalizeDropboxUrl } from "./dropbox";
-import { arr, bool, dateStr, isoTimestamp, num, status, str } from "./parseRows";
+import { bool, dateStr, isoTimestamp, num, status, str } from "./parseRows";
 import type { MediaItem, SheetRow } from "./types";
 
 const EVENT_FORMATS = new Set<Event["format"]>([
@@ -27,16 +26,6 @@ const EVENT_FORMATS = new Set<Event["format"]>([
   "Panel",
   "Fireside",
   "Book Event",
-]);
-
-const SERVICE_ICONS = new Set<Service["icon"]>([
-  "spark",
-  "compass",
-  "pen",
-  "stage",
-  "camera",
-  "calendar",
-  "globe",
 ]);
 
 const PODCAST_KINDS = new Set<PodcastKind>([
@@ -146,37 +135,6 @@ export function mapPartner(row: SheetRow): Partner {
     logo: asset(row, "logo_url") || asset(row, "logo"),
     relationship: maybeStr(row, "relationship"),
     url: maybeAsset(row, "website_url") ?? maybeAsset(row, "url"),
-  };
-}
-
-/** Services tab → Service[] */
-export function mapService(row: SheetRow): Service {
-  const iconRaw = str(row, "icon").toLowerCase();
-  const icon = SERVICE_ICONS.has(iconRaw as Service["icon"])
-    ? (iconRaw as Service["icon"])
-    : "spark";
-  const title = str(row, "title");
-  const slug =
-    maybeStr(row, "slug") ??
-    title
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-  return {
-    id: baseId(row, "svc"),
-    title,
-    status: status(row),
-    featured: bool(row, "featured"),
-    sort_order: num(row, "sort_order", 100),
-    created_at: isoTimestamp(row, "created_at"),
-    updated_at: isoTimestamp(row, "updated_at"),
-    slug,
-    tagline: str(row, "short_description") || str(row, "tagline"),
-    description: str(row, "description"),
-    outcomes: arr(row, "outcomes"),
-    deliverables: arr(row, "deliverables"),
-    ideal_for: str(row, "ideal_for"),
-    icon,
   };
 }
 

@@ -12,7 +12,6 @@ const FOOTER_NAV: { heading: string; items: { label: string; href: string }[] }[
       { label: "About", href: "/about" },
       { label: "Book", href: "/book" },
       { label: "Speaker", href: "/speaker" },
-      { label: "Services", href: "/services" },
     ],
   },
   {

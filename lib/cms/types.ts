@@ -12,7 +12,6 @@ import type {
   Podcast,
   Press,
   Recognition,
-  Service,
 } from "@/types/content";
 
 export type CmsSourceName = "google_sheets" | "mock";
@@ -20,7 +19,6 @@ export type CmsSourceName = "google_sheets" | "mock";
 export type SheetTab =
   | "Events"
   | "Partners"
-  | "Services"
   | "Books"
   | "Media"
   | "Podcasts"
@@ -60,7 +58,6 @@ export interface TabLoadResult<T> {
 export interface ContentBundle {
   events: Event[];
   partners: Partner[];
-  services: Service[];
   books: Book[];
   media: MediaItem[];
   podcasts: Podcast[];

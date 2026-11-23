@@ -13,7 +13,6 @@ import { PartnerLogos } from "@/components/PartnerLogos";
 import { PremiumHomeHero } from "@/components/PremiumHomeHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
-import { ServiceCard } from "@/components/ServiceCard";
 import {
   MediaGalleryFooter,
   SmartMediaGallery,
@@ -27,9 +26,8 @@ import {
   getPress,
   getPrimaryBook,
   getRecognition,
-  getServices,
 } from "@/lib/cms/contentSource";
-import { publish, featured } from "@/lib/content";
+import { publish } from "@/lib/content";
 
 const HOME_CONSTELLATION: ConstellationItem[] = [
   {
@@ -148,7 +146,6 @@ export default async function Home() {
   const [
     events,
     partners,
-    services,
     recognition,
     podcasts,
     press,
@@ -157,7 +154,6 @@ export default async function Home() {
   ] = await Promise.all([
     getEvents(),
     getPartners(),
-    getServices(),
     getRecognition(),
     getPodcasts(),
     getPress(),
@@ -167,7 +163,6 @@ export default async function Home() {
 
   const upcomingEvents = publish(events).filter((e) => e.is_upcoming);
   const nextEvent = upcomingEvents[0] ?? null;
-  const featuredServices = featured(services).slice(0, 3);
   const visibleRecognition = publish(recognition).slice(0, 4);
   const visiblePartners = publish(partners);
 
@@ -196,12 +191,6 @@ export default async function Home() {
       title: "Read Unapologetic",
       body: "Out now on Amazon — the field guide to leading the life and career you deserve.",
       href: amazonUrl,
-    },
-    {
-      kicker: "Work together",
-      title: "Narrativa services",
-      body: "Speaker brand, visibility strategy, content, and the assets that get you booked.",
-      href: "/services",
     },
   ];
 
@@ -347,35 +336,6 @@ export default async function Home() {
         <ScrollReveal direction="up" duration={800}>
           <BookFeaturePanel book={book} />
         </ScrollReveal>
-      </Section>
-
-      {/* Three featured services */}
-      <Section tone="tint">
-        <div className="flex flex-col gap-12">
-          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHeading
-              eyebrow="Work with Narrativa"
-              title="Three ways we move the needle."
-              lead="Speaker brand, visibility strategy, and the writing and design that make a body of work look like one."
-            />
-            <LinkButton href="/services" variant="secondary">
-              See all services
-            </LinkButton>
-          </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {featuredServices.map((s, i) => (
-              <ScrollReveal
-                key={s.id}
-                direction="up"
-                delay={i * 100}
-                duration={700}
-                className="h-full"
-              >
-                <ServiceCard service={s} />
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
       </Section>
 
       {/* Upcoming event — full panel treatment with flyer and details. If
