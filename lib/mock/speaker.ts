@@ -4,7 +4,7 @@ import type { SpeakerTopic } from "@/types/content";
  * Signature speaking topics from Nicole's speaker one-sheet
  * (Nicole_Stephenson_OneSheet.pdf). These are her four published
  * keynote/workshop themes — bullet content is reproduced verbatim from
- * the source.
+ * the source — plus her signature FAIL Framework (2026 update).
  */
 export const SPEAKER_TOPICS: SpeakerTopic[] = [
   {
@@ -61,6 +61,14 @@ export const SPEAKER_TOPICS: SpeakerTopic[] = [
       "Making space for joy and fulfillment",
       "Sustainable success habits",
     ],
+  },
+  {
+    number: 5,
+    title: "The FAIL Framework",
+    // Nicole's description, word for word. No bullets for this topic.
+    description:
+      "Powerful lessons on the wins no one sees, the internal battles individuals face, and the mindset shifts required to rise. Dig deeper into the advances you can make by just being yourself Unapologetically no matter your title, background, or industry. These topics blend storytelling, practical tools, and authenticity to help audiences rethink success, resilience, and their own untapped potential. Nicole Stephenson's signature FAIL Framework™ transforms the way people think about risk, resilience, and leadership. Audiences discover how to Face reality, Ask for what they need, Imagine what's possible, and Leap before confidence arrives. They'll leave empowered to stop waiting for permission, embrace courageous action, and become unapologetically authentic leaders.",
+    bullets: [],
   },
 ];
 

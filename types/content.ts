@@ -120,5 +120,7 @@ export interface Photo extends BaseRecord {
 export interface SpeakerTopic {
   number: number;
   title: string;
+  /** Paragraph description, for topics written as prose (no bullets). */
+  description?: string;
   bullets: string[];
 }
