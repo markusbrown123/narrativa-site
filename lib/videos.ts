@@ -11,13 +11,12 @@ export type ClientVideo = {
   src: string;
   /** A frame from the clip, exported as JPEG next to it. */
   poster: string;
-  /** Real pixel size of the exported MP4 (sets the player's proportions). */
+  /** Real pixel size of the exported MP4. Every player takes these
+   *  proportions, so a clip is never cropped, stretched or zoomed. */
   width: number;
   height: number;
   /** Accessible name for the player. Describes the clip; never shown. */
   label: string;
-  /** CSS object-position for the clip inside a fixed-shape frame. */
-  objectPosition?: string;
   /** The MP4 keeps its audio track. The home hero shows its sound
    *  button only when this is true. */
   hasAudio?: boolean;
@@ -27,7 +26,8 @@ export type ClientVideo = {
  * Home hero. Plays muted on a loop. Source:
  * `HomePageLehighValleyShort.MOV`. The conversion notes say no audio
  * (`-an`); keep the audio track and set `hasAudio: true` if the sound
- * button should show. Once set, delete components/HeroRotator.tsx and
+ * button should show. Export the poster from the same clip, so it has
+ * the same proportions. Once set, delete components/HeroRotator.tsx and
  * its fallback in PremiumHomeHero.
  */
 export const HOME_HERO_VIDEO: ClientVideo | null = null;

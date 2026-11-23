@@ -14,7 +14,7 @@ pixel size and a short description for screen readers.
 
 | Where | Entry in `lib/videos.ts` | File | Then |
 |---|---|---|---|
-| Home hero (`HeroVideo`, shattered frame) | `HOME_HERO_VIDEO` | `HomePageLehighValleyShort.MOV` → `public/video/home-hero.mp4` | Delete `components/HeroRotator.tsx` and the rotator fallback in `components/PremiumHomeHero.tsx`. Check the crop in the 4:5 frame; set `objectPosition` if needed. |
+| Home hero (`HeroVideo`, shattered frame) | `HOME_HERO_VIDEO` | `HomePageLehighValleyShort.MOV` → `public/video/home-hero.mp4` | Delete `components/HeroRotator.tsx` and the rotator fallback in `components/PremiumHomeHero.tsx`. The frame takes the clip's own proportions (no crop or zoom). |
 | Book, "Unapologetic, in the wild" (`VideoEmbed`) | `BOOK_SIGNING_VIDEO` | `PAConferenceBookSigning.MOV` → `public/video/pa-conference-book-signing.mp4` | Nothing else: the video leads the section, and the launch photo it replaces moves into the row below. |
 | Partners, Realm feature (`VideoEmbed`) | `REALM_PARTNERS_VIDEO` | `REALM_PartnersPageVideo` → `public/video/realm-partners.mp4` | Nothing else: the card becomes text beside video. |
 
@@ -39,10 +39,14 @@ it, or leave both as they are and the hero has a pause button only.
 One file at a time:
 
 ```bash
-ffmpeg -i client-assets/HomePageLehighValleyShort.MOV -vf "scale='min(1920,iw)':-2" \
+ffmpeg -i client-assets/HomePageLehighValleyShort.MOV -vf "scale='min(1920,iw)':-2,setsar=1" \
   -c:v libx264 -preset slow -crf 26 -pix_fmt yuv420p -movflags +faststart \
   -an public/video/home-hero.mp4
 ```
+
+Never crop or zoom the clip in the conversion: every player on the site
+takes the clip's own proportions. `setsar=1` keeps the pixels square, so the
+size in `lib/videos.ts` is exactly the shape the browser shows.
 
 Drop `-an` for the click-to-play videos (they keep sound), and make a poster
 with `ffmpeg -ss 1 -i <file> -frames:v 1 -q:v 3 public/video/<name>-poster.jpg`.

@@ -505,6 +505,25 @@ summary:focus-visible {
   background-repeat: repeat;
 }
 
+/* Home hero video frame (components/PremiumHomeHero.tsx): as wide as
+   the column allows, but never taller than part of the screen, so a tall
+   clip shrinks to fit instead of being cropped. The ratio and the width
+   cap are set inline from the clip's real size. */
+.hero-frame-width {
+  --hero-frame-max-h: 50svh;
+  width: min(
+    100%,
+    var(--hero-frame-max-w, 28rem),
+    calc(var(--hero-frame-max-h) * var(--hero-frame-ratio, 0.8))
+  );
+}
+
+@media (min-width: 1024px) {
+  .hero-frame-width {
+    --hero-frame-max-h: 62svh;
+  }
+}
+
 /* Broken-off glass shards around the home hero video
    (components/HeroVideo.tsx). They live in a 100-unit-wide SVG, so 1px
    here is 1% of the frame's width: the drift stays a few pixels. */

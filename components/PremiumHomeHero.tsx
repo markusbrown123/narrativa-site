@@ -41,6 +41,9 @@ const HERO_PORTRAITS: HeroPhoto[] = [
   },
 ];
 
+const heroVideoIsLandscape =
+  HOME_HERO_VIDEO !== null && HOME_HERO_VIDEO.width > HOME_HERO_VIDEO.height;
+
 export function PremiumHomeHero({
   nextEvent,
   className,
@@ -133,11 +136,29 @@ export function PremiumHomeHero({
               ParallaxVisualPanel adds subtle scroll-driven motion, with
               two opposing intensities so the foreground insets drift
               against the main portrait. */}
-          <div className="relative order-1 lg:order-2">
+          <div
+            className="relative order-1 lg:order-2"
+            style={
+              HOME_HERO_VIDEO
+                ? ({
+                    "--hero-frame-ratio": HOME_HERO_VIDEO.width / HOME_HERO_VIDEO.height,
+                    "--hero-frame-max-w":
+                      HOME_HERO_VIDEO.width > HOME_HERO_VIDEO.height ? "36rem" : "28rem",
+                  } as React.CSSProperties)
+                : undefined
+            }
+          >
+            {/* With the video, the panel takes the clip's own proportions
+                and is sized to fit the screen height (hero-frame-width),
+                and the scroll zoom is off, so Nicole is shown exactly as
+                filmed. */}
             <ParallaxVisualPanel
-              className="mx-auto w-full max-w-[28rem] lg:ml-auto lg:mr-0"
+              className={clsx(
+                "mx-auto lg:ml-auto lg:mr-0",
+                HOME_HERO_VIDEO ? "hero-frame-width" : "w-full max-w-[28rem]",
+              )}
               intensity={28}
-              scale={0.02}
+              scale={HOME_HERO_VIDEO ? 0 : 0.02}
               innerClassName="relative"
             >
               {/* Soft halo */}
@@ -205,34 +226,37 @@ export function PremiumHomeHero({
               </ParallaxVisualPanel>
 
               {/* Floating speaking thumbnail — drifts the opposite direction
-                  on scroll so the composition feels alive. */}
-              <ParallaxVisualPanel
-                className="absolute -bottom-8 -left-4 z-10 hidden lg:block"
-                intensity={-36}
-                scale={0.02}
-              >
-                <Link
-                  href="/speaker"
-                  className="pointer-events-auto inline-block overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5"
+                  on scroll so the composition feels alive. Left out beside a
+                  landscape hero video, where it would cover part of the clip. */}
+              {heroVideoIsLandscape ? null : (
+                <ParallaxVisualPanel
+                  className="absolute -bottom-8 -left-4 z-10 hidden lg:block"
+                  intensity={-36}
+                  scale={0.02}
                 >
-                  <span className="relative block h-28 w-44">
-                    <Image
-                      src="/photos/nicole-stephenson-speaking-2.jpg"
-                      alt="Nicole Stephenson on stage with a microphone, mid-keynote."
-                      fill
-                      sizes="176px"
-                      className="object-cover"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
-                    />
-                    <span className="absolute inset-x-3 bottom-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white">
-                      On stage
+                  <Link
+                    href="/speaker"
+                    className="pointer-events-auto inline-block overflow-hidden rounded-2xl border border-white/40 bg-white/80 shadow-[0_25px_60px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-transform hover:-translate-y-0.5"
+                  >
+                    <span className="relative block h-28 w-44">
+                      <Image
+                        src="/photos/nicole-stephenson-speaking-2.jpg"
+                        alt="Nicole Stephenson on stage with a microphone, mid-keynote."
+                        fill
+                        sizes="176px"
+                        className="object-cover"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent"
+                      />
+                      <span className="absolute inset-x-3 bottom-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-white">
+                        On stage
+                      </span>
                     </span>
-                  </span>
-                </Link>
-              </ParallaxVisualPanel>
+                  </Link>
+                </ParallaxVisualPanel>
+              )}
             </ParallaxVisualPanel>
           </div>
         </div>

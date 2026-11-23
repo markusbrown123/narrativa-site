@@ -74,12 +74,7 @@ export function VideoEmbed({
             alt=""
             fill
             sizes={sizes}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
-            style={
-              video.objectPosition
-                ? { objectPosition: video.objectPosition }
-                : undefined
-            }
+            className="object-cover"
           />
           <span
             aria-hidden="true"

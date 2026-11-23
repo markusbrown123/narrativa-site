@@ -7,91 +7,84 @@ import type { ClientVideo } from "@/lib/videos";
 
 /*
  * Home hero video in a "shattered frame", after the broken glass on the
- * Unapologetic cover: the clip sits in a 4:5 pane whose top-left corner,
- * bottom-left corner and right edge have broken away, and the broken-off
- * pieces float just outside it as teal-tinted glass. The book chip
- * (top right), the "On stage" inset (bottom left, desktop) and the
- * controls (bottom right) sit on parts of the frame that stay whole.
+ * Unapologetic cover: the clip's top-left corner, bottom-left corner and
+ * right edge have broken away, and the broken-off pieces float just
+ * outside as teal-tinted glass. The book chip (top right), the "On stage"
+ * inset (bottom left, desktop) and the controls (bottom right) sit on
+ * parts of the frame that stay whole.
  *
- * No colour wash on the video: the grade stays light so Nicole looks
- * natural. Visitors who prefer reduced motion get the still image only,
- * and the video file is never requested for them.
+ * The frame takes the clip's own proportions, so the video is never
+ * cropped, stretched or zoomed: Nicole appears exactly as filmed. No
+ * colour wash either, so the grade stays light and natural. Visitors who
+ * prefer reduced motion get the still image only, and the video file is
+ * never requested for them.
  */
 
-// Outline of the pane, clockwise from the top edge. Percentages of the
-// frame, so the same shape works at every width.
-const PANE: [number, number][] = [
-  [27, 0],
-  [100, 0],
-  [100, 58],
-  [97.4, 61],
-  [98.6, 64.5],
-  [96, 67.2],
-  [100, 71],
-  [100, 100],
-  [19, 100],
-  [14, 96.6],
-  [9.2, 98.4],
-  [4.6, 93.2],
-  [0, 91],
-  [0, 21],
-  [5, 17.2],
-  [3, 12.6],
-  [10, 9],
-  [8.6, 5],
-  [17, 4.4],
-  [21, 1.4],
+// Frame geometry is in units of 1% of the frame's width, so a break is
+// the same size whatever the clip's proportions. Each point is measured
+// from the top, from the bottom (positive = up), or from a point 64.5% of
+// the way down the right edge, where the edge chip sits.
+type Anchor = "top" | "bottom" | "chip";
+type Pt = readonly [x: number, y: number, from: Anchor];
+
+const top = (x: number, y: number): Pt => [x, y, "top"];
+const bottom = (x: number, up: number): Pt => [x, up, "bottom"];
+const chip = (x: number, dy: number): Pt => [x, dy, "chip"];
+
+/** y position in width units, for a frame `height` units tall. */
+function resolveY([, y, from]: Pt, height: number) {
+  if (from === "top") return y;
+  if (from === "bottom") return height - y;
+  return height * 0.645 + y;
+}
+
+// Outline of the pane, clockwise from the top edge.
+const PANE: Pt[] = [
+  top(27, 0),
+  top(100, 0),
+  chip(100, -8.1),
+  chip(97.4, -4.4),
+  chip(98.6, 0),
+  chip(96, 3.4),
+  chip(100, 8.1),
+  bottom(100, 0),
+  bottom(19, 0),
+  bottom(14, 4.25),
+  bottom(9.2, 2),
+  bottom(4.6, 8.5),
+  bottom(0, 11.25),
+  top(0, 26.25),
+  top(5, 21.5),
+  top(3, 15.75),
+  top(10, 11.25),
+  top(8.6, 6.25),
+  top(17, 5.5),
+  top(21, 1.75),
 ];
 
-const CLIP_PATH = `polygon(${PANE.map(([x, y]) => `${x}% ${y}%`).join(", ")})`;
-
-// The SVG overlay uses a 100 x 125 viewBox (the frame is 4:5), so a
-// percentage point (x, y) maps to (x, y * 1.25).
-const toSvg = (points: [number, number][]) =>
-  points.map(([x, y]) => `${x},${+(y * 1.25).toFixed(2)}`).join(" ");
-
-// Broken-off pieces, in frame percentages. Each sits just outside the
-// gap it came from.
-const SHARDS: { points: [number, number][]; delay: string; className: string }[] = [
+// Broken-off pieces. Each sits just outside the gap it came from.
+const SHARDS: { points: Pt[]; delay: string; className: string }[] = [
   // Top-left: the large piece, drifting up and out.
   {
-    points: [
-      [-4.5, -2.2],
-      [12.5, -4.6],
-      [9, 1.2],
-      [3.5, 4.6],
-      [-2, 9],
-    ],
+    points: [top(-4.5, -2.75), top(12.5, -5.75), top(9, 1.5), top(3.5, 5.75), top(-2, 11.25)],
     delay: "0s",
     className: "shard-drift",
   },
   // Top-left: a sliver beside it.
   {
-    points: [
-      [17.5, -3.8],
-      [25, -2.2],
-      [19.5, -0.6],
-    ],
+    points: [top(17.5, -4.75), top(25, -2.75), top(19.5, -0.75)],
     delay: "-2.5s",
     className: "shard-drift-alt",
   },
   // Right edge: the chip.
   {
-    points: [
-      [101.6, 59.5],
-      [106.5, 62.2],
-      [103.2, 68.4],
-    ],
+    points: [chip(101.6, -6.25), chip(106.5, -2.9), chip(103.2, 4.9)],
     delay: "-1.2s",
     className: "shard-drift-alt",
   },
   // Bottom-left: a small piece below the gap.
   {
-    points: [
-      [2.5, 101.5],
-      [10.5, 100.6],
-      [6.2, 106.2],
-    ],
+    points: [bottom(2.5, -1.9), bottom(10.5, -0.75), bottom(6.2, -7.75)],
     delay: "-3.8s",
     className: "shard-drift",
   },
@@ -99,29 +92,23 @@ const SHARDS: { points: [number, number][]; delay: string; className: string }[]
 
 // Fine cracks running a short way in from the breaks. Kept to the edges
 // so none crosses Nicole's face.
-const CRACKS: [number, number][][] = [
-  [
-    [10, 9],
-    [15.5, 14.5],
-    [18.5, 21],
-  ],
-  [
-    [17, 4.4],
-    [23.5, 8.2],
-  ],
-  [
-    [5, 17.2],
-    [9.5, 23.5],
-  ],
-  [
-    [96, 67.2],
-    [90.5, 69.5],
-  ],
-  [
-    [9.2, 98.4],
-    [12, 92.5],
-  ],
+const CRACKS: Pt[][] = [
+  [top(10, 11.25), top(15.5, 18.1), top(18.5, 26.25)],
+  [top(17, 5.5), top(23.5, 10.25)],
+  [top(5, 21.5), top(9.5, 29.4)],
+  [chip(96, 3.4), chip(90.5, 6.25)],
+  [bottom(9.2, 2), bottom(12, 9.4)],
 ];
+
+/** Points for an SVG drawn in a `0 0 100 height` viewBox. */
+const toSvg = (points: Pt[], height: number) =>
+  points.map((p) => `${p[0]},${+resolveY(p, height).toFixed(2)}`).join(" ");
+
+/** The pane outline as a CSS clip-path (percentages of the box). */
+const toClipPath = (points: Pt[], height: number) =>
+  `polygon(${points
+    .map((p) => `${p[0]}% ${+((resolveY(p, height) / height) * 100).toFixed(3)}%`)
+    .join(", ")})`;
 
 const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
 
@@ -179,8 +166,15 @@ export function HeroVideo({
     if (!el.muted && el.paused) void el.play().catch(() => {});
   };
 
+  // The frame is 100 units wide and as tall as the clip's own proportions.
+  const frameHeight = (100 * video.height) / video.width;
+  const clipPath = toClipPath(PANE, frameHeight);
+
   return (
-    <figure className={clsx("relative aspect-[4/5]", className)}>
+    <figure
+      className={clsx("relative", className)}
+      style={{ aspectRatio: `${video.width} / ${video.height}` }}
+    >
       {/* Soft shadow in the same broken shape, blurred behind the pane. */}
       <div
         aria-hidden="true"
@@ -188,7 +182,7 @@ export function HeroVideo({
       >
         <div
           className="h-full w-full bg-[color:var(--color-purple-900)]/45"
-          style={{ clipPath: CLIP_PATH }}
+          style={{ clipPath }}
         />
       </div>
 
@@ -197,7 +191,7 @@ export function HeroVideo({
           is hidden from screen readers so it is not announced twice. */}
       <div
         className="absolute inset-0 overflow-hidden bg-surface-tint"
-        style={{ clipPath: CLIP_PATH }}
+        style={{ clipPath }}
       >
         <Image
           src={still ?? video.poster}
@@ -206,11 +200,6 @@ export function HeroVideo({
           preload
           sizes={sizes}
           className="object-cover"
-          style={
-            video.objectPosition
-              ? { objectPosition: video.objectPosition }
-              : undefined
-          }
         />
         {showVideo ? (
           <video
@@ -226,11 +215,6 @@ export function HeroVideo({
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             className="absolute inset-0 h-full w-full object-cover"
-            style={
-              video.objectPosition
-                ? { objectPosition: video.objectPosition }
-                : undefined
-            }
           />
         ) : null}
         {/* A faint glass sheen across the top-left corner only. */}
@@ -243,7 +227,7 @@ export function HeroVideo({
       {/* Glass edge, cracks and the broken-off shards. */}
       <svg
         aria-hidden="true"
-        viewBox="0 0 100 125"
+        viewBox={`0 0 100 ${+frameHeight.toFixed(2)}`}
         preserveAspectRatio="none"
         className="pointer-events-none absolute inset-0 h-full w-full overflow-visible"
       >
@@ -255,7 +239,7 @@ export function HeroVideo({
           </linearGradient>
         </defs>
         <polygon
-          points={toSvg(PANE)}
+          points={toSvg(PANE, frameHeight)}
           fill="none"
           stroke="#ffffff"
           strokeOpacity="0.85"
@@ -266,7 +250,7 @@ export function HeroVideo({
         {CRACKS.map((crack, i) => (
           <polyline
             key={i}
-            points={toSvg(crack)}
+            points={toSvg(crack, frameHeight)}
             fill="none"
             stroke="#ffffff"
             strokeOpacity="0.6"
@@ -278,7 +262,7 @@ export function HeroVideo({
         {SHARDS.map((shard, i) => (
           <polygon
             key={i}
-            points={toSvg(shard.points)}
+            points={toSvg(shard.points, frameHeight)}
             fill={`url(#${gradientId})`}
             stroke="#ffffff"
             strokeOpacity="0.9"
