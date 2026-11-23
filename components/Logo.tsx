@@ -20,17 +20,18 @@ export function Logo({
       )}
     >
       <Image
-        src="/brand/narrativa-logo.png"
+        // On dark surfaces use the reversed file: a white disc with the N cut
+        // out, so the mark keeps its shape instead of becoming a white blob.
+        src={
+          tone === "light"
+            ? "/brand/narrativa-logo-reversed.png"
+            : "/brand/narrativa-logo.png"
+        }
         alt=""
         width={242}
         height={61}
-        priority
-        className={clsx(
-          "h-7 w-auto sm:h-8",
-          // The asset is a purple wordmark on transparent — invert it for
-          // light-tone surfaces (e.g. the dark-purple footer) so it reads white.
-          tone === "light" && "brightness-0 invert",
-        )}
+        priority={tone === "ink"}
+        className="h-7 w-auto sm:h-8"
       />
       <span
         className={clsx(

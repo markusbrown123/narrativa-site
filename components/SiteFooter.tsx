@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { Container } from "./Container";
 import { CONTACT } from "@/lib/contact";
+import { DESIGN_CREDIT } from "@/lib/credit";
 
 const FOOTER_NAV: { heading: string; items: { label: string; href: string }[] }[] = [
   {
@@ -67,6 +69,31 @@ function TikTokIcon({ className }: { className?: string }) {
     >
       <path d="M16.5 3c.32 1.86 1.4 3.32 3.2 3.66v2.55c-1.16.11-2.24-.2-3.2-.79v5.9c0 3.44-2.6 5.68-5.6 5.68-2.86 0-5.15-2.13-5.15-4.9 0-2.9 2.36-4.98 5.4-4.72v2.62c-.34-.1-.72-.16-1.13-.13-1.2.1-2.06.96-2 2.2.05 1.16.9 1.98 2 1.98 1.24 0 2.13-.96 2.13-2.4V3h2.35z" />
     </svg>
+  );
+}
+
+function DesignCredit() {
+  const { name, url, logo, logoWidth, logoHeight } = DESIGN_CREDIT;
+  // PLACEHOLDER until the studio logo and address arrive (see lib/credit.ts).
+  if (!url || !logo) return <p>Designed for the unapologetic.</p>;
+  return (
+    <p className="flex flex-wrap items-center gap-x-2.5 gap-y-2">
+      <span>Designed for the unapologetic by</span>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener"
+        className="inline-flex items-center opacity-90 hover:opacity-100 transition-opacity"
+      >
+        <Image
+          src={logo}
+          alt={name}
+          width={logoWidth}
+          height={logoHeight}
+          className="h-5 w-auto"
+        />
+      </a>
+    </p>
   );
 }
 
@@ -157,7 +184,7 @@ export function SiteFooter() {
         </div>
         <div className="mt-14 sm:mt-16 pt-8 border-t border-[color:var(--color-purple-800)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-sm text-[color:var(--color-purple-200)]">
           <p>© {new Date().getFullYear()} Narrativa Consulting LLC. All rights reserved.</p>
-          <p>Designed for the unapologetic.</p>
+          <DesignCredit />
         </div>
       </Container>
     </footer>
