@@ -87,13 +87,24 @@ With `CMS_SOURCE=google_sheets`, `GOOGLE_SHEET_ID` and `GOOGLE_SHEETS_API_KEY`
 set, each Sheet tab replaces its fallback file; a missing or broken tab falls
 back on its own. See `docs/google-sheets-cms.md`.
 
+- **For Nicole:** `docs/updating-your-website.md` is a one-page guide to
+  editing the Sheet, written for her, not for developers.
+- **Pictures** can be Google Drive or Dropbox share links
+  (`docs/dropbox-media-workflow.md`). Column names match loosely
+  ("Image URL" = `image_url`).
+- **Sheet menu:** `docs/sheet-tools/` has a "Website" menu to paste into the
+  Sheet once: publish now, a report of anything to fix, dropdowns and tick
+  boxes.
+
 - **Events** are upcoming or past by date (America/New_York), worked out on
   every read. Home, Events and Speaker re-render hourly. `visibility` is
   `public` or `private`; private events show "Private event" and no link.
 - **Freshness:** Sheet data is cached for `CONTENT_REVALIDATE_SECONDS`
   (default 300). For an immediate update, Nicole opens
   `https://narrativaconsulting.com/api/refresh?key=<REFRESH_SECRET>` (set
-  `REFRESH_SECRET` in Netlify). Without the right key it is a 404.
+  `REFRESH_SECRET` in Netlify), which also checks the Sheet and lists in plain
+  words anything that won't show as expected. Without the right key it is a
+  404.
 
 ## Design system
 

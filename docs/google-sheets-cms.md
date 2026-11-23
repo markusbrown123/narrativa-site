@@ -5,7 +5,9 @@ sheet is configured the site uses live data; when it isn't (or a tab is
 empty/broken), the site falls back to the bundled mock data under
 `lib/mock/`.
 
-Nicole only has to edit the Sheet. No code, no deploys.
+Nicole only has to edit the Sheet. No code, no deploys. Her own one-page
+guide is [`updating-your-website.md`](./updating-your-website.md); the
+Sheet's "Website" menu is in [`sheet-tools/`](./sheet-tools/).
 
 ---
 
