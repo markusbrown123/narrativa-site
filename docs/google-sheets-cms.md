@@ -183,7 +183,15 @@ Whenever Nicole edits the Sheet:
    "update site" link:
    `https://narrativaconsulting.com/api/refresh?key=<REFRESH_SECRET>`.
    It shows "Site updated." and the next visit to any page shows the Sheet
-   as it is now. `REFRESH_SECRET` is a long random value set in Netlify
+   as it is now. The same page then checks the Sheet and lists, in plain
+   words, anything that won't show the way she expects, each with a link
+   straight to the row: a status the site doesn't know, a published row
+   missing its title, date or logo, a date it can't read, a link that
+   isn't a web address, a picture link that is a Drive folder or isn't
+   shared publicly (it opens every picture link to see), a misspelt
+   column name, two rows with the same id, a missing or empty tab, and
+   tabs that no page shows (Media, Press, Photos). Add `&format=json` for
+   the same report as JSON (`lib/cms/sheetCheck.ts`). `REFRESH_SECRET` is a long random value set in Netlify
    (Site configuration → Environment variables). Anyone without it gets a
    404. A Netlify build hook is not a substitute: it needs a POST, so it
    cannot be opened from a bookmark.
@@ -219,4 +227,6 @@ isn't showing up.
 - `lib/cms/types.ts` — shared CMS contracts.
 - `app/api/content-health/route.ts` — diagnostics endpoint.
 - `app/api/refresh/route.ts` — the "update site" link.
+- `lib/cms/sheetCheck.ts` — the Sheet check shown on the update page;
+  `lib/cms/sheetReportHtml.ts` renders it.
 - `lib/events.ts` — upcoming/past by date, time labels, "next stage".

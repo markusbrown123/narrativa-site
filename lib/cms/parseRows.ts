@@ -36,6 +36,14 @@ export function num(row: SheetRow, key: string, fallback = 0): number {
   return Number.isFinite(n) ? n : fallback;
 }
 
+/** What a TRUE/FALSE-style cell means, or null if it is neither. */
+export function boolFromText(raw: string): boolean | null {
+  const value = raw.trim().toLowerCase();
+  if (TRUTHY.has(value)) return true;
+  if (FALSY.has(value)) return false;
+  return null;
+}
+
 /** Boolean from TRUE/FALSE/YES/NO/1/0/checkmarks/blank. */
 export function bool(row: SheetRow, key: string, fallback = false): boolean {
   const raw = str(row, key).toLowerCase();
@@ -102,6 +110,11 @@ const STATUS_ALIASES: Record<string, ContentStatus> = {
   archive: "Archived",
   hidden: "Archived",
 };
+
+/** The status a cell's text means, or null if the site doesn't know it. */
+export function knownStatus(raw: string): ContentStatus | null {
+  return STATUS_ALIASES[raw.trim().toLowerCase()] ?? null;
+}
 
 /** Normalize a status cell. Defaults to "Draft" so blank rows stay hidden. */
 export function status(row: SheetRow, key = "status"): ContentStatus {

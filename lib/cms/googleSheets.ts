@@ -10,7 +10,11 @@
  * mis-spelled or temporarily missing.
  */
 
-import { rowsFromValues, type SheetRow } from "./parseRows";
+import {
+  numberedRowsFromValues,
+  type NumberedRow,
+  type SheetRow,
+} from "./parseRows";
 import type { SheetTab } from "./types";
 
 const DEFAULT_REVALIDATE_SECONDS = 300;
@@ -52,15 +56,28 @@ function parsePositiveInt(raw: string | undefined, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
+export interface SheetTabResult {
+  rows: SheetRow[];
+  /** The same rows with their row numbers in the Sheet. */
+  numbered: NumberedRow[];
+  /** Header cells as typed, and the column key each one maps to. */
+  headers: { label: string; key: string }[];
+  error?: string;
+  /** HTTP status of a failed call (0 when the request itself failed). */
+  httpStatus?: number;
+}
+
 /**
- * Fetch one tab. Returns parsed rows or null if the tab is missing /
- * the call fails. We do NOT throw — the caller falls back to mock data
- * tab-by-tab so a single typo doesn't take the whole site offline.
+ * Fetch one tab. Returns parsed rows, or an error. We do NOT throw — the
+ * caller falls back to mock data tab-by-tab so a single typo doesn't take
+ * the whole site offline. `fresh` skips the cache (the Sheet check reads
+ * the Sheet as it is right now).
  */
 export async function fetchSheetTab(
   config: SheetsConfig,
   tab: SheetTab,
-): Promise<{ rows: SheetRow[]; error?: string } | null> {
+  { fresh = false }: { fresh?: boolean } = {},
+): Promise<SheetTabResult | null> {
   const range = encodeURIComponent(`${tab}!A1:Z`);
   const url =
     `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
@@ -72,14 +89,20 @@ export async function fetchSheetTab(
     `&dateTimeRenderOption=FORMATTED_STRING`;
 
   try {
-    const res = await fetch(url, {
-      next: { revalidate: config.revalidateSeconds, tags: ["cms"] },
-    });
+    const res = await fetch(
+      url,
+      fresh
+        ? { cache: "no-store" }
+        : { next: { revalidate: config.revalidateSeconds, tags: ["cms"] } },
+    );
     if (!res.ok) {
       const text = await safeReadText(res);
       return {
         rows: [],
+        numbered: [],
+        headers: [],
         error: `Sheets API ${res.status}: ${truncate(text, 160)}`,
+        httpStatus: res.status,
       };
     }
     const data = (await res.json()) as { values?: unknown };
@@ -90,13 +113,53 @@ export async function fetchSheetTab(
           ),
         )
       : [];
-    return { rows: rowsFromValues(values) };
+    const { headers, rows } = numberedRowsFromValues(values);
+    return { rows: rows.map((r) => r.row), numbered: rows, headers };
   } catch (err) {
     return {
       rows: [],
+      numbered: [],
+      headers: [],
       error: err instanceof Error ? err.message : "Unknown fetch error",
+      httpStatus: 0,
     };
   }
+}
+
+/**
+ * Each tab's numeric id (the `gid` in the Sheet's address), so the Sheet
+ * check can link straight to a row. Empty when the call fails.
+ */
+export async function fetchTabIds(
+  config: SheetsConfig,
+): Promise<Record<string, number>> {
+  const url =
+    `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
+      config.sheetId,
+    )}?key=${encodeURIComponent(config.apiKey)}` +
+    `&fields=${encodeURIComponent("sheets.properties(sheetId,title)")}`;
+  try {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) return {};
+    const data = (await res.json()) as {
+      sheets?: { properties?: { sheetId?: number; title?: string } }[];
+    };
+    const ids: Record<string, number> = {};
+    for (const sheet of data.sheets ?? []) {
+      const { sheetId, title } = sheet.properties ?? {};
+      if (typeof sheetId === "number" && title) ids[title] = sheetId;
+    }
+    return ids;
+  } catch {
+    return {};
+  }
+}
+
+/** The Sheet's address, for links from the Sheet check. */
+export function sheetUrl(config: SheetsConfig): string {
+  return `https://docs.google.com/spreadsheets/d/${encodeURIComponent(
+    config.sheetId,
+  )}/edit`;
 }
 
 async function safeReadText(res: Response): Promise<string> {
