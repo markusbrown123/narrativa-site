@@ -32,8 +32,47 @@ import type { SheetTab } from "./types";
 
 export type IssueLevel = "problem" | "check";
 
+/** What kind of issue it is, so the Sheet editor can offer a quick fix. */
+export type IssueCode =
+  | "not_connected"
+  | "sheet_unreadable"
+  | "tab_missing"
+  | "tab_unread"
+  | "tab_busy"
+  | "tab_empty"
+  | "no_status_column"
+  | "missing_column"
+  | "column_typo"
+  | "status_blank"
+  | "status_unknown"
+  | "missing_field"
+  | "bad_date"
+  | "bad_choice"
+  | "bad_featured"
+  | "bad_sort"
+  | "bad_year"
+  | "bad_link"
+  | "picture_folder"
+  | "picture_doc"
+  | "picture_bad_link"
+  | "picture_not_shared"
+  | "picture_missing"
+  | "picture_not_picture"
+  | "picture_unreachable"
+  | "pictures_unchecked"
+  | "duplicate_id"
+  | "unused_tab"
+  | "unknown_setting";
+
 export interface SheetIssue {
   level: IssueLevel;
+  code: IssueCode;
+  /** The column (its key, e.g. image_url) the issue is about. */
+  column?: string;
+  /** The cell's value as typed, when it matters for the fix. */
+  value?: string;
+  /** Values that would fix it: a choice list, or the column name meant. */
+  options?: string[];
   /** null for something about the whole Sheet. */
   tab: SheetTab | null;
   /** Row number in the Sheet (the header is row 1). */
@@ -191,6 +230,7 @@ export async function checkSheet({
       issues: [
         {
           level: "problem",
+          code: "not_connected",
           tab: null,
           message:
             "The site isn't connected to the Google Sheet, so it shows its built-in content. In Netlify, the CMS_SOURCE, GOOGLE_SHEET_ID and GOOGLE_SHEETS_API_KEY settings need to be filled in.",
@@ -220,7 +260,7 @@ export async function checkSheet({
   // A Sheet-wide failure (not shared, wrong id) is reported once.
   const sheetWide = sheetWideProblem(results);
   if (sheetWide) {
-    issues.push({ level: "problem", tab: null, message: sheetWide, link: base });
+    issues.push({ level: "problem", code: "sheet_unreadable", tab: null, message: sheetWide, link: base });
   }
 
   for (const spec of SPECS) {
@@ -244,6 +284,7 @@ export async function checkSheet({
     if (result.numbered.length === 0) {
       issues.push({
         level: "problem",
+        code: "tab_empty",
         tab: spec.tab,
         message: `The ${spec.tab} tab has no rows, so the site is showing its built-in content for it instead.`,
         link: report.link,
@@ -271,6 +312,7 @@ export async function checkSheet({
     if (live > 0) {
       issues.push({
         level: "check",
+        code: "unused_tab",
         tab,
         message: `Nothing from the ${tab} tab appears on the site at the moment, so changes there won't show.`,
         link: linkTo(tab),
@@ -323,6 +365,7 @@ function tabErrorIssue(
   if (result?.httpStatus === 400 && /unable to parse range/i.test(error)) {
     return {
       level: "problem",
+      code: "tab_missing",
       tab,
       message: `The site can't find a tab called “${tab}”, so it's showing its built-in content for it instead. Check the tab is named exactly ${tab}.`,
       link,
@@ -331,6 +374,7 @@ function tabErrorIssue(
   if (result?.httpStatus === 429) {
     return {
       level: "check",
+      code: "tab_busy",
       tab,
       message: `Google asked the site to slow down, so the ${tab} tab wasn't read this time. Try again in a minute.`,
       link,
@@ -338,6 +382,7 @@ function tabErrorIssue(
   }
   return {
     level: "problem",
+    code: "tab_unread",
     tab,
     message: `The ${tab} tab couldn't be read just now, so the site is showing its built-in content for it. Try again in a minute. (${error || "no answer"})`,
     link,
@@ -355,6 +400,8 @@ function checkHeaders(
   if (!present.has("status") && spec.statusHides) {
     issues.push({
       level: "problem",
+      code: "no_status_column",
+      column: "status",
       tab: spec.tab,
       message: `The ${spec.tab} tab has no status column, so every row in it is hidden. Add a column called status and set rows to Published.`,
       link,
@@ -364,6 +411,8 @@ function checkHeaders(
     if (!req.keys.some((k) => present.has(k))) {
       issues.push({
         level: "problem",
+        code: "missing_column",
+        column: req.keys[0],
         tab: spec.tab,
         message: `The ${spec.tab} tab has no ${req.keys[0]} column, so the site can't read ${req.what}.`,
         link,
@@ -376,6 +425,10 @@ function checkHeaders(
     if (guess && !present.has(guess)) {
       issues.push({
         level: "problem",
+        code: "column_typo",
+        column: header.key,
+        value: header.label,
+        options: [guess],
         tab: spec.tab,
         message: `The column “${header.label}” isn't one the site reads, so it's ignored. Did you mean ${guess}?`,
         link,
@@ -433,16 +486,21 @@ function checkRows(
 
   for (const { sheetRow, row } of rows) {
     const item = rowName(spec, row);
-    const add = (level: IssueLevel, message: string) =>
-      issues.push({ level, tab: spec.tab, row: sheetRow, item, message, link: linkTo(spec.tab, sheetRow) });
+    const add = (
+      level: IssueLevel,
+      code: IssueCode,
+      message: string,
+      extra: Pick<SheetIssue, "column" | "value" | "options"> = {},
+    ) =>
+      issues.push({ level, code, ...extra, tab: spec.tab, row: sheetRow, item, message, link: linkTo(spec.tab, sheetRow) });
 
     const statusText = str(row, "status");
     const status = knownStatus(statusText);
     if (spec.statusHides) {
       if (statusText === "") {
-        add("check", "This row has no status, so it's hidden. Set its status to Published to show it on the site.");
+        add("check", "status_blank", "This row has no status, so it's hidden. Set its status to Published to show it on the site.", { column: "status", options: ["Published", "Draft"] });
       } else if (!status) {
-        add("problem", `The status “${statusText}” isn't Draft, Ready to Publish, Published or Archived, so this row is hidden.`);
+        add("problem", "status_unknown", `The status “${statusText}” isn't Draft, Ready to Publish, Published or Archived, so this row is hidden.`, { column: "status", value: statusText, options: ["Published", "Draft", "Archived"] });
       }
       if (!status || !isVisibleStatus(status)) {
         report.hidden += 1;
@@ -453,14 +511,14 @@ function checkRows(
 
     for (const req of spec.required) {
       if (req.keys.every((k) => str(row, k) === "")) {
-        add("problem", `This row is published but is missing ${req.what}.`);
+        add("problem", "missing_field", `This row is published but is missing ${req.what}.`, { column: req.keys[0] });
       }
     }
 
     for (const key of spec.dates) {
       const raw = str(row, key);
       if (raw !== "" && !/^\d{4}-\d{2}-\d{2}$/.test(dateStr(row, key))) {
-        add("problem", `The ${key} “${raw}” isn't a date the site understands. Type it like 6/4/2026.`);
+        add("problem", "bad_date", `The ${key} “${raw}” isn't a date the site understands. Type it like 6/4/2026.`, { column: key, value: raw });
       }
     }
 
@@ -471,29 +529,29 @@ function checkRows(
         ? choice.allowed.includes(raw)
         : choice.allowed.includes(raw.toLowerCase());
       if (!ok) {
-        add("check", `The ${choice.key} “${raw}” isn't one of ${listOf(choice.allowed)}, ${choice.otherwise}.`);
+        add("check", "bad_choice", `The ${choice.key} “${raw}” isn't one of ${listOf(choice.allowed)}, ${choice.otherwise}.`, { column: choice.key, value: raw, options: choice.allowed });
       }
     }
 
     const featured = str(row, "featured");
     if (featured !== "" && boolFromText(featured) === null) {
-      add("check", `Featured “${featured}” should be TRUE or FALSE (or a tick box), so it's treated as FALSE.`);
+      add("check", "bad_featured", `Featured “${featured}” should be TRUE or FALSE (or a tick box), so it's treated as FALSE.`, { column: "featured", value: featured, options: ["TRUE", "FALSE"] });
     }
     const sortOrder = str(row, "sort_order");
     if (sortOrder !== "" && !Number.isFinite(Number(sortOrder.replace(/,/g, "")))) {
-      add("check", `The sort_order “${sortOrder}” isn't a number, so this row is placed as if it were 100.`);
+      add("check", "bad_sort", `The sort_order “${sortOrder}” isn't a number, so this row is placed as if it were 100.`, { column: "sort_order", value: sortOrder });
     }
     if (spec.tab === "Recognition") {
       const year = str(row, "year");
       if (year !== "" && !/^\d{4}$/.test(year)) {
-        add("check", `The year “${year}” should be a four-digit year, like 2025.`);
+        add("check", "bad_year", `The year “${year}” should be a four-digit year, like 2025.`, { column: "year", value: year });
       }
     }
 
     for (const key of spec.links) {
       const raw = str(row, key);
       if (raw !== "" && !/^(https?:\/\/|\/|mailto:|tel:)/i.test(raw)) {
-        add("problem", `The ${key} “${shorten(raw)}” doesn't look like a web address. It should start with https://.`);
+        add("problem", "bad_link", `The ${key} “${shorten(raw)}” doesn't look like a web address. It should start with https://.`, { column: key, value: raw });
       }
     }
 
@@ -502,7 +560,7 @@ function checkRows(
       if (raw === "") continue;
       const problem = pictureLinkProblem(key, raw);
       if (problem) {
-        add("problem", problem);
+        add("problem", problem.code, problem.message, { column: key, value: raw });
       } else if (/^https?:\/\//i.test(raw)) {
         pictureJobs.push({
           tab: spec.tab,
@@ -526,6 +584,11 @@ function checkRows(
     if (sheetRows.length < 2) continue;
     issues.push({
       level: "problem",
+      code: "duplicate_id",
+      column: "id",
+      value: id,
+      // The rows that share it; the editor renames all but the first.
+      options: sheetRows.map(String),
       tab: spec.tab,
       row: sheetRows[0],
       message: `Rows ${listOf(sheetRows.map(String), "and")} end up with the same id (“${id}”), so only one of them may show. Give each its own id in the id column.`,
@@ -554,6 +617,9 @@ function checkSettings(
     if (!SETTINGS_KEYS.includes(key)) {
       issues.push({
         level: "check",
+        code: "unknown_setting",
+        column: "key",
+        value: key,
         tab: "Settings",
         row: sheetRow,
         item: key,
@@ -563,6 +629,9 @@ function checkSettings(
     } else if (value !== "" && !/^https?:\/\//i.test(value)) {
       issues.push({
         level: "problem",
+        code: "bad_link",
+        column: "value",
+        value,
         tab: "Settings",
         row: sheetRow,
         item: key,
@@ -577,18 +646,21 @@ function checkSettings(
 // Pictures
 
 /** A picture link that can't work whatever the file, explained. */
-function pictureLinkProblem(key: string, raw: string): string | null {
+function pictureLinkProblem(
+  key: string,
+  raw: string,
+): { code: IssueCode; message: string } | null {
   if (isDriveFolderUrl(raw)) {
-    return `The ${key} is a link to a Google Drive folder, not to one picture. Open the picture itself in Drive, then Share → Copy link, and paste that.`;
+    return { code: "picture_folder", message: `The ${key} is a link to a Google Drive folder, not to one picture. Open the picture itself in Drive, then Share → Copy link, and paste that.` };
   }
   if (isGoogleDocUrl(raw)) {
-    return `The ${key} is a link to a Google Doc, Sheet or Slides file, not to a picture. Use a link to the picture file itself.`;
+    return { code: "picture_doc", message: `The ${key} is a link to a Google Doc, Sheet or Slides file, not to a picture. Use a link to the picture file itself.` };
   }
   if (isDropboxUrl(raw) && /\/(scl\/fo|sh)\//.test(raw)) {
-    return `The ${key} is a link to a Dropbox folder, not to one picture. Open the picture itself in Dropbox, then Share → Copy link.`;
+    return { code: "picture_folder", message: `The ${key} is a link to a Dropbox folder, not to one picture. Open the picture itself in Dropbox, then Share → Copy link.` };
   }
   if (!/^(https?:\/\/|\/)/i.test(raw)) {
-    return `The ${key} “${shorten(raw)}” doesn't look like a link. Paste the picture's share link (it starts with https://).`;
+    return { code: "picture_bad_link", message: `The ${key} “${shorten(raw)}” doesn't look like a link. Paste the picture's share link (it starts with https://).` };
   }
   return null;
 }
@@ -636,6 +708,9 @@ async function runPictureChecks(jobs: PictureJob[], issues: SheetIssue[]): Promi
     if (result.ok) continue;
     issues.push({
       level: result.reason === "unreachable" ? "check" : "problem",
+      code: pictureCode(job, result.reason),
+      column: job.key,
+      value: job.raw,
       tab: job.tab,
       row: job.row,
       item: job.item,
@@ -646,6 +721,7 @@ async function runPictureChecks(jobs: PictureJob[], issues: SheetIssue[]): Promi
   if (unchecked > 0) {
     issues.push({
       level: "check",
+      code: "pictures_unchecked",
       tab: null,
       message: `${unchecked} picture link${unchecked === 1 ? " wasn't" : "s weren't"} checked this time (the check ran out of time). Open the update link again to check the rest.`,
     });
@@ -675,6 +751,17 @@ async function openPicture(url: string): Promise<PictureResult> {
   } finally {
     clearTimeout(timer);
   }
+}
+
+function pictureCode(
+  job: PictureJob,
+  reason: Exclude<PictureResult, { ok: true }>["reason"],
+): IssueCode {
+  if (reason === "missing") return "picture_missing";
+  if (reason === "unreachable") return "picture_unreachable";
+  // A Drive file that opens as a page is a Drive file that isn't shared.
+  if (reason === "not-shared" || driveFileId(job.raw) !== null) return "picture_not_shared";
+  return "picture_not_picture";
 }
 
 function pictureMessage(job: PictureJob, reason: Exclude<PictureResult, { ok: true }>["reason"]): string {
