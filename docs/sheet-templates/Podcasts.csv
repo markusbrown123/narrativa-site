@@ -1,3 +1,6 @@
-id,status,featured,sort_order,title,show,host,summary,url,image_url,published_date,created_at,updated_at
-pod-dare-beyond-empty-nest-fear-to-fearless,Published,TRUE,10,From Fear to Fearless: Saying Yes Before You're Ready,Beyond Empty Nest,Jodi,Nicole joins the Beyond Empty Nest podcast — saying yes before you feel ready.,https://podcasts.apple.com/us/podcast/beyond-empty-nest/id1671650000,,2026-01-22,2026-01-22,2026-05-16
-pod-influential-women-video,Published,FALSE,40,Influential Women — long-form video interview,Influential Women,Influential Women,Nicole's Influential Women feature interview — a long-form on-camera conversation.,https://vimeo.com/1183802268/e3b48767b5,/media/influential-women-headshot.png,,2026-05-16,2026-05-16
+id,status,featured,sort_order,title,show,host,kind,summary,url,image_url,published_date,created_at,updated_at
+pod-brilliantly-resilient-ep240,Published,TRUE,1,Brilliantly Resilient,Brilliantly Resilient,,Apple,,https://podcasts.apple.com/us/podcast/episode-240-the-kudos-folder-mindset-owning-what/id1505403566?i=1000756867793,,,2026-11-23,2026-11-23
+pod-dare-to-lead,Published,TRUE,2,Dare to Lead,Dare to Lead,,Apple,,https://podcasts.apple.com/us/podcast/dare-on-with-jodi/id1671650000?i=1000746212327,,,2026-11-23,2026-11-23
+pod-how-women-write-101,Published,TRUE,3,How Women Write,How Women Write,,Apple,,https://podcasts.apple.com/us/podcast/101-nicole-stephenson-the-voice-they-told-you-was-too-loud/id1802269960?i=1000787175381,,,2026-11-23,2026-11-23
+pod-just-wanted-to-ask,Published,TRUE,4,Just Wanted to Ask,Just Wanted to Ask,,Apple,,https://podcasts.apple.com/us/podcast/nicole-stephenson-unapologetically-leading-with/id1617464092?i=1000781371026,,,2026-11-23,2026-11-23
+pod-women-and-wealth-apple,Published,TRUE,5,Women & Wealth,Women & Wealth,,Apple,,https://podcasts.apple.com/us/podcast/women-wealth/id1613780867?i=1000760232204,,,2026-11-23,2026-11-23

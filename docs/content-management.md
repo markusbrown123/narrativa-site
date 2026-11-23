@@ -2,7 +2,7 @@
 
 Nicole's primary workflow is now **Google Sheets**. See
 [`google-sheets-cms.md`](./google-sheets-cms.md) for the day-to-day
-"add an event / hide a service / paste a Dropbox link" workflow.
+"add an event / hide a podcast / paste a Dropbox link" workflow.
 
 This doc covers the **bundled mock data** under `lib/mock/`, which is
 the fallback the site uses when:
@@ -11,7 +11,7 @@ the fallback the site uses when:
 - a single sheet tab is unreachable / empty / mis-spelled.
 
 Pages call async getters from `lib/cms/contentSource.ts`
-(`getEvents()`, `getServices()`, etc.). Those getters return the live
+(`getEvents()`, `getPodcasts()`, etc.). Those getters return the live
 sheet data when configured and the mock data otherwise. The two
 sources share the same TypeScript shape, so editing either one
 updates the site without changing page code.
@@ -28,7 +28,6 @@ the same patterns.
 | --------------------------------- | -------------------------- |
 | Events (talks, workshops, panels) | `lib/mock/events.ts`       |
 | Partner / client / venue logos    | `lib/mock/partners.ts`     |
-| Services menu                     | `lib/mock/services.ts`     |
 | Podcasts & interviews             | `lib/mock/podcasts.ts`     |
 | Press features                    | `lib/mock/press.ts`        |
 | Recognition / awards              | `lib/mock/recognition.ts`  |
@@ -180,56 +179,6 @@ Amazon listing ever changes:
 
 Do not add other retailers until Nicole confirms them. The site is
 intentionally strict about not inventing purchase channels.
-
----
-
-## Services
-
-`lib/mock/services.ts` exports a `Service[]`. Each service looks like:
-
-```ts
-{
-  id: "svc-speaker-brand-development",
-  title: "Speaker Brand Development",
-  status: "Published",
-  featured: true,
-  sort_order: 10,
-  created_at: "2026-05-16T00:00:00Z",
-  updated_at: "2026-05-16T00:00:00Z",
-  slug: "speaker-brand-development",
-  tagline: "Establish a strong, professional foundation for your speaking career.",
-  description: "...",
-  outcomes: ["...", "..."],
-  deliverables: ["...", "..."],
-  ideal_for: "Experts ready to move from one-off speaking to a recognized speaker brand.",
-  icon: "spark",   // spark | compass | pen | stage | camera | calendar | globe
-}
-```
-
-The current verified service categories are:
-- Speaker Brand Development
-- Marketing & Visibility Strategy
-- Content & Writing Services
-- Speaker Assets & Design
-- Media & Production Service Referrals
-- Speaking Engagement Development
-- Event Strategy & Execution
-
-### Edit a service
-- Update `tagline`, `description`, `outcomes`, `deliverables`, or `ideal_for`
-  in place — those drive everything that renders on the Services page.
-- Do not add pricing, timelines, or guarantees. The site intentionally does not
-  promise those.
-
-### Add a service
-1. Copy an existing entry. Update `id`, `slug`, `title`, and copy.
-2. Pick an `icon` from the allowed set.
-3. Set `featured: true` if it should show up in the home-page "Three ways"
-   strip; otherwise `false`.
-4. Set `status: "Draft"` until ready.
-
-### Remove a service
-- Set `status: "Archived"` (or `"Draft"`), or delete the entry.
 
 ---
 

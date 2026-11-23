@@ -1,3 +1,6 @@
-id,status,featured,sort_order,name,relationship,description,website_url,logo_url,created_at,updated_at
-ptr-lehigh-valley-womens-summit,Published,TRUE,10,Lehigh Valley Women's Summit,2026 Breakout Session Speaker,,,/partners/lehigh-valley-womens-summit-logo.png,2026-05-16,2026-05-16
-ptr-west-chester-university,Draft,FALSE,20,West Chester University,,,,/partners/west-chester-university-logo.png,2026-05-16,2026-05-16
+id,status,featured,sort_order,name,relationship,logo_url,logo_width,logo_height,logo_background,created_at,updated_at
+ptr-lehigh-valley-womens-summit,Published,TRUE,10,Lehigh Valley Women's Summit,2026 Breakout Session Speaker,/partners/lehigh-valley-womens-summit-logo.webp,359,160,dark,2026-05-16,2026-11-23
+ptr-realm-jewelry,Published,TRUE,20,REALM Fine + Fashion Jewelry,,/partners/realm-logo.webp,285,160,,2026-05-16,2026-11-23
+ptr-west-chester-university,Published,TRUE,30,West Chester University,,/partners/west-chester-university-logo.webp,301,144,,2026-05-16,2026-11-23
+ptr-challenger-gray-christmas,Published,TRUE,40,"Challenger, Gray & Christmas",,/partners/challenger-gray-christmas-logo.webp,416,72,,2026-05-16,2026-11-23
+ptr-mastec-power-delivery-east,Published,TRUE,50,MasTec Power Delivery — East Region,,/partners/mastec-power-delivery-east-region-logo.webp,480,123,,2026-05-16,2026-11-23

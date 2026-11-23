@@ -1,2 +1,22 @@
-id,status,featured,sort_order,title,subtitle,author,publisher,release_date,description,amazon_url,cover_image_url,stack_image_url,created_at,updated_at
-book-unapologetic,Published,TRUE,1,Unapologetic,Boldly Lead the Life and Career You Deserve,Nicole Stephenson,Tender Fire Books,2026-03-01,A practical affirming roadmap for building a career and life that feel aligned intentional and sustainable.,https://www.amazon.com/UNAPOLOGETIC-Boldly-Lead-Career-Deserve/dp/B0GP3RZ4SR,/book/unapologetic-front-cover.jpg,/book/unapologetic-book-stack.jpg,2026-01-01,2026-05-16
+id,status,featured,sort_order,title,subtitle,tagline,author,publisher,release_date,description,amazon_url,barnes_noble_url,cover_image_url,created_at,updated_at
+book-unapologetic,Published,TRUE,1,Unapologetic,Boldly Lead the Life and Career You Deserve,"A roadmap to authenticity, courage, and sustainable personal and professional development and growth.",Nicole Stephenson,Tender Fire Books,2026-03-01,"What if fitting in has been the thing holding you back all along?
+
+If you're a woman who works hard, cares deeply, and still can't seem to get the recognition or advancement you deserve - this book was written for you.
+
+UNAPOLOGETIC: Boldly Lead the Life and Career You Deserve is for the woman who is done shrinking.
+
+Drawing on decades of experience guiding professionals at pivotal crossroads, Nicole Stephenson delivers a practical, affirming roadmap for building a career that feels aligned, intentional, and authentically yours. Through relatable stories, honest reflection, and actionable tools, you'll discover that the very thing you've been taught to hide - who you really are - is your greatest career asset.
+
+In this book, you'll learn how to:
+
+- Reclaim your confidence and stop second-guessing yourself
+- Break free from people-pleasing without burning bridges
+- Identify your true strengths and advocate for what you deserve
+- Navigate self-doubt, burnout, and the fear of being ""too much""
+- Redefine success on your own terms — and actually go get it
+
+Whether you're entering the workforce, chasing a promotion, or questioning everything about what's next, this book meets you exactly where you are.
+
+Unapologetic isn't just a career guide. It's an invitation to stop apologizing for who you are and start leading from it.
+
+Stop shrinking. Stop apologizing. Start leading.",https://www.amazon.com/dp/B0GP3RZ4SR,https://www.barnesandnoble.com/w/unapologetic-nicole-stephenson/1150349544?ean=9798987476093,/book/unapologetic-front-cover.jpg,2026-01-01,2026-11-23

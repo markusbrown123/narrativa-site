@@ -11,7 +11,7 @@ Nicole only has to edit the Sheet. No code, no deploys.
 
 ## How it works
 
-1. Pages call async getters (`getEvents()`, `getPartners()`, `getServices()`,
+1. Pages call async getters (`getEvents()`, `getPartners()`, `getPodcasts()`,
    `getBooks()`, `getMedia()`, `getPodcasts()`, `getPress()`,
    `getRecognition()`, `getPhotos()`) from `lib/cms/contentSource.ts`.
 2. The content source reads the Google Sheets API once per cache window
@@ -82,7 +82,6 @@ CONTENT_REVALIDATE_SECONDS=300
 | ------------- | -------------------------------------------------------------- |
 | `Events`      | Keynotes, workshops, panels, book events                       |
 | `Partners`    | Logos, clients, hosts, venues                                  |
-| `Services`    | The services menu                                              |
 | `Books`       | Books (one row per title)                                      |
 | `Media`       | Catch-all media items (newsletters, embeds, etc.)              |
 | `Podcasts`    | Podcast and on-camera interviews                               |
@@ -117,13 +116,26 @@ See [`sheet-templates/`](./sheet-templates/) for CSV templates Nicole can
 import into a fresh sheet. The columns:
 
 - **Events**:
-  `id,status,featured,sort_order,title,event_date,event_time,location,role,description,cta_label,cta_url,image_url,created_at,updated_at`
+  `id,status,featured,sort_order,title,event_date,event_time,end_time,location,visibility,role,description,cta_label,cta_url,image_url,created_at,updated_at`
+  - `event_time` / `end_time`: as you'd write them, e.g. `11:30am` and `1:00pm`.
+  - `visibility`: `public` or `private`. Private events show a "Private
+    event" label and never a registration button. Blank = public.
+  - `role`: shown exactly as typed (Keynote, Panel, ERG event, …); blank is fine.
+  - `cta_url` + `cta_label`: the registration link and button text
+    (default "Register").
+  - Upcoming or past is worked out from `event_date`; there is no
+    `is_upcoming` column to keep in sync. Past events stay on the calendar,
+    faded.
 - **Partners**:
-  `id,status,featured,sort_order,name,relationship,description,website_url,logo_url,created_at,updated_at`
-- **Services**:
-  `id,status,featured,sort_order,title,category,short_description,description,outcomes,deliverables,ideal_for,icon,created_at,updated_at`
+  `id,status,featured,sort_order,name,relationship,logo_url,logo_width,logo_height,logo_background,created_at,updated_at`
+  - `logo_width` / `logo_height`: the logo file's pixel size (printed by
+    `scripts/prepare-logos.mjs`); lets logos balance by area.
+  - `logo_background`: `dark` for a logo drawn in white, so it sits on a
+    dark tile. Logos never link out.
 - **Books**:
-  `id,status,featured,sort_order,title,subtitle,author,publisher,release_date,description,amazon_url,cover_image_url,stack_image_url,created_at,updated_at`
+  `id,status,featured,sort_order,title,subtitle,tagline,author,publisher,release_date,description,amazon_url,barnes_noble_url,cover_image_url,stack_image_url,created_at,updated_at`
+  - `description`: paragraphs separated by a blank line (Alt+Enter twice in
+    the cell); lines starting `- ` become a bulleted list.
 - **Media**:
   `id,status,featured,sort_order,title,kind,source,summary,url,image_url,published_date,created_at,updated_at`
 - **Podcasts**:
@@ -136,16 +148,6 @@ import into a fresh sheet. The columns:
   `id,status,featured,sort_order,title,category,alt,image_url,caption,created_at,updated_at`
 - **Settings**: `key,value`
 
-### Multi-value fields (pipe-separated)
-
-For services, `outcomes` and `deliverables` are pipe-separated:
-
-```
-Brand positioning | Messaging architecture | Niche and audience definition
-```
-
-The site splits on `|` and trims whitespace.
-
 ### Status values
 
 | Status              | Visible? | When to use                                |
@@ -154,10 +156,6 @@ The site splits on `|` and trims whitespace.
 | `Ready to Publish`  | Yes      | Confirmed, intended to go live.            |
 | `Published`         | Yes      | Live and stable.                           |
 | `Archived`          | No       | Past content kept for reference, hidden.   |
-
-### Allowed values for `icon` (Services)
-
-`spark | compass | pen | stage | camera | calendar | globe`
 
 ### Allowed values for `kind`
 
@@ -177,9 +175,14 @@ Whenever Nicole edits the Sheet:
 1. She saves the row (Google Sheets auto-saves).
 2. Within `CONTENT_REVALIDATE_SECONDS` (default 5 minutes), the live
    site picks up the change automatically. No rebuild needed.
-3. If she needs the change to appear immediately, she can trigger a
-   redeploy in Netlify ("Deploy → Trigger deploy"), which forces a
-   fresh fetch.
+3. If she needs the change to appear immediately, she opens her bookmarked
+   "update site" link:
+   `https://narrativaconsulting.com/api/refresh?key=<REFRESH_SECRET>`.
+   It shows "Site updated." and the next visit to any page shows the Sheet
+   as it is now. `REFRESH_SECRET` is a long random value set in Netlify
+   (Site configuration → Environment variables). Anyone without it gets a
+   404. A Netlify build hook is not a substitute: it needs a POST, so it
+   cannot be opened from a bookmark.
 
 ---
 
@@ -191,8 +194,8 @@ The CMS is designed to fail safe:
 - **Sheet shared as Restricted** → 403 from the API → mock data.
 - **One tab renamed or empty** → that tab falls back to mock; the
   other tabs keep working.
-- **Bad value in one row (e.g. `format: "Fireseide"`)** → mappers
-  coerce to a safe default and keep going.
+- **Unexpected value in one row** → mappers keep going; free-text fields
+  such as an event's `role` are shown as typed.
 
 The `/api/content-health` endpoint surfaces which tabs fell back, with
 a short error message for each. Useful when diagnosing why something
@@ -209,3 +212,5 @@ isn't showing up.
 - `lib/cms/dropbox.ts` — `normalizeDropboxUrl()` for image/file links.
 - `lib/cms/types.ts` — shared CMS contracts.
 - `app/api/content-health/route.ts` — diagnostics endpoint.
+- `app/api/refresh/route.ts` — the "update site" link.
+- `lib/events.ts` — upcoming/past by date, time labels, "next stage".

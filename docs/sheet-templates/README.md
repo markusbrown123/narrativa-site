@@ -10,7 +10,7 @@ Narrativa CMS structure.
    file → Import location: Insert new sheet(s)**.
 3. After import, rename each tab to match the file name (the importer
    uses the file name minus `.csv` already, but double-check):
-   `Events`, `Partners`, `Services`, `Books`, `Media`, `Podcasts`,
+   `Events`, `Partners`, `Books`, `Media`, `Podcasts`,
    `Press`, `Recognition`, `Photos`, `Settings`.
 4. Delete the default empty `Sheet1` tab.
 5. **Share → Anyone with the link → Viewer**.
@@ -30,7 +30,6 @@ Nicole can edit/add rows from there.
 | ----------------- | ------------- | --------------------------------------------- |
 | `Events.csv`      | Events        | 2026 Lehigh Valley Summit + Henkels & McCoy   |
 | `Partners.csv`    | Partners      | LV Women's Summit + West Chester University   |
-| `Services.csv`    | Services      | Speaker Brand Development + Visibility        |
 | `Books.csv`       | Books         | Unapologetic                                  |
 | `Media.csv`       | Media         | Placeholder Draft row                         |
 | `Podcasts.csv`    | Podcasts      | Beyond Empty Nest + Influential Women         |

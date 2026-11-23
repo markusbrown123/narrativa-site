@@ -1,24 +1,23 @@
 # Narrativa Consulting — Site
 
-The MVP marketing site for **Narrativa Consulting** and **Nicole Stephenson** —
-author of _Unapologetic: Boldly Lead the Life and Career You Deserve_, founder
-of Narrativa Consulting, and Lecturer at The Wharton School at the University
-of Pennsylvania.
+The site for **Nicole Stephenson, IOM**: author of _Unapologetic: Boldly Lead
+the Life and Career You Deserve_, keynote speaker, Founder of Narrativa
+Consulting, and Lecturer in the Wharton Communication Program at the University
+of Pennsylvania. The site leads with the book, then speaking.
 
-This first release runs on **mock data and local assets**. No Google Sheets,
-Dropbox, email, or live integrations are wired up yet — placeholder API routes
-log submissions to the server and return success.
+Live at [narrativaconsulting.com](https://narrativaconsulting.com), hosted on
+Netlify.
 
 ## Stack
 
-- [Next.js 16](https://nextjs.org/docs) App Router
-- React 19
-- TypeScript (strict)
-- Tailwind CSS v4
+- [Next.js 16](https://nextjs.org/docs) App Router, React 19, TypeScript (strict)
+- Tailwind CSS v4 (tokens in `app/globals.css`, no `tailwind.config`)
+- Content from a Google Sheet, with bundled fallback data per tab
+- Netlify Forms for the contact form
 
 > **Heads-up:** Next.js 16 is newer than most reference material. Read the
 > bundled docs in `node_modules/next/dist/docs/` before reaching for older
-> patterns.
+> patterns (see `AGENTS.md`).
 
 ## Getting started
 
@@ -29,96 +28,84 @@ npm run dev
 
 The site runs at `http://localhost:3000`.
 
-### Scripts
+| Command         | What it does                          |
+| --------------- | ------------------------------------- |
+| `npm run dev`   | Start the dev server                  |
+| `npm run build` | Production build                      |
+| `npm run start` | Run the production build              |
+| `npm run lint`  | ESLint (Next + TypeScript core rules) |
 
-| Command         | What it does                                |
-| --------------- | ------------------------------------------- |
-| `npm run dev`   | Start the dev server                        |
-| `npm run build` | Production build                            |
-| `npm run start` | Run the production build                    |
-| `npm run lint`  | ESLint (Next + TypeScript core rules)       |
+## Pages
+
+| Route       | What it is                                                         |
+| ----------- | ------------------------------------------------------------------ |
+| `/`         | Hero, book box, Meet Nicole, On the record, Recognition, Partners  |
+| `/about`    | Book box, bio (`lib/bio.ts`), Media Kit, Recognition               |
+| `/book`     | Unapologetic: description, where to buy, launch photos, promo cards |
+| `/speaker`  | Five talk topics, formats, upcoming events, partner logos          |
+| `/events`   | Next event, month calendar (agenda list on phones)                 |
+| `/media`    | Press headshot, the five featured interviews                       |
+| `/partners` | Realm feature, partner logo grid                                   |
+| `/contact`  | Contact form (Netlify Forms)                                       |
+
+`/services` redirects to `/speaker` and `/mentor-program` to `/`
+(`next.config.ts`).
 
 ## Project structure
 
 ```
 app/
-  layout.tsx          Root layout — header, footer, fonts, metadata
-  page.tsx            Home
-  about/              /about
-  book/               /book — Unapologetic
-  speaker/            /speaker
-  services/           /services
-  events/             /events
-  media/              /media — press + podcasts
-  mentor-program/     /mentor-program — cohort program + apply form
-  contact/            /contact — general contact form
-  api/
-    contact/route.ts  Placeholder POST handler (logs + 200)
-    mentor/route.ts   Placeholder POST handler (logs + 200)
-  globals.css         Tailwind v4 + brand tokens
-
-components/           Reusable sections, cards, forms
+  layout.tsx            Root layout: header, footer, fonts, metadata
+  page.tsx              Home (and the other routes in their folders)
+  api/content-health    Where content is coming from (Sheet or fallback)
+  api/refresh           "Update site" link for Nicole (see below)
+  sitemap.ts, robots.ts, icon.png, favicon.ico, opengraph-image.jpg
+  globals.css           Tailwind v4 + brand tokens + section alternation
+components/             Sections, cards, forms (MonthCalendar, LogoMarquee,
+                        PodcastLinkList, MediaKit, RichText, ...)
 lib/
-  clsx.ts             Tiny class-merge helper
-  content.ts          Visibility filter + sorting + date helpers
-  mock/               Mock data (events, podcasts, press, services, book, recognition)
-types/
-  content.ts          Shared content models
-public/               Static assets
+  cms/                  Google Sheets fetch, row mappers, per-tab fallback
+  mock/                 Fallback data (events, partners, podcasts, book, ...)
+  bio.ts                Nicole's approved bio, word for word
+  events.ts             Upcoming/past, times, "next stage" selection
+  credit.ts             Footer design credit (placeholder until supplied)
+  content.ts            Visibility filter, sorting, date formatting
+scripts/
+  prepare-logos.mjs     Trim and export partner logos at web size
+public/__forms.html     Registers the contact form with Netlify Forms
+docs/                   How-tos (Sheet CMS, contact form, media, sources)
 ```
 
-## Content model
+## Content
 
-Every public record carries identity, lifecycle, and ordering fields so the
-mock layer can later be swapped for a CMS or Google Sheet without changes to
-the UI:
+Every record has `status` (`Draft`, `Ready to Publish`, `Published`,
+`Archived`), `featured`, and `sort_order`. Only `Ready to Publish` and
+`Published` records show (`publish()` in `lib/content.ts`); featured first,
+then by `sort_order`.
 
-```ts
-{
-  id: string;
-  title: string;
-  status: "Draft" | "Ready to Publish" | "Published" | "Archived";
-  featured: boolean;
-  sort_order: number;
-  created_at: string;
-  updated_at: string;
-}
-```
+With `CMS_SOURCE=google_sheets`, `GOOGLE_SHEET_ID` and `GOOGLE_SHEETS_API_KEY`
+set, each Sheet tab replaces its fallback file; a missing or broken tab falls
+back on its own. See `docs/google-sheets-cms.md`.
 
-The `publish()` helper in `lib/content.ts` enforces the visibility rule:
-**only `Ready to Publish` and `Published` records are surfaced**. `Draft` and
-`Archived` are hidden from every page.
+- **Events** are upcoming or past by date (America/New_York), worked out on
+  every read. Home, Events and Speaker re-render hourly. `visibility` is
+  `public` or `private`; private events show "Private event" and no link.
+- **Freshness:** Sheet data is cached for `CONTENT_REVALIDATE_SECONDS`
+  (default 300). For an immediate update, Nicole opens
+  `https://narrativaconsulting.com/api/refresh?key=<REFRESH_SECRET>` (set
+  `REFRESH_SECRET` in Netlify). Without the right key it is a 404.
 
-Featured records float to the top, then the list sorts by `sort_order`
-ascending.
+## Design system
 
-## Brand
+- Fonts: **Cormorant Garamond** (display) and **Lato** (body) via `next/font`.
+- Colours: purple scale `--color-purple-50` … `900` (brand `#5A2896`, deep
+  `#24102F`), teal accent `#3CA082`, ink `#1B1223`. All in `app/globals.css`.
+- Pill buttons, `rounded-3xl` cards, slow reveal-on-scroll, at most one dark
+  band per page.
+- Sections placed inside `<div className="section-stack">` alternate white and
+  lavender by position.
 
-| Token             | Hex       | Notes                                       |
-| ----------------- | --------- | ------------------------------------------- |
-| Brand purple      | `#6b2c91` | Primary brand color                         |
-| Soft lavender     | `#ebddf4` | Soft surfaces, pills, highlights            |
-| Deep green        | `#1f4d3a` | Status accents (upcoming events)            |
-| Ink               | `#1a1322` | Body text                                   |
-| Surface           | `#ffffff` | Page background                             |
-| Surface alt       | `#f7f5f9` | Section backgrounds                         |
-| Surface tint      | `#faf7fc` | Soft section backgrounds                    |
-| Light gray (line) | `#e7e2ec` | Borders, dividers                           |
+## Contact form
 
-Fonts: **Geist Sans** (UI) and **Fraunces** (display) via `next/font/google`.
-
-## Forms
-
-The contact and mentor forms POST JSON to `/api/contact` and `/api/mentor`. The
-route handlers validate required fields, log the submission to the server, and
-return `{ ok: true }`. Wire real integrations (email, CRM, Sheet) inside those
-handlers when ready.
-
-## Next steps (not in scope for this MVP)
-
-- Wire `/api/contact` and `/api/mentor` to email / CRM / Google Sheet
-- Replace mock data with a CMS or Google Sheets data layer
-- Replace placeholder press/podcast logos with licensed images
-- Add OG images (`opengraph-image.tsx`) per route
-- Add a sitemap and robots route
-- Add analytics
+Netlify Forms; see `docs/contact-form.md` for the one-time Netlify setup
+(enable form detection, add the notification email).

@@ -43,7 +43,7 @@ export function PodcastLinkList({
               <span className="block font-display text-2xl leading-tight text-ink transition-colors group-hover:text-brand sm:text-3xl">
                 {p.show}
               </span>
-              {p.episode_title ? (
+              {p.episode_title && p.episode_title !== p.show ? (
                 <span className="mt-1 block text-sm text-ink-soft">
                   {p.episode_title}
                 </span>
