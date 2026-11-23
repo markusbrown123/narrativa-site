@@ -11,6 +11,8 @@
  *     reads, and hidden rows greyed out. Safe to run again at any time.
  *   - Connect to the website: stores the update key once (only people
  *     who can edit the Sheet's script can see it, never viewers).
+ *   - Open the editor: the visual "Website editor" sidebar (Editor.gs and
+ *     Editor.html, in the same Apps Script project).
  *
  * Install (once): in the Sheet, Extensions → Apps Script, replace the
  * contents of Code.gs with this file, click Save, then reload the Sheet.
@@ -95,6 +97,7 @@ var NOTES = {
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("Website")
+    .addItem("Open the editor", "openEditor")
     .addItem("Publish changes now", "publishChanges")
     .addSeparator()
     .addItem("Set up dropdowns and tick boxes", "setUpSheet")
@@ -110,7 +113,7 @@ function connectToWebsite() {
     ui.ButtonSet.OK_CANCEL
   );
   if (answer.getSelectedButton() !== ui.Button.OK) return false;
-  var key = answer.getResponseText().trim().replace(/^.*[?&]key=/, "").replace(/&.*$/, "");
+  var key = extractUpdateKey(answer.getResponseText());
   if (!key) return false;
   var response = callWebsite(key);
   if (response.getResponseCode() === 404) {
@@ -147,6 +150,11 @@ function publishChanges() {
   var report = JSON.parse(response.getContentText());
   var html = HtmlService.createHtmlOutput(reportHtml(report)).setWidth(560).setHeight(600);
   ui.showModalDialog(html, "Website updated");
+}
+
+/** The key from a pasted "update site" link, or the key itself. */
+function extractUpdateKey(text) {
+  return String(text || "").trim().replace(/^.*[?&]key=/, "").replace(/[&#\s].*$/, "");
 }
 
 /** The website's answer, or a stand-in with code 0 if it couldn't be reached. */

@@ -1,0 +1,945 @@
+<!doctype html>
+<html>
+<head>
+<base target="_blank">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#5a2896;--brand-strong:#6b2fa3;--deep:#24102f;--lav:#f6eefb;--pale:#fcf8ff;--line:#eadbf4;--ink:#1b1223;--soft:#3a2d49;--muted:#5b5065;--teal:#3ca082;--teal-ink:#25624f;--red:#b3261e;--amber:#9a6200}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:13px/1.45 Lato,Arial,sans-serif;color:var(--ink);background:var(--pale);display:flex;flex-direction:column}
+button,input,textarea,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;margin:0;line-height:1.15}
+header{padding:12px 14px 8px;display:flex;align-items:baseline;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}
+header h1{font-size:22px}
+header a{font-size:12px;color:var(--brand);font-weight:700;text-decoration:none}
+nav{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border-bottom:1px solid var(--line)}
+nav button{border:0;background:none;padding:7px 0 6px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;color:var(--muted);cursor:pointer;position:relative;border-bottom:2px solid transparent}
+nav button svg{width:18px;height:18px}
+nav button[aria-current="page"]{color:var(--brand);border-bottom-color:var(--brand);font-weight:700}
+nav .badge{position:absolute;top:3px;right:12px;min-width:16px;height:16px;border-radius:8px;background:var(--red);color:#fff;font-size:10px;font-weight:700;line-height:16px;padding:0 4px}
+main{flex:1;overflow-y:auto;padding:12px 12px 20px}
+footer{background:#fff;border-top:1px solid var(--line);padding:10px 12px 12px}
+footer .status{margin-top:6px;font-size:11.5px;color:var(--muted);text-align:center}
+footer .status a{color:var(--brand);font-weight:700;cursor:pointer;text-decoration:underline}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;border:1px solid transparent;padding:8px 14px;font-weight:700;cursor:pointer;background:var(--brand);color:#fff;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--brand-strong)}
+.btn.block{width:100%;padding:10px 14px;font-size:14px}
+.btn.secondary{background:#fff;color:var(--brand);border-color:var(--line)}
+.btn.secondary:hover{background:var(--lav)}
+.btn.ghost{background:none;color:var(--brand);padding:6px 8px}
+.btn.small{padding:5px 11px;font-size:12px}
+.btn.danger{background:#fff;color:var(--red);border-color:#f0d3d1}
+.btn[disabled]{opacity:.55;cursor:progress}
+.row{display:flex;gap:8px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.between{justify-content:space-between}
+.muted{color:var(--muted)}
+.small{font-size:11.5px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:2px 0 10px}
+.section-title h2{font-size:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px}
+.list{display:grid;gap:8px;grid-template-columns:minmax(0,1fr)}
+.tiles>*,.stack>*{min-width:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-size:12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}
+.pill{display:inline-block;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700;letter-spacing:.02em;white-space:nowrap}
+.pill.live{background:#e3f3ee;color:var(--teal-ink)}
+.pill.draft{background:#efebf3;color:var(--muted)}
+.pill.none{background:#fbf1dc;color:var(--amber)}
+.pill.bad{background:#fbe5e3;color:var(--red)}
+.item{display:flex;gap:10px;align-items:center;cursor:pointer;text-align:left;width:100%;border:1px solid var(--line);background:#fff;border-radius:14px;padding:8px 10px}
+.item:hover{border-color:#c8a3e0}
+.item .thumb{width:44px;height:44px;border-radius:10px;background:var(--lav) center/cover no-repeat;flex:none}
+.item .thumb.logo{background-size:contain;background-color:#fff;background-origin:content-box;padding:4px;border:1px solid var(--line)}
+.item .body{min-width:0;flex:1}
+.item .t{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .s{color:var(--muted);font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.datebadge{width:44px;flex:none;text-align:center;border-radius:10px;background:var(--lav);padding:4px 0}
+.datebadge b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;line-height:1;color:var(--brand)}
+.datebadge span{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+/* calendar */
+.cal{background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.cal-head h3{font-size:18px}
+.cal-head button{border:0;background:none;cursor:pointer;width:28px;height:28px;border-radius:14px;color:var(--brand);font-size:16px}
+.cal-head button:hover{background:var(--lav)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-grid .wd{font-size:10px;font-weight:700;color:var(--muted);text-align:center;padding:2px 0}
+.day{border:0;background:none;border-radius:9px;height:36px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:4px;font-size:12px}
+.day:hover{background:var(--lav)}
+.day.out{color:#bdb3c6}
+.day.today .num{border-radius:999px;box-shadow:0 0 0 1.5px var(--brand);padding:0 4px}
+.day.sel{background:var(--brand);color:#fff}
+.dots{display:flex;gap:2px;margin-top:3px;height:5px}
+.dots i{width:5px;height:5px;border-radius:3px;background:var(--brand)}
+.dots i.hidden{background:#c9c3cf}
+.day.sel .dots i{background:#fff}
+.day.sel .dots i.hidden{background:#d9cbe8}
+/* forms */
+label.f{display:block;margin:10px 0 0}
+label.f>span{display:block;font-weight:700;font-size:12px;margin-bottom:3px}
+label.f>span em{font-style:normal;color:var(--red)}
+input.in,textarea.in,select.in{width:100%;border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 9px;outline:none}
+input.in:focus,textarea.in:focus,select.in:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(90,40,150,.12)}
+textarea.in{resize:vertical;min-height:84px}
+textarea.in.tall{min-height:220px}
+.in.err{border-color:var(--red);box-shadow:0 0 0 3px rgba(179,38,30,.1)}
+.help{font-size:11px;color:var(--muted);margin-top:3px}
+.warn{font-size:11.5px;color:var(--red);margin-top:3px}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;background:#fff;padding:2px}
+.seg button{flex:1;border:0;background:none;border-radius:999px;padding:5px 4px;font-size:12px;cursor:pointer;color:var(--soft)}
+.seg button[aria-pressed="true"]{background:var(--brand);color:#fff;font-weight:700}
+.seg.status button[data-v="Published"][aria-pressed="true"]{background:var(--teal-ink)}
+.toggle{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:10px;font-weight:700;font-size:12px}
+.switch{width:38px;height:22px;border-radius:11px;background:#d9d2df;border:0;position:relative;cursor:pointer;flex:none}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:8px;background:#fff;transition:left .15s}
+.switch[aria-checked="true"]{background:var(--brand)}
+.switch[aria-checked="true"]::after{left:19px}
+.pic{border:1px dashed #c8a3e0;border-radius:14px;background:#fff;padding:8px}
+.pic .preview{height:150px;border-radius:10px;background:var(--lav) center/contain no-repeat;background-origin:content-box;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:11.5px;padding:10px}
+.pic .preview.photo{background-size:cover}
+.pic .row{margin-top:8px}
+.form-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.form-actions{position:sticky;bottom:-20px;background:linear-gradient(transparent,var(--pale) 30%);padding:14px 0 4px;display:flex;gap:8px}
+/* pictures */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{border:1px solid var(--line);border-radius:14px;background:#fff;overflow:hidden;cursor:pointer;text-align:left;padding:0}
+.tile .img{height:92px;background:var(--lav) center/cover no-repeat;position:relative}
+.tile .img.logo{background-size:contain;background-color:#fff;background-origin:content-box;padding:12px;border-bottom:1px solid var(--line)}
+.tile .img.empty{background:repeating-linear-gradient(45deg,#fcf8ff,#fcf8ff 6px,#f6eefb 6px,#f6eefb 12px);display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:700;font-size:12px}
+.tile .img.broken{background:#fbf1dc;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--amber);font-size:11px;padding:6px}
+.tile .cap{padding:6px 8px 8px}
+.tile .cap .t{font-weight:700;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .replace{position:absolute;right:6px;bottom:6px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;font-size:11px;font-weight:700;color:var(--brand);padding:3px 9px;cursor:pointer}
+/* fixes */
+.issue{background:#fff;border:1px solid var(--line);border-left:4px solid var(--red);border-radius:14px;padding:9px 11px}
+.issue.check{border-left-color:var(--teal)}
+.issue.done{opacity:.55;border-left-color:#c9c3cf}
+.issue .where{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.issue .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.summary{display:flex;gap:8px;margin-bottom:10px}
+.summary .card{flex:1;text-align:center;padding:8px}
+.summary b{display:block;font-family:"Cormorant Garamond",Georgia,serif;font-size:24px;line-height:1}
+/* ask */
+.bubble{border-radius:14px;padding:8px 11px;max-width:92%;white-space:pre-wrap}
+.bubble.me{background:var(--brand);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+.bubble.ai{background:#fff;border:1px solid var(--line);border-bottom-left-radius:4px}
+.proposal{background:#fff;border:1px solid #c8a3e0;border-radius:14px;padding:10px 12px}
+.proposal .chg{display:grid;gap:5px;margin:8px 0}
+.proposal .chg div{font-size:12px;background:var(--pale);border-radius:8px;padding:5px 8px}
+.proposal .chg b{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.proposal .old{text-decoration:line-through;color:var(--muted)}
+.examples{display:grid;gap:6px;margin-top:8px}
+.examples button{text-align:left;border:1px dashed #c8a3e0;background:#fff;border-radius:10px;padding:6px 9px;cursor:pointer;font-size:12px;color:var(--soft)}
+.composer{display:flex;gap:6px;align-items:flex-end;margin-top:10px}
+.composer textarea{flex:1;min-height:58px}
+.empty{color:var(--muted);text-align:center;padding:18px 8px}
+.toast{position:fixed;left:10px;right:10px;bottom:84px;background:var(--deep);color:#fff;border-radius:12px;padding:9px 12px;box-shadow:0 10px 30px -10px rgba(36,16,47,.6);display:flex;gap:10px;align-items:center;justify-content:space-between;font-size:12.5px;z-index:10}
+.toast.err{background:var(--red)}
+.toast button{background:#fff;color:var(--brand);border:0;border-radius:999px;padding:4px 10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.spin{width:14px;height:14px;border-radius:50%;border:2px solid currentColor;border-top-color:transparent;animation:s .8s linear infinite;display:inline-block}
+@keyframes s{to{transform:rotate(360deg)}}
+.connect{margin-bottom:8px}
+.connect p{margin:0 0 6px;font-size:12px;color:var(--soft)}
+.stack{display:grid;gap:8px}
+a.link{color:var(--brand);font-weight:700;cursor:pointer;text-decoration:underline}
+</style>
+</head>
+<body>
+<header><h1>Website editor</h1><a id="siteLink" href="#">View site ↗</a></header>
+<nav id="nav"></nav>
+<main id="view"><div class="empty"><span class="spin"></span><br>Opening…</div></main>
+<footer id="footer"></footer>
+<input type="file" id="file" accept="image/*" hidden>
+<script>
+/* ------------------------------------------------------------------ */
+/* State and server calls                                              */
+
+var S = {
+  data: null, view: "calendar",
+  month: null, day: null,
+  editTab: "Events", search: "", form: null,
+  picTab: "Events",
+  report: null, fixed: {}, publishedAt: null, connectOpen: false,
+  chat: [], busy: false,
+};
+
+function call(name) {
+  var args = Array.prototype.slice.call(arguments, 1);
+  return new Promise(function (resolve, reject) {
+    var runner = google.script.run.withSuccessHandler(resolve).withFailureHandler(reject);
+    runner[name].apply(runner, args);
+  });
+}
+
+function esc(v) {
+  return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+    return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+  });
+}
+
+var ICONS = {
+  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+  pictures: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></svg>',
+  edit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13 7 4 4"/></svg>',
+  fixes: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 2.5 20h19z"/><path d="M12 10v4M12 17.5v.5"/></svg>',
+  ask: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 4.6L18 9l-4.2 1.4L12 15l-1.8-4.6L6 9l4.2-1.4z"/><path d="M18.5 15l.8 2 2 .7-2 .8-.8 2-.7-2-2-.8 2-.7z"/></svg>',
+};
+var VIEWS = [["calendar", "Calendar"], ["pictures", "Pictures"], ["edit", "Edit"], ["fixes", "Fixes"], ["ask", "Ask"]];
+var PICTURE_KEY = { Events: "image_url", Partners: "logo_url", Podcasts: "image_url", Recognition: "image_url" };
+var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/* ------------------------------------------------------------------ */
+/* Helpers                                                             */
+
+function tab(name) { return (S.data.tabs[name] || { rows: [] }); }
+function form(name) { return S.data.forms[name]; }
+function rowOf(name, row) { return tab(name).rows.filter(function (r) { return r.row === row; })[0]; }
+
+function statusInfo(raw) {
+  var v = String(raw || "").trim().toLowerCase();
+  if (["published", "publish", "live", "ready to publish", "ready", "approved"].indexOf(v) !== -1) return { cls: "live", label: "Live", live: true };
+  if (v === "draft") return { cls: "draft", label: "Draft" };
+  if (["archived", "archive", "hidden"].indexOf(v) !== -1) return { cls: "draft", label: "Archived" };
+  if (v === "") return { cls: "none", label: "No status" };
+  return { cls: "bad", label: "Status?" };
+}
+function statusPill(raw) { var s = statusInfo(raw); return '<span class="pill ' + s.cls + '">' + s.label + "</span>"; }
+
+function isoDate(text) {
+  var t = String(text || "").trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(t)) return t;
+  if (!t) return "";
+  var d = new Date(t);
+  if (isNaN(d.getTime())) return "";
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function prettyDate(iso, withDay) {
+  if (!iso) return "";
+  var p = iso.split("-").map(Number);
+  var d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+  var s = MONTHS[p[1] - 1] + " " + p[2] + ", " + p[0];
+  if (withDay) s = d.toLocaleDateString("en-US", { weekday: "long", timeZone: "UTC" }) + ", " + MONTHS[p[1] - 1] + " " + p[2];
+  return s;
+}
+
+function previewSrc(link) {
+  var t = String(link || "").trim();
+  if (!t) return "";
+  var m = t.match(/\/file\/d\/([A-Za-z0-9_-]{10,})/) || t.match(/(?:drive|docs)\.google\.com\/.*[?&]id=([A-Za-z0-9_-]{10,})/) || t.match(/drive\.usercontent\.google\.com\/.*[?&]id=([A-Za-z0-9_-]{10,})/);
+  if (m) return "https://drive.google.com/thumbnail?id=" + m[1] + "&sz=w800";
+  if (/dropbox\.com/.test(t)) return t.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace(/([?&])dl=0/, "$1dl=1");
+  if (t.charAt(0) === "/") return S.data.site + t;
+  if (/^https?:\/\//.test(t)) return t;
+  return "";
+}
+
+function titleOf(name, values) {
+  var f = form(name);
+  var t = values[f.title] || values.title || values.name || "";
+  if (name === "Podcasts" && values.title && values.show) t = values.show;
+  return t || "(no title yet)";
+}
+function subtitleOf(name, values) {
+  if (name === "Events") return [prettyDate(isoDate(values.event_date || values.date)) || "No date", values.event_time, values.location].filter(Boolean).join(" · ");
+  if (name === "Partners") return values.relationship || "";
+  if (name === "Podcasts") return [values.title, prettyDate(isoDate(values.published_date))].filter(Boolean).join(" · ");
+  if (name === "Recognition") return [values.organization, values.year].filter(Boolean).join(" · ");
+  if (name === "Books") return values.subtitle || "";
+  return "";
+}
+
+/* ------------------------------------------------------------------ */
+/* Toasts                                                              */
+
+var toastTimer = null;
+function toast(msg, opts) {
+  opts = opts || {};
+  var old = document.querySelector(".toast");
+  if (old) old.remove();
+  var el = document.createElement("div");
+  el.className = "toast" + (opts.error ? " err" : "");
+  el.setAttribute("role", "status");
+  el.innerHTML = "<span>" + esc(msg) + "</span>" + (opts.action ? '<button type="button">' + esc(opts.action) + "</button>" : "");
+  if (opts.action) el.querySelector("button").onclick = function () { el.remove(); opts.onAction(); };
+  document.body.appendChild(el);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { el.remove(); }, opts.action ? 9000 : 4500);
+}
+function fail(err) {
+  S.busy = false;
+  render();
+  toast((err && err.message) || String(err), { error: true });
+}
+
+/* ------------------------------------------------------------------ */
+/* Rendering                                                           */
+
+var lastScreen = null;
+function render() {
+  renderNav();
+  renderFooter();
+  var v = document.getElementById("view");
+  var screen = S.form ? "form" : S.view + ":" + S.editTab + ":" + S.picTab;
+  var scroll = screen === lastScreen ? v.scrollTop : 0;
+  if (S.form) v.innerHTML = viewForm();
+  else v.innerHTML = { calendar: viewCalendar, pictures: viewPictures, edit: viewEdit, fixes: viewFixes, ask: viewAsk }[S.view]();
+  v.scrollTop = scroll;
+  lastScreen = screen;
+  afterRender();
+}
+
+function renderNav() {
+  var problems = S.report ? S.report.issues.filter(function (i, n) { return i.level === "problem" && !S.fixed[n]; }).length : 0;
+  document.getElementById("nav").innerHTML = VIEWS.map(function (v) {
+    var cur = (S.view === v[0]) ? ' aria-current="page"' : "";
+    var badge = v[0] === "fixes" && problems ? '<span class="badge">' + problems + "</span>" : "";
+    return '<button type="button" data-go="' + v[0] + '"' + cur + ">" + ICONS[v[0]] + v[1] + badge + "</button>";
+  }).join("");
+}
+
+function renderFooter() {
+  var f = document.getElementById("footer");
+  if (!S.data) { f.innerHTML = ""; return; }
+  var html = "";
+  if (S.connectOpen || !S.data.connected) {
+    html += '<div class="connect"><p>' + (S.data.connected ? "Paste the new update link." : "To publish from here, paste your “update site” link once (it ends in <b>key=…</b>).") + '</p>' +
+      '<div class="row"><input class="in" id="connectKey" placeholder="https://narrativaconsulting.com/api/refresh?key=…" aria-label="Update link">' +
+      '<button class="btn small" data-act="connect"' + (S.busy ? " disabled" : "") + ">Connect</button></div></div>";
+  }
+  if (S.data.connected) {
+    html += '<button class="btn block" data-act="publish"' + (S.busy ? " disabled" : "") + ">" + (S.busy === "publish" ? '<span class="spin"></span> Publishing…' : "Publish to website") + "</button>";
+  }
+  var status = "";
+  if (S.publishedAt) {
+    var problems = S.report.issues.filter(function (i, n) { return i.level === "problem" && !S.fixed[n]; }).length;
+    status = "Published at " + S.publishedAt + (problems ? ' · <a data-go="fixes">' + problems + " to fix</a>" : " · all good");
+  } else if (S.data.connected) {
+    status = "Changes also reach the site by themselves within 5 minutes.";
+  }
+  if (status) html += '<div class="status">' + status + "</div>";
+  f.innerHTML = html;
+}
+
+/* ---------- Calendar ---------- */
+
+function eventsByDate() {
+  var map = {}, undated = [];
+  tab("Events").rows.forEach(function (r) {
+    var iso = isoDate(r.values.event_date || r.values.date);
+    if (!iso) { undated.push(r); return; }
+    (map[iso] = map[iso] || []).push(r);
+  });
+  return { map: map, undated: undated };
+}
+
+function viewCalendar() {
+  if (!tab("Events").exists) return '<div class="card">There is no <b>Events</b> tab in this Sheet yet.</div>';
+  var today = S.data.today;
+  if (!S.month) S.month = today.slice(0, 7);
+  var p = S.month.split("-").map(Number), y = p[0], m = p[1];
+  var first = new Date(Date.UTC(y, m - 1, 1)), startDow = first.getUTCDay();
+  var days = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  var ev = eventsByDate();
+  var html = '<div class="section-title"><h2>Calendar</h2><button class="btn small" data-act="add-event" data-date="' + (S.day || "") + '">+ Add an event</button></div>';
+  html += '<div class="cal"><div class="cal-head"><button aria-label="Previous month" data-act="month" data-d="-1">‹</button><h3>' + MONTHS[m - 1] + " " + y + '</h3><button aria-label="Next month" data-act="month" data-d="1">›</button></div><div class="cal-grid">';
+  ["S", "M", "T", "W", "T", "F", "S"].forEach(function (d) { html += '<div class="wd">' + d + "</div>"; });
+  for (var i = 0; i < startDow; i++) html += "<div></div>";
+  for (var d = 1; d <= days; d++) {
+    var iso = y + "-" + pad(m) + "-" + pad(d);
+    var list = ev.map[iso] || [];
+    var cls = "day" + (iso === today ? " today" : "") + (iso === S.day ? " sel" : "");
+    var dots = list.slice(0, 3).map(function (r) { return '<i class="' + (statusInfo(r.values.status).live ? "" : "hidden") + '"></i>'; }).join("");
+    html += '<button class="' + cls + '" data-act="day" data-date="' + iso + '" aria-label="' + prettyDate(iso) + (list.length ? ", " + list.length + " event" + (list.length > 1 ? "s" : "") : "") + '"><span class="num">' + d + '</span><span class="dots">' + dots + "</span></button>";
+  }
+  html += '</div><div class="row between small muted" style="margin-top:6px;padding:0 4px"><span><i style="display:inline-block;width:7px;height:7px;border-radius:4px;background:var(--brand)"></i> on the site</span><span><i style="display:inline-block;width:7px;height:7px;border-radius:4px;background:#c9c3cf"></i> hidden</span><a class="link" data-act="today">Today</a></div></div>';
+
+  if (S.day) {
+    var dayList = ev.map[S.day] || [];
+    html += '<div class="section-title" style="margin-top:14px"><h3 style="font-size:17px">' + prettyDate(S.day, true) + '</h3><button class="btn ghost small" data-act="add-event" data-date="' + S.day + '">+ Add</button></div>';
+    html += dayList.length ? '<div class="list">' + dayList.map(eventItem).join("") + "</div>" : '<div class="empty">Nothing on this day.</div>';
+  } else {
+    var upcoming = Object.keys(ev.map).filter(function (k) { return k >= today; }).sort().slice(0, 8);
+    html += '<div class="section-title" style="margin-top:14px"><h3 style="font-size:17px">Coming up</h3></div>';
+    html += upcoming.length ? '<div class="list">' + upcoming.map(function (k) { return ev.map[k].map(eventItem).join(""); }).join("") + "</div>" : '<div class="empty">No upcoming events. Add one with the button above.</div>';
+  }
+  if (ev.undated.length) {
+    html += '<div class="section-title" style="margin-top:14px"><h3 style="font-size:17px">No date yet</h3></div><div class="list">' + ev.undated.map(eventItem).join("") + "</div>";
+  }
+  return html;
+}
+
+function eventItem(r) {
+  var v = r.values, iso = isoDate(v.event_date || v.date);
+  var badge = iso ? '<div class="datebadge"><span>' + MONTHS[Number(iso.slice(5, 7)) - 1].slice(0, 3) + "</span><b>" + Number(iso.slice(8)) + "</b></div>" : '<div class="datebadge"><span>No</span><b>?</b></div>';
+  var sub = [v.event_time, v.location].filter(Boolean).join(" · ") || v.role || "";
+  return '<button class="item" data-act="open" data-tab="Events" data-row="' + r.row + '">' + badge + '<div class="body"><div class="t">' + esc(titleOf("Events", v)) + '</div><div class="s">' + esc(sub) + "</div></div>" + statusPill(v.status) + "</button>";
+}
+
+/* ---------- Pictures ---------- */
+
+function viewPictures() {
+  var tabs = ["Events", "Partners", "Podcasts", "Recognition"].filter(function (t) { return tab(t).exists; });
+  if (tabs.indexOf(S.picTab) === -1) S.picTab = tabs[0];
+  var html = '<div class="section-title"><h2>Pictures</h2></div><p class="muted small" style="margin:-4px 0 10px">Tap <b>Replace</b> to upload a new picture from your computer. It is saved to a “Website pictures” folder in your Drive and shared so the site can show it.</p>';
+  html += '<div class="chips">' + tabs.map(function (t) { return '<button class="chip" data-act="pictab" data-tab="' + t + '" aria-pressed="' + (S.picTab === t) + '">' + form(t).label + "</button>"; }).join("") + "</div>";
+  var key = PICTURE_KEY[S.picTab], logo = S.picTab === "Partners";
+  var rows = tab(S.picTab).rows;
+  if (!rows.length) return html + '<div class="empty">No rows yet.</div>';
+  html += '<div class="tiles">' + rows.map(function (r) {
+    var src = previewSrc(r.values[key]);
+    var img = src
+      ? '<div class="img' + (logo ? " logo" : "") + '" data-bg="' + esc(src) + '"><span class="replace" data-act="replace" data-tab="' + S.picTab + '" data-row="' + r.row + '">Replace</span></div>'
+      : '<div class="img empty" data-act="replace" data-tab="' + S.picTab + '" data-row="' + r.row + '">+ Add picture</div>';
+    return '<div class="tile" data-act="open" data-tab="' + S.picTab + '" data-row="' + r.row + '" data-focus="' + key + '" role="button" tabindex="0">' + img + '<div class="cap"><div class="t">' + esc(titleOf(S.picTab, r.values)) + "</div>" + statusPill(r.values.status) + "</div></div>";
+  }).join("") + "</div>";
+  return html;
+}
+
+/* ---------- Edit ---------- */
+
+var EDIT_TABS = ["Events", "Partners", "Podcasts", "Recognition", "Books", "Settings"];
+
+function viewEdit() {
+  var tabs = EDIT_TABS.filter(function (t) { return tab(t).exists; });
+  if (tabs.indexOf(S.editTab) === -1) S.editTab = tabs[0];
+  var html = '<div class="section-title"><h2>Edit</h2>' + (S.editTab !== "Settings" ? '<button class="btn small" data-act="add" data-tab="' + S.editTab + '">+ Add</button>' : "") + "</div>";
+  html += '<div class="chips">' + tabs.map(function (t) { return '<button class="chip" data-act="edittab" data-tab="' + t + '" aria-pressed="' + (S.editTab === t) + '">' + (t === "Settings" ? "Settings" : form(t).label) + "</button>"; }).join("") + "</div>";
+  if (S.editTab === "Settings") return html + viewSettings();
+  html += '<input class="in" id="search" placeholder="Search ' + esc(form(S.editTab).label.toLowerCase()) + '…" value="' + esc(S.search) + '" aria-label="Search" style="margin-bottom:10px">';
+  var q = S.search.trim().toLowerCase();
+  var rows = tab(S.editTab).rows.filter(function (r) {
+    return !q || Object.keys(r.values).some(function (k) { return String(r.values[k]).toLowerCase().indexOf(q) !== -1; });
+  });
+  if (S.editTab === "Events") rows = rows.slice().sort(function (a, b) { return String(isoDate(b.values.event_date)).localeCompare(String(isoDate(a.values.event_date))); });
+  if (!rows.length) return html + '<div class="empty">' + (q ? "Nothing matches." : "No rows yet.") + "</div>";
+  if (S.editTab === "Events") return html + '<div class="list">' + rows.map(eventItem).join("") + "</div>";
+  var key = PICTURE_KEY[S.editTab];
+  return html + '<div class="list">' + rows.map(function (r) {
+    var src = key ? previewSrc(r.values[key]) : "";
+    var thumb = key ? '<div class="thumb' + (S.editTab === "Partners" ? " logo" : "") + '"' + (src ? ' data-bg="' + esc(src) + '"' : "") + "></div>" : "";
+    return '<button class="item" data-act="open" data-tab="' + S.editTab + '" data-row="' + r.row + '">' + thumb + '<div class="body"><div class="t">' + esc(titleOf(S.editTab, r.values)) + '</div><div class="s">' + esc(subtitleOf(S.editTab, r.values)) + "</div></div>" + statusPill(r.values.status) + "</button>";
+  }).join("") + "</div>";
+}
+
+function viewSettings() {
+  var r = tab("Settings").rows.filter(function (x) { return x.values.key === "amazon_book_url"; })[0];
+  return '<div class="card"><label class="f"><span>Amazon link for the book</span><input class="in" id="amazonUrl" value="' + esc(r ? r.values.value : "") + '" placeholder="https://www.amazon.com/…"></label><div class="help">Used by the “Order on Amazon” buttons.</div><div class="row" style="margin-top:10px"><button class="btn small" data-act="save-amazon" data-row="' + (r ? r.row : 0) + '">Save</button></div></div>';
+}
+
+/* ---------- Form ---------- */
+
+function openForm(tabName, row, opts) {
+  opts = opts || {};
+  var r = row ? rowOf(tabName, row) : null;
+  var values = {}, original = {};
+  if (r) Object.keys(r.values).forEach(function (k) { values[k] = r.values[k]; original[k] = r.values[k]; });
+  if (!r) values.status = "Draft";
+  Object.keys(opts.prefill || {}).forEach(function (k) { values[k] = opts.prefill[k]; });
+  S.form = { tab: tabName, row: row || 0, values: values, original: original, focus: opts.focus || null, returnTo: S.view, errors: {}, uploading: null };
+  render();
+  document.getElementById("view").scrollTop = 0;
+}
+
+function viewForm() {
+  var F = S.form, f = form(F.tab), v = F.values;
+  var isNew = !F.row;
+  var html = '<div class="form-head"><a class="link" data-act="close-form">← Back</a>' + (F.row ? '<a class="link small" data-act="goto" data-tab="' + F.tab + '" data-row="' + F.row + '">Show in Sheet</a>' : "") + "</div>";
+  html += '<h2 style="font-size:21px;margin-bottom:8px">' + (isNew ? "New " + esc(f.item) : esc(titleOf(F.tab, v))) + "</h2>";
+  var st = String(v.status || "");
+  var stVal = statusInfo(st).live ? "Published" : statusInfo(st).label === "Archived" ? "Archived" : statusInfo(st).label === "Draft" ? "Draft" : "";
+  html += '<div class="seg status" role="group" aria-label="Status">' + [["Published", "On the website"], ["Draft", "Draft"], ["Archived", "Archived"]].map(function (o) {
+    return '<button type="button" data-act="status" data-v="' + o[0] + '" aria-pressed="' + (stVal === o[0]) + '">' + o[1] + "</button>";
+  }).join("") + "</div>";
+  if (!stVal) html += '<div class="warn">' + (st ? "The status “" + esc(st) + "” isn't one the site knows, so this is hidden. Pick one above." : "No status yet, so this is hidden. Pick one above.") + "</div>";
+  else html += '<div class="help">' + (stVal === "Published" ? "Shown on the website." : stVal === "Draft" ? "Not on the website yet." : "Taken down, kept here.") + "</div>";
+
+  f.fields.forEach(function (fd) { html += fieldHtml(fd, v[fd.key] == null ? "" : String(v[fd.key]), F.errors[fd.key]); });
+
+  html += '<div class="form-actions"><button class="btn" data-act="save"' + (S.busy ? " disabled" : "") + ">" + (S.busy === "save" ? '<span class="spin"></span> Saving…' : isNew ? "Add it" : "Save changes") + '</button><button class="btn secondary" data-act="close-form">Cancel</button></div>';
+  return html;
+}
+
+function fieldHtml(fd, val, err) {
+  var id = "f_" + fd.key;
+  var req = fd.required ? " <em>*</em>" : "";
+  var errHtml = err ? '<div class="warn">' + esc(err) + "</div>" : "";
+  if (fd.type === "toggle") {
+    var on = /^(true|yes|y|1|x|✓|✔)$/i.test(val);
+    return '<div class="toggle"><span>' + esc(fd.label) + '</span><button type="button" class="switch" role="switch" aria-checked="' + on + '" data-act="toggle" data-key="' + fd.key + '" aria-label="' + esc(fd.label) + '"></button></div>';
+  }
+  if (fd.type === "choice") {
+    var opts = fd.options;
+    if (opts.length <= 2) {
+      return '<label class="f"><span>' + esc(fd.label) + '</span></label><div class="seg" role="group" aria-label="' + esc(fd.label) + '">' + opts.map(function (o) {
+        var cur = (val || opts[0][0]).toLowerCase() === o[0].toLowerCase();
+        return '<button type="button" data-act="choice" data-key="' + fd.key + '" data-v="' + esc(o[0]) + '" aria-pressed="' + cur + '">' + esc(o[1]) + "</button>";
+      }).join("") + "</div>";
+    }
+    return '<label class="f"><span>' + esc(fd.label) + '</span><select class="in" data-field="' + fd.key + '" id="' + id + '"><option value="">—</option>' + opts.map(function (o) {
+      return '<option value="' + esc(o[0]) + '"' + (o[0] === val ? " selected" : "") + ">" + esc(o[1]) + "</option>";
+    }).join("") + "</select></label>";
+  }
+  if (fd.type === "picture") return pictureField(fd, val, err);
+  if (fd.type === "textarea") {
+    return '<label class="f"><span>' + esc(fd.label) + req + '</span><textarea class="in' + (fd.tall ? " tall" : "") + (err ? " err" : "") + '" data-field="' + fd.key + '" id="' + id + '">' + esc(val) + "</textarea></label>" + (fd.help ? '<div class="help">' + esc(fd.help) + "</div>" : "") + errHtml;
+  }
+  if (fd.type === "date") {
+    var iso = isoDate(val);
+    var note = val && !iso ? '<div class="warn">This was “' + esc(val) + '”, which isn\'t a date. Pick the date.</div>' : "";
+    return '<label class="f"><span>' + esc(fd.label) + req + '</span><input type="date" class="in' + (err ? " err" : "") + '" data-field="' + fd.key + '" id="' + id + '" value="' + esc(iso) + '"></label>' + note + errHtml;
+  }
+  var type = fd.type === "number" ? "text" : fd.type === "url" ? "url" : "text";
+  var mode = fd.type === "number" ? ' inputmode="numeric"' : "";
+  return '<label class="f"><span>' + esc(fd.label) + req + '</span><input type="' + type + '"' + mode + ' class="in' + (err ? " err" : "") + '" data-field="' + fd.key + '" id="' + id + '" value="' + esc(val) + '" placeholder="' + esc(fd.placeholder || "") + '"></label>' + (fd.help ? '<div class="help">' + esc(fd.help) + "</div>" : "") + errHtml;
+}
+
+function pictureField(fd, val, err) {
+  var src = previewSrc(val);
+  var up = S.form.uploading === fd.key;
+  var preview = up ? '<div class="preview"><span><span class="spin"></span><br>Uploading…</span></div>'
+    : src ? '<div class="preview' + (fd.logo ? "" : " photo") + '" data-bg="' + esc(src) + '" data-broken="Can\'t show this picture. If it\'s in Google Drive, its sharing must be “Anyone with the link”. Or upload it here instead."></div>'
+    : '<div class="preview">No picture yet</div>';
+  return '<label class="f"><span>' + esc(fd.label) + (fd.required ? " <em>*</em>" : "") + '</span></label><div class="pic" id="f_' + fd.key + '">' + preview +
+    '<div class="row wrap"><button type="button" class="btn small" data-act="upload" data-key="' + fd.key + '"' + (up ? " disabled" : "") + ">Upload from computer</button>" +
+    '<button type="button" class="btn small secondary" data-act="paste" data-key="' + fd.key + '">Paste a link</button>' +
+    (val ? '<button type="button" class="btn small ghost" data-act="clear-pic" data-key="' + fd.key + '">Remove</button>' : "") + "</div>" +
+    '<input class="in" data-field="' + fd.key + '" value="' + esc(val) + '" placeholder="Google Drive or Dropbox link" style="margin-top:8px;' + (S.form["paste_" + fd.key] ? "" : "display:none") + '" aria-label="' + esc(fd.label) + ' link"></div>' + (err ? '<div class="warn">' + esc(err) + "</div>" : "");
+}
+
+/* ---------- Fixes ---------- */
+
+function viewFixes() {
+  var html = '<div class="section-title"><h2>Fixes</h2><button class="btn small secondary" data-act="check"' + (S.busy ? " disabled" : "") + ">" + (S.busy === "publish" ? '<span class="spin"></span>' : "Check again") + "</button></div>";
+  if (!S.data.connected) return html + '<div class="card">Connect to the website (below) to check the Sheet the way the website reads it.</div>';
+  if (!S.report) return html + '<div class="empty">' + (S.busy ? '<span class="spin"></span><br>Checking the Sheet…' : "Press <b>Check again</b> to look for anything that won't show on the site the way you expect.") + "</div>";
+  var issues = S.report.issues;
+  var problems = issues.filter(function (i) { return i.level === "problem"; }).length;
+  var checks = issues.length - problems;
+  html += '<div class="summary"><div class="card"><b style="color:' + (problems ? "var(--red)" : "var(--teal-ink)") + '">' + problems + '</b><span class="small muted">to fix</span></div><div class="card"><b>' + checks + '</b><span class="small muted">to look at</span></div></div>';
+  if (!issues.length) return html + '<div class="card" style="text-align:center"><b style="color:var(--teal-ink)">Everything in the Sheet looks good.</b></div>';
+  return html + '<div class="list">' + issues.map(issueCard).join("") + "</div>";
+}
+
+function issueCard(i, n) {
+  var done = S.fixed[n];
+  var where = [i.tab || "The whole Sheet", i.row ? "row " + i.row : "", i.item || ""].filter(Boolean).map(esc).join(" · ");
+  var acts = done ? '<span class="small" style="color:var(--teal-ink);font-weight:700">Fixed ✓</span>' : fixButtons(i, n);
+  return '<div class="issue ' + i.level + (done ? " done" : "") + '"><div class="where">' + where + "</div><div>" + esc(i.message) + '</div><div class="acts">' + acts + "</div></div>";
+}
+
+function fixButtons(i, n) {
+  var b = function (label, act, extra, cls) { return '<button class="btn small ' + (cls || "") + '" data-act="' + act + '" data-n="' + n + '"' + (extra || "") + ">" + esc(label) + "</button>"; };
+  var open = i.tab && i.row && form(i.tab) ? b("Fix it in the editor", "fix-open", "", "secondary") : "";
+  var goRow = i.tab && i.row ? b("Show in Sheet", "fix-goto", "", "ghost") : i.tab ? b("Open the tab", "fix-goto", "", "ghost") : "";
+  switch (i.code) {
+    case "status_blank":
+    case "status_unknown":
+      return b("Put it on the site", "fix-set", ' data-col="status" data-v="Published"') + b("Keep it hidden", "fix-set", ' data-col="status" data-v="Draft"', "secondary");
+    case "bad_choice":
+      return (i.options || []).map(function (o) { return b("Use “" + o + "”", "fix-set", ' data-col="' + esc(i.column) + '" data-v="' + esc(o) + '"', "secondary"); }).join("");
+    case "bad_featured":
+      return b("Tick it", "fix-set", ' data-col="featured" data-v="TRUE"', "secondary") + b("Untick it", "fix-set", ' data-col="featured" data-v="FALSE"', "secondary");
+    case "bad_link":
+      var fixed = "https://" + String(i.value || "").replace(/^\/*/, "");
+      return b("Use " + fixed.slice(0, 40), "fix-set", ' data-col="' + esc(i.column) + '" data-v="' + esc(fixed) + '"') + open;
+    case "column_typo":
+      return b("Rename it to " + (i.options || [""])[0], "fix-rename") + goRow;
+    case "duplicate_id":
+      return b("Give each row its own id", "fix-ids") + goRow;
+    case "picture_not_shared":
+      return b("Share it", "fix-share") + b("Upload it again", "fix-open", "", "secondary");
+    case "missing_field":
+    case "bad_date":
+    case "bad_year":
+    case "bad_sort":
+    case "picture_folder":
+    case "picture_doc":
+    case "picture_bad_link":
+    case "picture_missing":
+    case "picture_not_picture":
+    case "picture_unreachable":
+      return (open || "") + goRow;
+    default:
+      return goRow;
+  }
+}
+
+/* ---------- Ask (AI) ---------- */
+
+var EXAMPLES = [
+  "Add my keynote at the Lehigh Valley Women's Summit on June 4 at 11:30am in Bethlehem, PA",
+  "Change the time of my next event to 2pm",
+  "Take down the Henkels & McCoy lunch",
+  "Fix any typos in the book description",
+];
+
+function viewAsk() {
+  var html = '<div class="section-title"><h2>Ask</h2>' + (S.data.aiEnabled && S.chat.length ? '<a class="link small" data-act="chat-clear">Start over</a>' : "") + "</div>";
+  if (!S.data.aiEnabled) {
+    return html + '<div class="card stack"><div>Tell the helper what to change in your own words, and it fills in the Sheet for you. You check every change before it\'s saved.</div>' +
+      '<div class="small muted">It uses Claude, by Anthropic. Paste an Anthropic API key to turn it on (from console.anthropic.com → API keys). Each request costs a few cents on that account.</div>' +
+      '<input class="in" id="aiKey" placeholder="sk-ant-…" aria-label="Anthropic API key"><button class="btn small" data-act="ai-key"' + (S.busy ? " disabled" : "") + ">Turn on the helper</button></div>";
+  }
+  html += '<div class="stack">';
+  html += '<div class="bubble ai">Tell me what to change, in your own words. I\'ll show you the change before anything is saved.</div>';
+  if (!S.chat.length) html += '<div class="examples">' + EXAMPLES.map(function (e) { return '<button data-act="example">' + esc(e) + "</button>"; }).join("") + "</div>";
+  S.chat.forEach(function (m, n) {
+    if (m.role === "user") html += '<div class="bubble me">' + esc(m.text) + "</div>";
+    else if (m.error) html += '<div class="bubble ai" style="color:var(--red)">' + esc(m.error) + "</div>";
+    else html += proposalCard(m.proposal, n);
+  });
+  if (S.busy === "ask") html += '<div class="bubble ai"><span class="spin"></span> Thinking…</div>';
+  html += '</div><div class="composer"><textarea class="in" id="askText" placeholder="e.g. Add my panel at Wharton on March 3…" aria-label="Your request"></textarea><button class="btn" data-act="ask"' + (S.busy ? " disabled" : "") + ' aria-label="Send">Send</button></div>';
+  html += '<div class="row between small" style="margin-top:8px"><span class="muted">Uses Claude (Anthropic).</span><a class="link" data-act="ai-off">Turn off</a></div>';
+  return html;
+}
+
+function proposalCard(p, n) {
+  var m = S.chat[n];
+  if (p.action === "none") {
+    return '<div class="bubble ai">' + esc([p.summary, p.question].filter(Boolean).join("\n\n") || "I'm not sure what to change. Could you say it another way?") + "</div>";
+  }
+  var f = form(p.tab), label = function (key) {
+    var fd = f && f.fields.filter(function (x) { return x.key === key; })[0];
+    return fd ? fd.label : key === "status" ? "Status" : key;
+  };
+  var what = p.action === "add_row" ? "New " + (f ? f.item : "row") : p.action === "hide_row" ? "Take down · row " + p.row : (f ? f.label : p.tab) + " · row " + p.row;
+  var html = '<div class="proposal"><div class="where small muted" style="font-weight:700;letter-spacing:.06em;text-transform:uppercase">' + esc(what) + "</div><div>" + esc(p.summary) + "</div>";
+  html += '<div class="chg">' + p.fields.map(function (c) {
+    var isDate = /(^|_)date$/.test(c.column);
+    var shown = c.column === "status" ? statusInfo(c.value).label : isDate && isoDate(c.value) ? prettyDate(isoDate(c.value)) : c.value;
+    return "<div><b>" + esc(label(c.column)) + "</b>" + (c.old && c.old !== c.value ? '<span class="old">' + esc(c.old.slice(0, 140)) + "</span><br>" : "") + esc(shown) + "</div>";
+  }).join("") + "</div>";
+  if (p.question) html += '<div class="small muted" style="margin-bottom:6px">' + esc(p.question) + "</div>";
+  if (p.dropped && p.dropped.length) html += '<div class="small muted">Left out: ' + esc(p.dropped.join(", ")) + " (not something the Sheet has).</div>";
+  if (m.applied) html += '<div class="small" style="color:var(--teal-ink);font-weight:700">Saved ✓</div>';
+  else if (m.dismissed) html += '<div class="small muted">Not saved.</div>';
+  else html += '<div class="row wrap"><button class="btn small" data-act="apply" data-n="' + n + '">Apply</button><button class="btn small secondary" data-act="apply-edit" data-n="' + n + '">Edit first</button><button class="btn small ghost" data-act="dismiss" data-n="' + n + '">Not this</button></div>';
+  return html + "</div>";
+}
+
+/* ------------------------------------------------------------------ */
+/* After render: background images, focus                             */
+
+function afterRender() {
+  document.querySelectorAll("[data-bg]").forEach(function (el) {
+    var src = el.getAttribute("data-bg");
+    var img = new Image();
+    img.onload = function () { el.style.backgroundImage = 'url("' + src.replace(/"/g, "%22") + '")'; };
+    img.onerror = function () {
+      if (el.classList.contains("img")) { el.classList.add("broken"); el.insertAdjacentHTML("afterbegin", "Can't show this picture. Is it shared?"); }
+      else if (el.hasAttribute("data-broken")) { el.textContent = el.getAttribute("data-broken"); el.style.color = "var(--amber)"; }
+    };
+    img.src = src;
+  });
+  if (S.form && S.form.focus) {
+    var el = document.getElementById("f_" + S.form.focus);
+    if (el) { el.scrollIntoView({ block: "center" }); if (el.focus) el.focus(); }
+    S.form.focus = null;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Actions                                                             */
+
+document.addEventListener("click", function (e) {
+  var t = e.target.closest("[data-go],[data-act]");
+  if (!t) return;
+  if (t.tagName === "A" && !t.getAttribute("href")) e.preventDefault();
+  if (t.hasAttribute("data-go")) { S.form = null; S.view = t.getAttribute("data-go"); if (S.view === "fixes" && !S.report && S.data.connected && !S.busy) publish(); render(); return; }
+  var act = t.getAttribute("data-act");
+  e.stopPropagation();
+  (ACTIONS[act] || function () {})(t, e);
+});
+
+document.addEventListener("input", function (e) {
+  var t = e.target;
+  if (t.id === "search") { S.search = t.value; var pos = t.selectionStart; render(); var s = document.getElementById("search"); s.focus(); s.setSelectionRange(pos, pos); return; }
+  if (S.form && t.hasAttribute("data-field")) { S.form.values[t.getAttribute("data-field")] = t.value; delete S.form.errors[t.getAttribute("data-field")]; }
+});
+
+document.addEventListener("keydown", function (e) {
+  if (e.target.id === "askText" && e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ACTIONS.ask(); }
+  if (e.key === "Enter" && e.target.classList && e.target.classList.contains("tile")) e.target.click();
+});
+
+document.addEventListener("focusout", function (e) {
+  var t = e.target;
+  if (S.form && t.type === "url" && t.value && !/^(https?:\/\/|\/|mailto:)/i.test(t.value) && /\./.test(t.value)) {
+    t.value = "https://" + t.value.trim();
+    S.form.values[t.getAttribute("data-field")] = t.value;
+  }
+});
+
+var ACTIONS = {
+  month: function (t) {
+    var p = S.month.split("-").map(Number), d = new Date(Date.UTC(p[0], p[1] - 1 + Number(t.getAttribute("data-d")), 1));
+    S.month = d.getUTCFullYear() + "-" + pad(d.getUTCMonth() + 1); S.day = null; render();
+  },
+  today: function () { S.month = S.data.today.slice(0, 7); S.day = S.data.today; render(); },
+  day: function (t) { var d = t.getAttribute("data-date"); S.day = S.day === d ? null : d; render(); },
+  "add-event": function (t) { var d = t.getAttribute("data-date"); openForm("Events", 0, { prefill: d ? { event_date: d } : {} }); },
+  add: function (t) { openForm(t.getAttribute("data-tab"), 0); },
+  open: function (t) { openForm(t.getAttribute("data-tab"), Number(t.getAttribute("data-row")), { focus: t.getAttribute("data-focus") }); },
+  pictab: function (t) { S.picTab = t.getAttribute("data-tab"); render(); },
+  edittab: function (t) { S.editTab = t.getAttribute("data-tab"); S.search = ""; render(); },
+  "close-form": function () { var back = S.form.returnTo; S.form = null; S.view = back; render(); },
+  goto: function (t) { call("goTo", t.getAttribute("data-tab"), Number(t.getAttribute("data-row"))).catch(fail); },
+  status: function (t) { S.form.values.status = t.getAttribute("data-v"); render(); },
+  toggle: function (t) { var k = t.getAttribute("data-key"); S.form.values[k] = t.getAttribute("aria-checked") === "true" ? "FALSE" : "TRUE"; render(); },
+  choice: function (t) { S.form.values[t.getAttribute("data-key")] = t.getAttribute("data-v"); render(); },
+  paste: function (t) { S.form["paste_" + t.getAttribute("data-key")] = true; render(); var el = document.querySelector('[data-field="' + t.getAttribute("data-key") + '"]'); if (el) el.focus(); },
+  "clear-pic": function (t) { S.form.values[t.getAttribute("data-key")] = ""; render(); },
+  upload: function (t) { choosePicture(function (pic) { uploadIntoForm(t.getAttribute("data-key"), pic); }, isLogoKey(t.getAttribute("data-key"))); },
+  replace: function (t) {
+    var tabName = t.getAttribute("data-tab"), row = Number(t.getAttribute("data-row")), key = PICTURE_KEY[tabName];
+    choosePicture(function (pic) { quickReplace(tabName, row, key, pic); }, tabName === "Partners");
+  },
+  save: function () { saveForm(); },
+  "save-amazon": function (t) {
+    var url = document.getElementById("amazonUrl").value.trim();
+    if (url && !/^https?:\/\//.test(url)) url = "https://" + url;
+    S.busy = "save"; render();
+    call("editorSave", "Settings", Number(t.getAttribute("data-row")), { key: "amazon_book_url", value: url }).then(function (res) {
+      S.busy = false; S.data.tabs.Settings = res.tab; render(); savedToast();
+    }).catch(fail);
+  },
+  publish: function () { publish(); },
+  check: function () { publish(); },
+  connect: function () {
+    var v = document.getElementById("connectKey").value;
+    S.busy = "publish"; render();
+    call("editorConnect", v).then(function (res) {
+      S.busy = false;
+      if (res.error) { render(); toast(res.error, { error: true }); return; }
+      S.data.connected = true; S.connectOpen = false; gotReport(res.report);
+    }).catch(fail);
+  },
+  "fix-set": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))], fields = {};
+    fields[t.getAttribute("data-col")] = t.getAttribute("data-v");
+    runFix(t, call("editorSave", i.tab, i.row, fields).then(function (res) { S.data.tabs[i.tab] = res.tab; }));
+  },
+  "fix-rename": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))];
+    runFix(t, call("editorRenameColumn", i.tab, i.column, i.options[0]).then(function (tabData) { S.data.tabs[i.tab] = tabData; }));
+  },
+  "fix-ids": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))];
+    runFix(t, call("editorFixDuplicateIds", i.tab, i.value, i.options).then(function (tabData) { S.data.tabs[i.tab] = tabData; }));
+  },
+  "fix-share": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))];
+    runFix(t, call("editorSharePicture", i.value).then(function (res) { if (!res.ok) throw new Error(res.message); }));
+  },
+  "fix-open": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))];
+    S.view = "fixes"; openForm(i.tab, i.row, { focus: i.column });
+  },
+  "fix-goto": function (t) {
+    var i = S.report.issues[Number(t.getAttribute("data-n"))];
+    call("goTo", i.tab, i.row || 1).catch(fail);
+  },
+  "ai-key": function () {
+    var k = document.getElementById("aiKey").value;
+    S.busy = "ai"; render();
+    call("editorSetAiKey", k).then(function (res) {
+      S.busy = false;
+      if (res.error) { render(); toast(res.error, { error: true }); return; }
+      S.data.aiEnabled = true; render(); toast("The helper is on.");
+    }).catch(fail);
+  },
+  "ai-off": function () { call("editorRemoveAiKey").then(function () { S.data.aiEnabled = false; S.chat = []; render(); }).catch(fail); },
+  "chat-clear": function () { S.chat = []; render(); },
+  example: function (t) { var a = document.getElementById("askText"); a.value = t.textContent; a.focus(); },
+  ask: function () { ask(); },
+  apply: function (t) { applyProposal(Number(t.getAttribute("data-n")), false); },
+  "apply-edit": function (t) { applyProposal(Number(t.getAttribute("data-n")), true); },
+  dismiss: function (t) { S.chat[Number(t.getAttribute("data-n"))].dismissed = true; render(); },
+};
+
+/* ---------- Saving a form ---------- */
+
+function saveForm() {
+  var F = S.form, f = form(F.tab), errors = {};
+  f.fields.forEach(function (fd) {
+    var v = String(F.values[fd.key] == null ? "" : F.values[fd.key]).trim();
+    if (fd.required && !v) errors[fd.key] = "This is needed.";
+    if (fd.type === "url" && v && !/^(https?:\/\/|\/|mailto:)/i.test(v)) errors[fd.key] = "This should be a web address starting with https://";
+    if (fd.key === "year" && v && !/^\d{4}$/.test(v)) errors[fd.key] = "Type a year, like 2025.";
+  });
+  if (!F.values.status) errors.status = true;
+  if (Object.keys(errors).length) {
+    F.errors = errors;
+    var first = Object.keys(errors).filter(function (k) { return k !== "status"; })[0];
+    F.focus = first || null;
+    render();
+    toast(errors.status && !first ? "Pick whether it's on the website, a draft, or archived." : "A few things need filling in.", { error: true });
+    return;
+  }
+  var changes = {};
+  Object.keys(F.values).forEach(function (k) {
+    var v = F.values[k] == null ? "" : String(F.values[k]);
+    if (!F.row ? v !== "" : v !== (F.original[k] == null ? "" : String(F.original[k]))) changes[k] = v;
+  });
+  if (!Object.keys(changes).length) { ACTIONS["close-form"](); return; }
+  S.busy = "save"; render();
+  call("editorSave", F.tab, F.row, changes).then(function (res) {
+    S.busy = false;
+    S.data.tabs[F.tab] = res.tab;
+    // Only leave the form if it is still the one on screen: she may have
+    // moved on while it was saving.
+    if (S.form === F) {
+      S.form = null; S.view = F.returnTo;
+      if (F.tab === "Events" && changes.event_date) { S.month = changes.event_date.slice(0, 7); S.day = changes.event_date; }
+    }
+    render(); savedToast();
+  }).catch(fail);
+}
+
+function savedToast() {
+  if (S.data.connected) toast("Saved. It reaches the site within 5 minutes.", { action: "Publish now", onAction: publish });
+  else toast("Saved. It reaches the site within 5 minutes.");
+}
+
+/* ---------- Pictures ---------- */
+
+function isLogoKey(key) { return key === "logo_url" || key === "logo"; }
+
+function choosePicture(done, isLogo) {
+  var input = document.getElementById("file");
+  input.value = "";
+  input.onchange = function () {
+    var file = input.files[0];
+    if (!file) return;
+    readPicture(file, isLogo).then(done).catch(fail);
+  };
+  input.click();
+}
+
+/** Resize in the browser (photos to 2400px JPEG, logos to 1200px PNG) before uploading. */
+function readPicture(file, isLogo) {
+  return new Promise(function (resolve, reject) {
+    if (!/^image\//.test(file.type)) return reject(new Error("That file isn't a picture."));
+    var url = URL.createObjectURL(file), img = new Image();
+    img.onload = function () {
+      var max = isLogo ? 1200 : 2400;
+      var scale = Math.min(1, max / Math.max(img.naturalWidth, img.naturalHeight));
+      var w = Math.max(1, Math.round(img.naturalWidth * scale)), h = Math.max(1, Math.round(img.naturalHeight * scale));
+      var c = document.createElement("canvas"); c.width = w; c.height = h;
+      var ctx = c.getContext("2d");
+      var png = isLogo;
+      if (!png) { ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, w, h); }
+      ctx.drawImage(img, 0, 0, w, h);
+      var type = png ? "image/png" : "image/jpeg";
+      var data = c.toDataURL(type, 0.86);
+      URL.revokeObjectURL(url);
+      resolve({ base64: data.split(",")[1], mimeType: type, name: file.name, width: w, height: h });
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); reject(new Error("This picture can't be read here. Save it as a JPEG or PNG and try again.")); };
+    img.src = url;
+  });
+}
+
+function uploadIntoForm(key, pic) {
+  var F = S.form;
+  F.uploading = key; render();
+  call("editorUploadPicture", pic.base64, pic.mimeType, pic.name).then(function (res) {
+    F.uploading = null;
+    F.values[key] = res.url;
+    if (isLogoKey(key)) { F.values.logo_width = String(pic.width); F.values.logo_height = String(pic.height); }
+    if (S.form === F) { render(); toast("Uploaded. Save to keep it."); }
+    else toast("The picture uploaded, but its form was closed before saving. Open it again to add the picture.", { error: true });
+  }).catch(function (err) { F.uploading = null; fail(err); });
+}
+
+function quickReplace(tabName, row, key, pic) {
+  toast("Uploading…");
+  call("editorUploadPicture", pic.base64, pic.mimeType, pic.name).then(function (res) {
+    var fields = {}; fields[key] = res.url;
+    if (isLogoKey(key)) { fields.logo_width = String(pic.width); fields.logo_height = String(pic.height); }
+    return call("editorSave", tabName, row, fields);
+  }).then(function (res) { S.data.tabs[tabName] = res.tab; render(); savedToast(); }).catch(fail);
+}
+
+/* ---------- Publish and fixes ---------- */
+
+function publish() {
+  if (!S.data.connected) { S.connectOpen = true; render(); return; }
+  S.busy = "publish"; render();
+  call("editorPublish").then(function (res) {
+    S.busy = false;
+    if (res.needsKey) { S.connectOpen = true; render(); if (res.message) toast(res.message, { error: true }); return; }
+    if (res.error) { render(); toast(res.error, { error: true }); return; }
+    gotReport(res.report);
+  }).catch(fail);
+}
+
+function gotReport(report) {
+  S.report = report; S.fixed = {};
+  var d = new Date();
+  S.publishedAt = d.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }).toLowerCase().replace(" ", "");
+  var problems = report.issues.filter(function (i) { return i.level === "problem"; }).length;
+  render();
+  if (problems) toast("Published. " + problems + (problems === 1 ? " thing needs" : " things need") + " fixing.", { action: "Show me", onAction: function () { S.form = null; S.view = "fixes"; render(); } });
+  else toast("Published. Everything looks good.");
+}
+
+function runFix(button, promise) {
+  var n = Number(button.getAttribute("data-n"));
+  button.disabled = true; button.innerHTML = '<span class="spin"></span>';
+  promise.then(function () { S.fixed[n] = true; render(); toast("Fixed.", S.data.connected ? { action: "Publish now", onAction: publish } : {}); }).catch(fail);
+}
+
+/* ---------- Ask ---------- */
+
+function ask() {
+  var box = document.getElementById("askText");
+  var text = box ? box.value.trim() : "";
+  if (!text || S.busy) return;
+  S.chat.push({ role: "user", text: text });
+  S.busy = "ask"; render();
+  var history = S.chat.filter(function (m) { return m.role === "user" || m.raw; }).map(function (m) { return { role: m.role, text: m.role === "user" ? m.text : m.raw }; });
+  call("editorAsk", history).then(function (res) {
+    S.busy = false;
+    if (res.needsKey) { S.data.aiEnabled = false; }
+    if (res.error || res.needsKey) S.chat.push({ role: "assistant", error: res.error || "The AI key needs setting up again." });
+    else S.chat.push({ role: "assistant", proposal: res.proposal, raw: res.raw });
+    render();
+    var v = document.getElementById("view"); v.scrollTop = v.scrollHeight;
+  }).catch(fail);
+}
+
+function applyProposal(n, editFirst) {
+  var p = S.chat[n].proposal, fields = {};
+  p.fields.forEach(function (c) { fields[c.column] = c.value; });
+  if (editFirst && p.tab !== "Settings") {
+    S.chat[n].dismissed = true;
+    openForm(p.tab, p.action === "add_row" ? 0 : p.row, { prefill: fields });
+    return;
+  }
+  S.busy = "save"; render();
+  call("editorSave", p.tab, p.action === "add_row" ? 0 : p.row, fields).then(function (res) {
+    S.busy = false; S.data.tabs[p.tab] = res.tab; S.chat[n].applied = true; render(); savedToast();
+  }).catch(fail);
+}
+
+/* ------------------------------------------------------------------ */
+/* Start                                                               */
+
+call("editorLoad").then(function (data) {
+  S.data = data;
+  document.getElementById("siteLink").href = data.site;
+  render();
+}).catch(function (err) {
+  document.getElementById("view").innerHTML = '<div class="card">The editor couldn\'t open: ' + esc(err.message || err) + "</div>";
+});
+</script>
+</body>
+</html>

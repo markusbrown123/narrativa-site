@@ -4,6 +4,27 @@ Everything on the website that changes (events, partner logos, podcasts,
 awards, the book's details) comes from your Google Sheet. Change the
 Sheet and the website follows. No code, nothing to upload.
 
+## The easy way: the Website editor
+
+In the Sheet, choose **Website → Open the editor**. A panel opens beside
+the Sheet:
+
+- **Calendar**: your events by month. Click a day, then **+ Add** to put
+  an event on it, or click an event to change it.
+- **Pictures**: every flyer, logo and cover. **Replace** uploads a new one
+  from your computer. No sharing settings to remember: the editor does it.
+- **Edit**: everything else (partners, podcasts, awards, the book, the
+  Amazon link) as simple forms.
+- **Fixes**: anything that won't show the way you expect, with a button
+  that fixes it.
+- **Ask**: type what you want in your own words ("Add my keynote at…")
+  and check the change before it's saved.
+
+When you're done, press **Publish to website** at the bottom.
+
+You can still edit the Sheet directly; the rest of this guide explains
+how.
+
 ## The basics
 
 - **Each tab is one part of the site:** Events, Partners, Books,
@@ -75,8 +96,8 @@ On the **Settings** tab, put the new link in the **value** next to
 
 ## If something doesn't look right
 
-Use **Website → Publish changes now** (or your "update site" bookmark).
-After updating the site it lists anything in the Sheet that needs
+Open the editor's **Fixes** (or use **Website → Publish changes now**,
+or your "update site" bookmark). After updating the site it lists anything in the Sheet that needs
 fixing, in plain words, with a button that takes you to the row. The
 usual ones:
 
