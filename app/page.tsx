@@ -106,7 +106,7 @@ export default async function Home() {
                 aria-hidden="true"
                 className="absolute -inset-4 -z-10 rounded-[2.5rem] bg-gradient-to-br from-white via-[color:var(--color-purple-100)] to-transparent opacity-80 blur-2xl"
               />
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2rem] ring-1 ring-line shadow-[0_30px_80px_-30px_rgba(43,15,68,0.45)]">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] ring-1 ring-line shadow-[0_30px_80px_-30px_rgba(43,15,68,0.45)]">
                 <Image
                   src="/photos/nicole-stephenson-wharton.jpg"
                   alt="Nicole Stephenson on the University of Pennsylvania campus in front of the Wharton glass facade, in a floral dress and white blazer."

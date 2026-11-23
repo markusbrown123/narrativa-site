@@ -3,19 +3,19 @@ import { clsx } from "@/lib/clsx";
 import type { Partner } from "@/types/content";
 
 /**
- * Display size for a logo, balanced by area rather than by height: a wide
- * wordmark and a square crest then read as the same visual weight. Logos
- * keep their real colours and proportions; nothing is cropped.
+ * Display size for a logo: one shared height, nudged only slightly by shape
+ * (very wide wordmarks a little shorter, compact marks a little taller) so
+ * the row reads as one even line. Logos keep their real colours and
+ * proportions; nothing is cropped.
  */
 function logoBox(p: Partner, scale = 1) {
   const ratio =
     p.logo_width && p.logo_height ? p.logo_width / p.logo_height : 3;
-  const area = 8000 * scale * scale;
-  let h = Math.sqrt(area / ratio);
-  h = Math.min(Math.max(h, 34 * scale), 72 * scale);
+  let h = 48 * Math.pow(ratio / 2.5, -0.2);
+  h = Math.min(Math.max(h, 40), 56) * scale;
   let w = h * ratio;
-  if (w > 190 * scale) {
-    w = 190 * scale;
+  if (w > 220 * scale) {
+    w = 220 * scale;
     h = w / ratio;
   }
   return { w: Math.round(w), h: Math.round(h) };
@@ -26,7 +26,7 @@ function Logo({ partner, scale }: { partner: Partner; scale?: number }) {
   return (
     <span
       className={clsx(
-        "inline-flex shrink-0 items-center justify-center",
+        "inline-flex max-w-full shrink-0 items-center justify-center",
         partner.logo_on_dark &&
           "rounded-2xl bg-[color:var(--color-purple-900)] px-4 py-3",
       )}
@@ -36,7 +36,9 @@ function Logo({ partner, scale }: { partner: Partner; scale?: number }) {
         alt={partner.name}
         width={w}
         height={h}
-        style={{ width: w, height: h }}
+        // max-width lets a wide logo shrink inside a narrow card; contain
+        // keeps it uncropped if it does.
+        style={{ width: w, height: h, maxWidth: "100%" }}
         className="object-contain"
       />
     </span>
@@ -121,7 +123,7 @@ export function LogoGrid({
           key={p.id}
           className="flex min-h-36 w-[calc(50%-0.5rem)] items-center justify-center rounded-3xl border border-line bg-white p-6 sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]"
         >
-          <Logo partner={p} scale={0.95} />
+          <Logo partner={p} scale={1.3} />
         </li>
       ))}
     </ul>

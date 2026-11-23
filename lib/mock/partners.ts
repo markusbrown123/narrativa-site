@@ -49,8 +49,8 @@ export const partners: Partner[] = [
     updated_at: "2026-11-23T00:00:00Z",
     name: "West Chester University",
     logo: "/partners/west-chester-university-logo.webp",
-    logo_width: 301,
-    logo_height: 144,
+    logo_width: 233,
+    logo_height: 160,
   },
   {
     id: "ptr-challenger-gray-christmas",
@@ -81,16 +81,16 @@ export const partners: Partner[] = [
   {
     id: "ptr-northeast-institute",
     title: "Northeast Institute — Institute for Organization Management",
-    // A social-media graphic ("I'm teaching at Northeast Institute"), not a
-    // logo: unreadable at logo size, so it stays Draft.
-    status: "Draft",
-    featured: false,
+    // Supplied as a social graphic ("I'm teaching at Northeast Institute")
+    // rather than a logo; shown as supplied, per "use all of them".
+    status: "Published",
+    featured: true,
     sort_order: 60,
     created_at: "2026-05-16T00:00:00Z",
     updated_at: "2026-11-23T00:00:00Z",
     name: "Northeast Institute — Institute for Organization Management",
     logo: "/partners/northeast-institute-logo.webp",
-    logo_width: 133,
+    logo_width: 128,
     logo_height: 160,
     relationship: "Faculty",
   },

@@ -73,7 +73,7 @@ export const events: Event[] = [
     updated_at: "2026-05-16T00:00:00Z",
     date: "2026-06-04",
     location: "Wind Creek Bethlehem, PA",
-    format: "Keynote",
+    format: "Breakout Session Speaker",
     audience: "Lehigh Valley Women's Summit attendees",
     summary:
       "Breakout session speaker at the 2026 Lehigh Valley Women's Summit.",

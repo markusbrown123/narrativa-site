@@ -69,7 +69,16 @@ export function ParallaxVisualPanel({
   }, [intensity, scale]);
 
   return (
-    <div ref={wrapRef} className={clsx("relative", className)}>
+    // `relative` only when the caller didn't position the wrapper itself;
+    // otherwise it would override an `absolute` floating inset.
+    <div
+      ref={wrapRef}
+      className={clsx(
+        !/(^|\s)(absolute|fixed|sticky)(\s|$)/.test(className ?? "") &&
+          "relative",
+        className,
+      )}
+    >
       <div
         ref={innerRef}
         className={clsx(innerClassName)}

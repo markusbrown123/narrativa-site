@@ -66,6 +66,7 @@ export default async function PartnersPage() {
             <SectionHeading
               eyebrow="Recent rooms"
               title="Organizations Nicole has worked with."
+              lead="Logos pulled from Nicole's archive. The nature of each engagement is recorded only where confirmed."
             />
             <LogoGrid partners={visible} className="mt-12" />
           </Section>

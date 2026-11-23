@@ -7,7 +7,8 @@
  *
  * For each logo it:
  *   - trims empty borders (white or transparent) so every logo's ink fills
- *     its box and logos line up at one visual height,
+ *     its box and logos line up at one visual height; a logo on its own
+ *     coloured background keeps it,
  *   - converts to sRGB (some supplied JPGs are CMYK) without recolouring,
  *   - resizes to at most 480 x 160 px (crisp at 2x for the ~80px display),
  *   - saves as WebP, keeping transparency,
@@ -40,9 +41,18 @@ const files = (await readdir(inDir)).filter((f) => /\.(jpe?g|png|webp)$/i.test(f
 for (const file of files) {
   const name = slug(file);
   const out = path.join(outDir, `${name}.webp`);
-  const trimmed = await sharp(path.join(inDir, file))
+  const src = sharp(path.join(inDir, file)).toColourspace("srgb");
+  // Trim only empty margins (transparent or near-white). A logo printed on
+  // its own coloured field, like a crest on purple, keeps that field.
+  const { data: corner } = await sharp(path.join(inDir, file))
     .toColourspace("srgb")
-    .trim({ threshold: 12 })
+    .ensureAlpha()
+    .extract({ left: 0, top: 0, width: 1, height: 1 })
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const emptyCorner =
+    corner[3] < 20 || (corner[0] > 235 && corner[1] > 235 && corner[2] > 235);
+  const trimmed = await (emptyCorner ? src.trim({ threshold: 12 }) : src)
     .resize({ width: 480, height: 160, fit: "inside", withoutEnlargement: true })
     .webp({ quality: 90, alphaQuality: 100 })
     .toBuffer({ resolveWithObject: true });

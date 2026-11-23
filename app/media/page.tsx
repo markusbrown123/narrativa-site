@@ -19,18 +19,14 @@ export default async function MediaPage() {
 
   return (
     <>
+      {/* Text-only until Nicole's approved speaking photos are in: every
+          speaking photo the site has is already on the Speaker page. */}
       <PageHero
         eyebrow="Media"
-        variant="split"
+        variant="centered"
         tone="lavender"
         title="Stories, Interviews, and Press."
         lead="A running list of recent press features, podcast appearances, and on-camera conversations."
-        image={{
-          src: "/photos/nicole-stephenson-speaking-3.jpg",
-          alt: "Nicole Stephenson mid-keynote, microphone in hand.",
-          objectPosition: "center 30%",
-          aspect: "portrait",
-        }}
       >
         <LinkButton href="#featured" size="lg">
           Watch & listen

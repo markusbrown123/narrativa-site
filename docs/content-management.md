@@ -16,9 +16,9 @@ sheet data when configured and the mock data otherwise. The two
 sources share the same TypeScript shape, so editing either one
 updates the site without changing page code.
 
-This doc covers the three areas that change most often: events, partners, and
-services. Everything else (press, podcasts, recognition, photos, the book) uses
-the same patterns.
+This doc covers the areas that change most often: events and partners.
+Everything else (press, podcasts, recognition, photos, the book) uses the same
+patterns.
 
 ---
 
