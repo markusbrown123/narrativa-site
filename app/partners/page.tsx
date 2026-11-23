@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
-import { PartnerLogos } from "@/components/PartnerLogos";
+import { LogoGrid } from "@/components/LogoMarquee";
 import { getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
-import type { Partner } from "@/types/content";
 
 export const metadata: Metadata = {
   title: "Partners",
@@ -15,11 +13,11 @@ export const metadata: Metadata = {
     "Recent organizations, events, and rooms Narrativa Consulting has been a part of.",
 };
 
+const REALM_URL = "https://www.explorerealm.com/pages/real-women-of-realm";
+
 export default async function PartnersPage() {
   const partners = await getPartners();
   const visible = publish(partners);
-  const confirmed: Partner[] = visible.filter((p) => p.relationship);
-  const logosOnly: Partner[] = visible.filter((p) => !p.relationship);
 
   return (
     <>
@@ -38,55 +36,41 @@ export default async function PartnersPage() {
         </LinkButton>
       </PageHero>
 
-      {confirmed.length > 0 ? (
-        <Section tone="tint" containerSize="wide">
-          <SectionHeading
-            eyebrow="Confirmed engagements"
-            title="Where Nicole's role is on the record."
-          />
-          <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {confirmed.map((p) => (
-              <li
-                key={p.id}
-                className="flex flex-col h-full overflow-hidden rounded-3xl border border-line bg-white"
-              >
-                <div className="relative aspect-[16/9] w-full bg-surface-tint">
-                  <Image
-                    src={p.logo}
-                    alt={p.name}
-                    fill
-                    sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 100vw"
-                    className="object-contain p-6"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5 p-6">
-                  <p className="font-display text-xl text-ink leading-snug">
-                    {p.name}
-                  </p>
-                  {p.relationship ? (
-                    <p className="text-sm text-brand font-medium">
-                      {p.relationship}
-                    </p>
-                  ) : null}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </Section>
-      ) : null}
-
-      {logosOnly.length > 0 ? (
-        <Section tone="alt" containerSize="wide">
-          <SectionHeading
-            eyebrow="Recent rooms"
-            title="Organizations Nicole has worked with."
-            lead="Logos pulled from Nicole's archive. The nature of each engagement is recorded only where confirmed."
-          />
-          <div className="mt-14">
-            <PartnerLogos partners={logosOnly} />
+      {/* Sections in .section-stack alternate white / lavender by position. */}
+      <div className="section-stack">
+        {/* Realm feature. The click-to-play REALM_PartnersPageVideo goes in
+            beside the text once it is in the project (see README). */}
+        <Section containerSize="wide">
+          <div className="relative overflow-hidden rounded-[2rem] border border-[color:var(--color-purple-200)] bg-gradient-to-br from-white via-[color:var(--color-purple-50)] to-[color:var(--color-purple-100)] px-7 py-12 sm:px-12 sm:py-16 lg:px-16">
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand">
+                Brand ambassador
+              </p>
+              <h2 className="mt-4 font-display text-4xl font-medium leading-[1.05] tracking-tight text-ink sm:text-5xl">
+                Realm Fine Jewelry.
+              </h2>
+              <p className="mt-5 text-lg leading-relaxed text-ink-soft sm:text-xl">
+                Nicole is Realm Fine Jewelry&apos;s brand ambassador for 2026.
+              </p>
+              <div className="mt-8">
+                <LinkButton href={REALM_URL} external size="lg">
+                  Real Women of Realm
+                </LinkButton>
+              </div>
+            </div>
           </div>
         </Section>
-      ) : null}
+
+        {visible.length > 0 ? (
+          <Section containerSize="wide">
+            <SectionHeading
+              eyebrow="Recent rooms"
+              title="Organizations Nicole has worked with."
+            />
+            <LogoGrid partners={visible} className="mt-12" />
+          </Section>
+        ) : null}
+      </div>
 
       <CTA
         title="Want to be in the next list?"

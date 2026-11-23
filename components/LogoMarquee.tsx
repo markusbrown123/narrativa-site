@@ -109,16 +109,17 @@ export function LogoGrid({
 }) {
   if (partners.length === 0) return null;
   return (
+    // Wraps centred, so a short last row sits in the middle, not the left.
     <ul
       className={clsx(
-        "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 sm:gap-6",
+        "flex flex-wrap justify-center gap-4 sm:gap-6",
         className,
       )}
     >
       {partners.map((p) => (
         <li
           key={p.id}
-          className="flex min-h-36 items-center justify-center rounded-3xl border border-line bg-white p-6"
+          className="flex min-h-36 w-[calc(50%-0.5rem)] items-center justify-center rounded-3xl border border-line bg-white p-6 sm:w-[calc(33.333%-1rem)] lg:w-[calc(25%-1.125rem)]"
         >
           <Logo partner={p} scale={0.95} />
         </li>
