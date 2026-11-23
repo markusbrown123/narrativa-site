@@ -7,7 +7,7 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading, Eyebrow } from "@/components/Section";
 import { Pill } from "@/components/Pill";
-import { PartnerLogos } from "@/components/PartnerLogos";
+import { LogoMarquee } from "@/components/LogoMarquee";
 import { getEvents, getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
 import {
@@ -237,9 +237,10 @@ export default async function SpeakerPage() {
               <Pill tone="brand">Partner relationships listed where confirmed</Pill>
             }
           />
-          <div className="mt-12">
-            <PartnerLogos partners={visiblePartners} />
-          </div>
+          <LogoMarquee
+            partners={visiblePartners}
+            className="mt-12 -mx-6 sm:-mx-8 lg:-mx-12"
+          />
         </Section>
       ) : null}
 

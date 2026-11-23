@@ -2,7 +2,7 @@ import Image from "next/image";
 import { LinkButton } from "@/components/Button";
 import { CTA } from "@/components/CTA";
 import { BookFeaturePanel } from "@/components/BookFeaturePanel";
-import { PartnerLogos } from "@/components/PartnerLogos";
+import { LogoMarquee } from "@/components/LogoMarquee";
 import { PremiumHomeHero } from "@/components/PremiumHomeHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
@@ -231,9 +231,10 @@ export default async function Home() {
             title="Recent rooms Narrativa has been in."
             align="center"
           />
-          <div className="mt-14">
-            <PartnerLogos partners={visiblePartners} />
-          </div>
+          <LogoMarquee
+            partners={visiblePartners}
+            className="mt-12 -mx-6 sm:-mx-8 lg:-mx-12"
+          />
         </Section>
       ) : null}
 

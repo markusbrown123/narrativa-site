@@ -1,10 +1,14 @@
 import type { Partner } from "@/types/content";
 
 /**
- * Partner / client / engagement logos pulled from Nicole's Drive
- * `Partners/` folder. Names are inferred from the logo files; we don't
- * invent the nature of the relationship. Entries publish only where the
- * logo and partner identity are unambiguous from the source asset.
+ * Partner / client / engagement logos from Nicole's Drive `Partners/`
+ * folder. Nicole asked for every logo to be shown as supplied: the files
+ * in public/partners are her originals, trimmed and exported at web size
+ * by scripts/prepare-logos.mjs (no recolouring). `logo_width` and
+ * `logo_height` are the real pixel sizes; `logo_on_dark` marks logos
+ * drawn in white for dark backgrounds, which get a dark tile.
+ *
+ * No partner links out: the strip and grid are logos only.
  */
 export const partners: Partner[] = [
   {
@@ -14,65 +18,80 @@ export const partners: Partner[] = [
     featured: true,
     sort_order: 10,
     created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
     name: "Lehigh Valley Women's Summit",
-    logo: "/partners/lehigh-valley-womens-summit-logo.png",
+    logo: "/partners/lehigh-valley-womens-summit-logo.webp",
+    logo_width: 359,
+    logo_height: 160,
+    logo_on_dark: true,
     relationship: "2026 Breakout Session Speaker",
-  },
-  {
-    id: "ptr-west-chester-university",
-    title: "West Chester University",
-    status: "Draft",
-    featured: false,
-    sort_order: 20,
-    created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
-    name: "West Chester University",
-    logo: "/partners/west-chester-university-logo.png",
   },
   {
     id: "ptr-realm-jewelry",
     title: "REALM Fine + Fashion Jewelry",
-    status: "Draft",
-    featured: false,
+    status: "Published",
+    featured: true,
+    sort_order: 20,
+    created_at: "2026-05-16T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    name: "REALM Fine + Fashion Jewelry",
+    logo: "/partners/realm-logo.webp",
+    logo_width: 285,
+    logo_height: 160,
+  },
+  {
+    id: "ptr-west-chester-university",
+    title: "West Chester University",
+    status: "Published",
+    featured: true,
     sort_order: 30,
     created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
-    name: "REALM Fine + Fashion Jewelry",
-    logo: "/partners/realm-logo.png",
+    updated_at: "2026-11-23T00:00:00Z",
+    name: "West Chester University",
+    logo: "/partners/west-chester-university-logo.webp",
+    logo_width: 301,
+    logo_height: 144,
   },
   {
     id: "ptr-challenger-gray-christmas",
     title: "Challenger, Gray & Christmas",
-    status: "Draft",
-    featured: false,
+    status: "Published",
+    featured: true,
     sort_order: 40,
     created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
     name: "Challenger, Gray & Christmas",
-    logo: "/partners/challenger-gray-christmas-logo.png",
+    logo: "/partners/challenger-gray-christmas-logo.webp",
+    logo_width: 416,
+    logo_height: 72,
   },
   {
     id: "ptr-mastec-power-delivery-east",
     title: "MasTec Power Delivery — East Region",
-    status: "Draft",
-    featured: false,
+    status: "Published",
+    featured: true,
     sort_order: 50,
     created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
     name: "MasTec Power Delivery — East Region",
-    logo: "/partners/mastec-power-delivery-east-region-logo.jpg",
+    logo: "/partners/mastec-power-delivery-east-region-logo.webp",
+    logo_width: 480,
+    logo_height: 123,
   },
   {
     id: "ptr-northeast-institute",
-    title: "Northeast Institute (U.S. Chamber of Commerce IOM)",
+    title: "Northeast Institute — Institute for Organization Management",
+    // A social-media graphic ("I'm teaching at Northeast Institute"), not a
+    // logo: unreadable at logo size, so it stays Draft.
     status: "Draft",
     featured: false,
     sort_order: 60,
     created_at: "2026-05-16T00:00:00Z",
-    updated_at: "2026-05-16T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
     name: "Northeast Institute — Institute for Organization Management",
-    logo: "/partners/northeast-institute-logo.png",
+    logo: "/partners/northeast-institute-logo.webp",
+    logo_width: 133,
+    logo_height: 160,
     relationship: "Faculty",
   },
 ];

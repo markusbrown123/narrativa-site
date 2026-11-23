@@ -93,6 +93,11 @@ export interface Recognition extends BaseRecord {
 export interface Partner extends BaseRecord {
   name: string;
   logo: string;
+  /** Real pixel size of the logo file, so logos can be balanced by area. */
+  logo_width?: number;
+  logo_height?: number;
+  /** Logo is drawn in white for dark backgrounds; shown on a dark tile. */
+  logo_on_dark?: boolean;
   relationship?: string;
   url?: string;
 }

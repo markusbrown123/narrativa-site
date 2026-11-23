@@ -220,6 +220,55 @@ summary:focus-visible {
   }
 }
 
+/* Partner logo strip (components/LogoMarquee.tsx). The track holds two
+   copies of the logos, so sliding it by -50% loops seamlessly. */
+@keyframes logo-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.logo-marquee--moving {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.logo-marquee--moving .logo-marquee__track {
+  animation: logo-marquee linear infinite;
+}
+
+.logo-marquee--moving:hover .logo-marquee__track,
+.logo-marquee--moving:focus-within .logo-marquee__track {
+  animation-play-state: paused;
+}
+
+.logo-marquee:not(.logo-marquee--moving) .logo-marquee__track {
+  width: 100%;
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 1.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-marquee--moving {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .logo-marquee--moving .logo-marquee__track {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1.75rem;
+  }
+  .logo-marquee__copy {
+    display: none;
+  }
+}
+
 /* Slow hero backdrop drift — animates background position so the
    layered gradient orbs subtly shift hue/position over ~18s. */
 @keyframes hero-backdrop-drift {

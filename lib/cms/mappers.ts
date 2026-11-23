@@ -133,6 +133,9 @@ export function mapPartner(row: SheetRow): Partner {
     updated_at: isoTimestamp(row, "updated_at"),
     name,
     logo: asset(row, "logo_url") || asset(row, "logo"),
+    logo_width: num(row, "logo_width", 0) || undefined,
+    logo_height: num(row, "logo_height", 0) || undefined,
+    logo_on_dark: /^dark$/i.test(str(row, "logo_background")),
     relationship: maybeStr(row, "relationship"),
     url: maybeAsset(row, "website_url") ?? maybeAsset(row, "url"),
   };
