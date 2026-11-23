@@ -190,6 +190,17 @@ summary:focus-visible {
   }
 }
 
+/* Auto-alternating section backgrounds. Every <section> placed directly
+   inside .section-stack takes white or lavender by position, so adding,
+   hiding, or reordering a section never puts two same-colour bands side
+   by side. Unlayered, so it wins over a Section's own bg utility. */
+.section-stack > section:nth-of-type(odd) {
+  background-color: var(--color-surface);
+}
+.section-stack > section:nth-of-type(even) {
+  background-color: var(--color-surface-alt);
+}
+
 .hero-eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.22em;

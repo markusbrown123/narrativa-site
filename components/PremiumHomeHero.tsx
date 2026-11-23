@@ -182,11 +182,12 @@ export function PremiumHomeHero({
                     />
                   </span>
                   <span className="block leading-tight">
-                    <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-brand">
-                      New book · March 2026
-                    </span>
-                    <span className="font-display text-base text-ink">
+                    <span className="font-display text-lg text-ink">
                       Unapologetic
+                    </span>
+                    <span className="text-xs font-semibold tracking-wide text-brand">
+                      {" "}
+                      · out now
                     </span>
                   </span>
                 </Link>

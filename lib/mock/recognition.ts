@@ -8,6 +8,19 @@ import type { Recognition } from "@/types/content";
  */
 export const recognition: Recognition[] = [
   {
+    id: "rec-womens-resource-center-leadership-2025",
+    title: "Women's Resource Center — Leadership Award",
+    status: "Published",
+    featured: true,
+    sort_order: 5,
+    created_at: "2025-10-01T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    organization: "Women's Resource Center",
+    award: "Leadership Award",
+    year: 2025,
+    summary: "Leadership Award, Women's Resource Center, October 2025.",
+  },
+  {
     id: "rec-main-line-today-power-women-2024",
     title: "Main Line Today — 2024 Power Women",
     status: "Published",
