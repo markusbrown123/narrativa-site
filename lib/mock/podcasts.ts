@@ -1,17 +1,103 @@
 import type { Podcast } from "@/types/content";
 
 /**
- * Verified Nicole/Narrativa podcast and on-camera appearances. Each
- * Published entry has a real URL Nicole confirmed via her Drive folder.
- * Episodes whose title, host, or release date are not in the source
- * material stay Draft.
+ * Nicole's podcast and on-camera appearances. Each Published entry has a
+ * real URL Nicole confirmed. Show names are as Nicole gave them; episode
+ * titles are left blank rather than guessed.
  */
 export const podcasts: Podcast[] = [
+  // The five interviews leading the year, in Nicole's order. These are the
+  // only Published podcasts: Media "The interviews and conversations
+  // leading the year" and the homepage "On the record" show exactly these.
+  // Cover art: add `image` once HWW-Nicole-S.png (How Women Write) and
+  // Justwantedtoaskpodcast.png (Just Wanted to Ask) are in the project.
+  {
+    id: "pod-brilliantly-resilient-ep240",
+    title: "Brilliantly Resilient",
+    status: "Published",
+    featured: true,
+    sort_order: 1,
+    created_at: "2026-11-23T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    show: "Brilliantly Resilient",
+    host: "",
+    episode_title: "",
+    released_at: "",
+    kind: "Apple",
+    summary: "",
+    url: "https://podcasts.apple.com/us/podcast/episode-240-the-kudos-folder-mindset-owning-what/id1505403566?i=1000756867793",
+  },
+  {
+    id: "pod-dare-to-lead",
+    title: "Dare to Lead",
+    status: "Published",
+    featured: true,
+    sort_order: 2,
+    created_at: "2026-11-23T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    show: "Dare to Lead",
+    host: "",
+    episode_title: "",
+    released_at: "",
+    kind: "Apple",
+    summary: "",
+    url: "https://podcasts.apple.com/us/podcast/dare-on-with-jodi/id1671650000?i=1000746212327",
+  },
+  {
+    id: "pod-how-women-write-101",
+    title: "How Women Write",
+    status: "Published",
+    featured: true,
+    sort_order: 3,
+    created_at: "2026-11-23T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    show: "How Women Write",
+    host: "",
+    episode_title: "",
+    released_at: "",
+    kind: "Apple",
+    summary: "",
+    url: "https://podcasts.apple.com/us/podcast/101-nicole-stephenson-the-voice-they-told-you-was-too-loud/id1802269960?i=1000787175381",
+  },
+  {
+    id: "pod-just-wanted-to-ask",
+    title: "Just Wanted to Ask",
+    status: "Published",
+    featured: true,
+    sort_order: 4,
+    created_at: "2026-11-23T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    show: "Just Wanted to Ask",
+    host: "",
+    episode_title: "",
+    released_at: "",
+    kind: "Apple",
+    summary: "",
+    url: "https://podcasts.apple.com/us/podcast/nicole-stephenson-unapologetically-leading-with/id1617464092?i=1000781371026",
+  },
+  {
+    id: "pod-women-and-wealth-apple",
+    title: "Women & Wealth",
+    status: "Published",
+    featured: true,
+    sort_order: 5,
+    created_at: "2026-11-23T00:00:00Z",
+    updated_at: "2026-11-23T00:00:00Z",
+    show: "Women & Wealth",
+    host: "",
+    episode_title: "",
+    released_at: "",
+    kind: "Apple",
+    summary: "",
+    url: "https://podcasts.apple.com/us/podcast/women-wealth/id1613780867?i=1000760232204",
+  },
+
+  // Earlier appearances, archived (kept for the record, not shown).
   {
     id: "pod-dare-beyond-empty-nest-fear-to-fearless",
     title: "From Fear to Fearless: Saying Yes Before You're Ready",
-    status: "Published",
-    featured: true,
+    status: "Archived",
+    featured: false,
     sort_order: 10,
     created_at: "2026-01-22T00:00:00Z",
     updated_at: "2026-05-16T00:00:00Z",
@@ -27,8 +113,8 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-women-and-wealth-forge",
     title: "Women & Wealth with Regina McCann Hess",
-    status: "Published",
-    featured: true,
+    status: "Archived",
+    featured: false,
     sort_order: 20,
     created_at: "2026-05-16T00:00:00Z",
     updated_at: "2026-05-16T00:00:00Z",
@@ -45,7 +131,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-brilliantly-resilient",
     title: "Brilliantly Resilient with Mary Fran Bontempo",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 30,
     created_at: "2026-05-16T00:00:00Z",
@@ -63,7 +149,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-influential-women-video",
     title: "Influential Women — long-form video interview",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 40,
     created_at: "2026-05-16T00:00:00Z",
@@ -82,7 +168,7 @@ export const podcasts: Podcast[] = [
     id: "pod-lowdown-35-under-35",
     title:
       "The Lowdown — Authentic Self-Promotion with 35 Under 35 honoree Nicole Stephenson",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 50,
     created_at: "2026-05-16T00:00:00Z",
@@ -100,7 +186,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-youtube-3LKCm4z_FRE",
     title: "YouTube interview — Nicole Stephenson",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 60,
     created_at: "2026-05-16T00:00:00Z",
@@ -117,7 +203,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-youtube-ktFZz1jaknU",
     title: "YouTube interview — Society of Professional Women era",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 70,
     created_at: "2026-05-16T00:00:00Z",
@@ -134,7 +220,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-youtube-CCgogC_Q08U",
     title: "YouTube interview",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 80,
     created_at: "2026-05-16T00:00:00Z",
@@ -151,7 +237,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-youtube-b5tM5Q4X7o8",
     title: "YouTube interview",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 90,
     created_at: "2026-05-16T00:00:00Z",
@@ -168,7 +254,7 @@ export const podcasts: Podcast[] = [
   {
     id: "pod-youtube-7ftl2aGzsv4",
     title: "YouTube interview",
-    status: "Published",
+    status: "Archived",
     featured: false,
     sort_order: 100,
     created_at: "2026-05-16T00:00:00Z",

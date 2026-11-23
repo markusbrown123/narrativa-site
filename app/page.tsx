@@ -6,15 +6,11 @@ import { LogoMarquee } from "@/components/LogoMarquee";
 import { PremiumHomeHero } from "@/components/PremiumHomeHero";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
-import {
-  MediaGalleryFooter,
-  SmartMediaGallery,
-} from "@/components/SmartMediaGallery";
+import { PodcastLinkList } from "@/components/PodcastLinkList";
 import {
   getEvents,
   getPartners,
   getPodcasts,
-  getPress,
   getPrimaryBook,
   getRecognition,
 } from "@/lib/cms/contentSource";
@@ -30,14 +26,12 @@ export default async function Home() {
     partners,
     recognition,
     podcasts,
-    press,
     book,
   ] = await Promise.all([
     getEvents(),
     getPartners(),
     getRecognition(),
     getPodcasts(),
-    getPress(),
     getPrimaryBook(),
   ]);
 
@@ -46,17 +40,6 @@ export default async function Home() {
   const visiblePartners = publish(partners);
 
   const visiblePodcasts = publish(podcasts);
-  const visiblePress = publish(press);
-  const featuredMedia =
-    visiblePodcasts.find((p) => p.id === "pod-influential-women-video") ??
-    visiblePodcasts[0];
-  const supportingMedia = [
-    ...visiblePodcasts
-      .filter((p) => p.id !== featuredMedia?.id)
-      .slice(0, 2)
-      .map((item) => ({ kind: "podcast" as const, item })),
-    ...visiblePress.slice(0, 2).map((item) => ({ kind: "press" as const, item })),
-  ];
 
   return (
     <>
@@ -148,11 +131,11 @@ export default async function Home() {
           </div>
         </Section>
 
-        {/* Smart media gallery */}
-        {featuredMedia || supportingMedia.length > 0 ? (
-          <Section containerSize="wide">
-            <div className="flex flex-col gap-10">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+        {/* On the record: the same five interviews as the Media page */}
+        {visiblePodcasts.length > 0 ? (
+          <Section>
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.5fr] lg:gap-16">
+              <div className="flex flex-col items-start gap-8">
                 <SectionHeading
                   eyebrow="On the record"
                   title="In the press and on the show."
@@ -162,15 +145,7 @@ export default async function Home() {
                   See all media
                 </LinkButton>
               </div>
-              <SmartMediaGallery
-                featured={
-                  featuredMedia
-                    ? { kind: "podcast", item: featuredMedia }
-                    : undefined
-                }
-                tiles={supportingMedia}
-              />
-              <MediaGalleryFooter />
+              <PodcastLinkList podcasts={visiblePodcasts} />
             </div>
           </Section>
         ) : null}
