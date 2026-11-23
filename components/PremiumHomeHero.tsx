@@ -6,10 +6,12 @@ import { Container } from "./Container";
 import { FloatingVisualLayer } from "./FloatingVisualLayer";
 import { HeroDepthScene } from "./HeroDepthScene";
 import { HeroRotator, type HeroPhoto } from "./HeroRotator";
+import { HeroVideo } from "./HeroVideo";
 import { ParallaxVisualPanel } from "./ParallaxVisualPanel";
 import { ScrollReveal } from "./ScrollReveal";
 import { UpcomingEventFeature } from "./UpcomingEventFeature";
 import { clsx } from "@/lib/clsx";
+import { HOME_HERO_VIDEO } from "@/lib/videos";
 
 const IDENTITY_CHIPS: string[] = [
   "Founder, Narrativa Consulting",
@@ -18,9 +20,9 @@ const IDENTITY_CHIPS: string[] = [
   "Transformational Speaker",
 ];
 
-// A small, curated rotation of visually distinct portraits. The
-// rotator only ever shows one at a time, so two similar headshots
-// never share the viewport.
+// Stand-in until the home hero video is in (lib/videos.ts): a small
+// rotation of visually distinct portraits. The rotator only ever shows
+// one at a time, so two similar headshots never share the viewport.
 const HERO_PORTRAITS: HeroPhoto[] = [
   {
     src: "/photos/nicole-stephenson-power-women.jpg",
@@ -143,22 +145,34 @@ export function PremiumHomeHero({
                 aria-hidden="true"
                 className="absolute -inset-6 -z-10 rounded-[3rem] bg-gradient-to-br from-[color:var(--color-purple-200)] via-white to-[color:var(--color-purple-100)] opacity-70 blur-2xl"
               />
-              {/* Decorative outline frame */}
-              <div
-                aria-hidden="true"
-                className="absolute -top-4 -left-4 hidden h-28 w-28 rounded-3xl border border-[color:var(--color-purple-200)] sm:block"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -bottom-6 -right-6 hidden h-32 w-32 rounded-3xl border border-[color:var(--color-purple-200)] sm:block"
-              />
+              {HOME_HERO_VIDEO ? (
+                /* Hero video in the shattered frame (its broken-glass
+                   shards replace the outline squares). */
+                <HeroVideo
+                  video={HOME_HERO_VIDEO}
+                  sizes="(min-width: 1024px) 28rem, (min-width: 640px) 22rem, 88vw"
+                  className="mt-3 w-full sm:mt-0"
+                />
+              ) : (
+                <>
+                  {/* Decorative outline frame */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute -top-4 -left-4 hidden h-28 w-28 rounded-3xl border border-[color:var(--color-purple-200)] sm:block"
+                  />
+                  <div
+                    aria-hidden="true"
+                    className="absolute -bottom-6 -right-6 hidden h-32 w-32 rounded-3xl border border-[color:var(--color-purple-200)] sm:block"
+                  />
 
-              {/* Main rotating portrait */}
-              <HeroRotator
-                photos={HERO_PORTRAITS}
-                sizes="(min-width: 1024px) 28rem, (min-width: 640px) 22rem, 88vw"
-                className="aspect-[4/5] w-full rounded-[2.25rem] bg-surface-tint shadow-[0_40px_100px_-40px_rgba(43,15,68,0.55)] ring-1 ring-[color:var(--color-purple-200)]"
-              />
+                  {/* Main rotating portrait */}
+                  <HeroRotator
+                    photos={HERO_PORTRAITS}
+                    sizes="(min-width: 1024px) 28rem, (min-width: 640px) 22rem, 88vw"
+                    className="aspect-[4/5] w-full rounded-[2.25rem] bg-surface-tint shadow-[0_40px_100px_-40px_rgba(43,15,68,0.55)] ring-1 ring-[color:var(--color-purple-200)]"
+                  />
+                </>
+              )}
 
               {/* Floating book inset — pairs the portrait with a non-portrait visual.
                   Wrapped in a parallax panel with stronger intensity so it

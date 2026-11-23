@@ -505,6 +505,39 @@ summary:focus-visible {
   background-repeat: repeat;
 }
 
+/* Broken-off glass shards around the home hero video
+   (components/HeroVideo.tsx). They live in a 100-unit-wide SVG, so 1px
+   here is 1% of the frame's width: the drift stays a few pixels. */
+@keyframes shard-drift {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-0.5px, -0.9px) rotate(-2deg);
+  }
+}
+
+@keyframes shard-drift-alt {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(0.6px, 0.7px) rotate(2.5deg);
+  }
+}
+
+.shard-drift,
+.shard-drift-alt {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: shard-drift 9s ease-in-out infinite;
+}
+
+.shard-drift-alt {
+  animation-name: shard-drift-alt;
+  animation-duration: 11s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
