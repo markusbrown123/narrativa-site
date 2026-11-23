@@ -10,8 +10,10 @@ import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { Quote } from "@/components/Quote";
 import { Container } from "@/components/Container";
 import { RichText } from "@/components/RichText";
+import { VideoEmbed } from "@/components/VideoEmbed";
 import { BARNES_AND_NOBLE_BOOK_URL } from "@/lib/mock/book";
 import { getAmazonBookUrl, getPrimaryBook } from "@/lib/cms/contentSource";
+import { BOOK_SIGNING_VIDEO } from "@/lib/videos";
 
 export async function generateMetadata(): Promise<Metadata> {
   const book = await getPrimaryBook();
@@ -41,6 +43,29 @@ const SOCIAL_PROMOS: { src: string; alt: string }[] = [
   {
     src: "/book/social/narrativa-social-5.jpg",
     alt: "Unapologetic promo card with details about the book's release and author Nicole Stephenson.",
+  },
+];
+
+// "Unapologetic, in the wild." The first photo leads the section until
+// the book-signing video is in (lib/videos.ts); then the video leads and
+// the photo joins the row below, so nothing is dropped or shown twice.
+const LAUNCH_LEAD_PHOTO = {
+  src: "/photos/book-launch-author-holding-book.jpg",
+  alt: "Nicole Stephenson holding up Unapologetic at her book launch event.",
+};
+
+const LAUNCH_PHOTOS: { src: string; alt: string }[] = [
+  {
+    src: "/photos/book-launch-books-table.jpg",
+    alt: "Stacks of Unapologetic copies on a purple-draped table at the book launch.",
+  },
+  {
+    src: "/photos/book-launch-author-with-display.jpg",
+    alt: "Nicole Stephenson standing in front of her book launch display and signing table.",
+  },
+  {
+    src: "/photos/book-launch-signing-hand.jpg",
+    alt: "Close-up of Nicole signing a copy of Unapologetic at the launch event.",
   },
 ];
 
@@ -165,15 +190,32 @@ export default async function BookPage() {
 
         <Section>
           <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-            <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
-              <Image
-                src="/photos/book-launch-author-holding-book.jpg"
-                alt="Nicole Stephenson holding up Unapologetic at her book launch event."
-                fill
-                sizes="(min-width: 1024px) 24rem, 22rem"
-                className="object-cover"
-              />
-            </ScrollReveal>
+            {BOOK_SIGNING_VIDEO ? (
+              <ScrollReveal
+                direction="up"
+                duration={800}
+                className={
+                  BOOK_SIGNING_VIDEO.height > BOOK_SIGNING_VIDEO.width
+                    ? "w-full max-w-sm mx-auto lg:mx-0"
+                    : "w-full"
+                }
+              >
+                <VideoEmbed
+                  video={BOOK_SIGNING_VIDEO}
+                  sizes="(min-width: 1024px) 34rem, 92vw"
+                />
+              </ScrollReveal>
+            ) : (
+              <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
+                <Image
+                  src={LAUNCH_LEAD_PHOTO.src}
+                  alt={LAUNCH_LEAD_PHOTO.alt}
+                  fill
+                  sizes="(min-width: 1024px) 24rem, 22rem"
+                  className="object-cover"
+                />
+              </ScrollReveal>
+            )}
             <div className="space-y-5">
               <Eyebrow>From the launch</Eyebrow>
               <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
@@ -185,21 +227,17 @@ export default async function BookPage() {
               </p>
             </div>
           </div>
-          <div className="mt-12 grid gap-5 sm:grid-cols-3">
-            {[
-              {
-                src: "/photos/book-launch-books-table.jpg",
-                alt: "Stacks of Unapologetic copies on a purple-draped table at the book launch.",
-              },
-              {
-                src: "/photos/book-launch-author-with-display.jpg",
-                alt: "Nicole Stephenson standing in front of her book launch display and signing table.",
-              },
-              {
-                src: "/photos/book-launch-signing-hand.jpg",
-                alt: "Close-up of Nicole signing a copy of Unapologetic at the launch event.",
-              },
-            ].map((p) => (
+          <div
+            className={
+              BOOK_SIGNING_VIDEO
+                ? "mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+                : "mt-12 grid gap-5 sm:grid-cols-3"
+            }
+          >
+            {(BOOK_SIGNING_VIDEO
+              ? [LAUNCH_LEAD_PHOTO, ...LAUNCH_PHOTOS]
+              : LAUNCH_PHOTOS
+            ).map((p) => (
               <div
                 key={p.src}
                 className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface-tint"
@@ -208,7 +246,11 @@ export default async function BookPage() {
                   src={p.src}
                   alt={p.alt}
                   fill
-                  sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 100vw"
+                  sizes={
+                    BOOK_SIGNING_VIDEO
+                      ? "(min-width: 1024px) 17rem, (min-width: 640px) 45vw, 100vw"
+                      : "(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 100vw"
+                  }
                   className="object-cover"
                 />
               </div>

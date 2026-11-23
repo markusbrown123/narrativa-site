@@ -31,3 +31,15 @@ export type ClientVideo = {
  * its fallback in PremiumHomeHero.
  */
 export const HOME_HERO_VIDEO: ClientVideo | null = null;
+
+/**
+ * Book page, "Unapologetic, in the wild." Click to play, with sound.
+ * Source: `PAConferenceBookSigning.MOV`.
+ */
+export const BOOK_SIGNING_VIDEO: ClientVideo | null = null;
+
+/**
+ * Partners page, beside the Realm brand-ambassador text. Click to play,
+ * with sound. Source: `REALM_PartnersPageVideo`.
+ */
+export const REALM_PARTNERS_VIDEO: ClientVideo | null = null;
