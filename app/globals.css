@@ -208,18 +208,6 @@ summary:focus-visible {
   font-size: 0.75rem;
 }
 
-/* Editorial image rail — seamless marquee. The track contains two
-   copies of the items, so translating by -50% lands the second copy
-   exactly where the first started. */
-@keyframes editorial-rail {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-
 /* Partner logo strip (components/LogoMarquee.tsx). The track holds two
    copies of the logos, so sliding it by -50% loops seamlessly. */
 @keyframes logo-marquee {
