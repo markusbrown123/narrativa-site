@@ -66,7 +66,10 @@ export async function fetchSheetTab(
     `https://sheets.googleapis.com/v4/spreadsheets/${encodeURIComponent(
       config.sheetId,
     )}/values/${range}` +
-    `?key=${encodeURIComponent(config.apiKey)}&majorDimension=ROWS&valueRenderOption=UNFORMATTED_VALUE`;
+    `?key=${encodeURIComponent(config.apiKey)}&majorDimension=ROWS&valueRenderOption=UNFORMATTED_VALUE` +
+    // Dates and times typed into cells come back as text ("11/18/2026",
+    // "11:30:00 AM") rather than spreadsheet serial numbers.
+    `&dateTimeRenderOption=FORMATTED_STRING`;
 
   try {
     const res = await fetch(url, {

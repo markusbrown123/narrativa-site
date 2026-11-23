@@ -33,7 +33,12 @@ export function formatDate(
     year: "numeric",
   },
 ): string {
-  return new Date(iso).toLocaleDateString("en-US", options);
+  // Dates are stored as YYYY-MM-DD, which parses as midnight UTC. Format in
+  // UTC too, so a visitor west of London never sees the day before.
+  return new Date(iso).toLocaleDateString("en-US", {
+    timeZone: "UTC",
+    ...options,
+  });
 }
 
 export function formatDateRange(start: string, end?: string): string {
@@ -41,13 +46,14 @@ export function formatDateRange(start: string, end?: string): string {
   const startDate = new Date(start);
   const endDate = new Date(end);
   const sameMonth =
-    startDate.getMonth() === endDate.getMonth() &&
-    startDate.getFullYear() === endDate.getFullYear();
+    startDate.getUTCMonth() === endDate.getUTCMonth() &&
+    startDate.getUTCFullYear() === endDate.getUTCFullYear();
   if (sameMonth) {
     return `${startDate.toLocaleDateString("en-US", {
+      timeZone: "UTC",
       month: "long",
       day: "numeric",
-    })}–${endDate.getDate()}, ${endDate.getFullYear()}`;
+    })}–${endDate.getUTCDate()}, ${endDate.getUTCFullYear()}`;
   }
   return `${formatDate(start)} – ${formatDate(end)}`;
 }

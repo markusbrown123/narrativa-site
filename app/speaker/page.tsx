@@ -10,6 +10,7 @@ import { Pill } from "@/components/Pill";
 import { LogoMarquee } from "@/components/LogoMarquee";
 import { getEvents, getPartners } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
+import { byDate } from "@/lib/events";
 import {
   SPEAKER_AUDIENCES,
   SPEAKER_FORMATS,
@@ -22,9 +23,14 @@ export const metadata: Metadata = {
     "Book Nicole Stephenson, IOM — author, Wharton lecturer, and transformational speaker — for your keynote, fireside, breakout, retreat, or workshop.",
 };
 
+// Re-render hourly so past events drop out of "Where to find Nicole next".
+export const revalidate = 3600;
+
 export default async function SpeakerPage() {
   const [events, partners] = await Promise.all([getEvents(), getPartners()]);
-  const upcoming = publish(events).filter((e) => e.is_upcoming);
+  const upcoming = publish(events)
+    .filter((e) => e.is_upcoming)
+    .sort(byDate);
   const visiblePartners = publish(partners);
 
   return (

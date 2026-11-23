@@ -27,15 +27,25 @@ export interface BaseRecord {
 }
 
 export interface Event extends BaseRecord {
+  /** YYYY-MM-DD */
   date: string;
+  /** YYYY-MM-DD, for multi-day events */
   end_date?: string;
+  /** Start time as written, e.g. "11:30am" (or a full range). */
+  time?: string;
+  /** End time as written, e.g. "1:00pm". */
+  end_time?: string;
   location: string;
-  format: "Keynote" | "Workshop" | "Panel" | "Fireside" | "Book Event";
+  /** Role or format as written in the Sheet (Keynote, Panel, ERG event…). */
+  format: string;
   audience: string;
   summary: string;
   url?: string;
   cta_label?: string;
   image?: string;
+  /** Private events show a "Private event" label and no registration link. */
+  visibility: "public" | "private";
+  /** Worked out from the date each time events are read (lib/events.ts). */
   is_upcoming: boolean;
 }
 

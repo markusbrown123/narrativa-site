@@ -31,6 +31,7 @@ import { photos as mockPhotos } from "@/lib/mock/photos";
 import { podcasts as mockPodcasts } from "@/lib/mock/podcasts";
 import { press as mockPress } from "@/lib/mock/press";
 import { recognition as mockRecognition } from "@/lib/mock/recognition";
+import { isUpcoming, todayISO } from "@/lib/events";
 import {
   defaultRevalidateSeconds,
   fetchSheetTab,
@@ -76,19 +77,23 @@ function mockBundle(): ContentBundle {
 
 let cachedBundle: ContentBundle | null = null;
 let cachedHealth: ContentHealth | null = null;
+/** When the in-memory copy was loaded, and how long it may be reused. */
+let cachedAt = 0;
+let cacheTtlMs = 0;
 let inflight: Promise<{ bundle: ContentBundle; health: ContentHealth }> | null =
   null;
 
 /**
- * Internal: load every tab. We memoize per-process so a single page
- * render only fetches each tab once. Next.js's fetch cache handles
- * cross-render reuse and the CONTENT_REVALIDATE_SECONDS window.
+ * Internal: load every tab. The in-memory copy is reused for at most the
+ * CONTENT_REVALIDATE_SECONDS window (it used to be kept for the life of
+ * the server process, so Sheet edits could stay invisible until a
+ * redeploy). Next.js's fetch cache handles reuse across renders.
  */
 async function loadBundle(): Promise<{
   bundle: ContentBundle;
   health: ContentHealth;
 }> {
-  if (cachedBundle && cachedHealth) {
+  if (cachedBundle && cachedHealth && Date.now() - cachedAt < cacheTtlMs) {
     return { bundle: cachedBundle, health: cachedHealth };
   }
   if (inflight) return inflight;
@@ -108,8 +113,7 @@ async function loadBundle(): Promise<{
         counts: countsFor(bundle),
         errors: {},
       };
-      cachedBundle = bundle;
-      cachedHealth = health;
+      remember(bundle, health, revalidateSeconds);
       return { bundle, health };
     }
 
@@ -204,8 +208,7 @@ async function loadBundle(): Promise<{
       errors,
     };
 
-    cachedBundle = bundle;
-    cachedHealth = health;
+    remember(bundle, health, revalidateSeconds);
     return { bundle, health };
   })();
 
@@ -214,6 +217,24 @@ async function loadBundle(): Promise<{
   } finally {
     inflight = null;
   }
+}
+
+function remember(
+  bundle: ContentBundle,
+  health: ContentHealth,
+  revalidateSeconds: number,
+) {
+  cachedBundle = bundle;
+  cachedHealth = health;
+  cachedAt = Date.now();
+  cacheTtlMs = revalidateSeconds * 1000;
+}
+
+/** Forget the in-memory copy so the next read goes back to the Sheet. */
+export function clearContentCache() {
+  cachedBundle = null;
+  cachedHealth = null;
+  cachedAt = 0;
 }
 
 interface LoadOutcome<T> {
@@ -278,9 +299,11 @@ function countsFor(bundle: ContentBundle): ContentHealth["counts"] {
 
 // ---------- Public async getters ----------
 
+/** Events, with `is_upcoming` worked out from today's date on every read. */
 export async function getEvents(): Promise<Event[]> {
   const { bundle } = await loadBundle();
-  return bundle.events;
+  const today = todayISO();
+  return bundle.events.map((e) => ({ ...e, is_upcoming: isUpcoming(e, today) }));
 }
 
 export async function getPartners(): Promise<Partner[]> {

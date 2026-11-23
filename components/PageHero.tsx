@@ -15,6 +15,8 @@ export interface PageHeroImage {
   caption?: { label: string; value: string };
   /** ratio of the image card, defaults to portrait 4/5 */
   aspect?: "portrait" | "square" | "landscape";
+  /** "contain" shows the whole image (flyers), never cropped. */
+  fit?: "cover" | "contain";
 }
 
 export interface PageHeroProps {
@@ -301,6 +303,7 @@ function SplitImage({ image, tone }: { image: PageHeroImage; tone: Tone }) {
           tone === "dark"
             ? "ring-white/15"
             : "ring-[color:var(--color-purple-200)]",
+          image.fit === "contain" && "bg-white",
         )}
       >
         <Image
@@ -309,14 +312,14 @@ function SplitImage({ image, tone }: { image: PageHeroImage; tone: Tone }) {
           fill
           sizes="(min-width: 1024px) 32rem, (min-width: 640px) 28rem, 88vw"
           priority
-          className="object-cover"
+          className={image.fit === "contain" ? "object-contain p-3" : "object-cover"}
           style={
             image.objectPosition
               ? { objectPosition: image.objectPosition }
               : undefined
           }
         />
-        {image.caption ? (
+        {image.caption && image.fit !== "contain" ? (
           <div className="absolute inset-x-5 bottom-5 rounded-2xl border border-white/15 bg-black/30 px-4 py-3 text-sm text-white backdrop-blur-md">
             <p className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-white/80">
               {image.caption.label}

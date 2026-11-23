@@ -20,14 +20,6 @@ import { normalizeDropboxUrl } from "./dropbox";
 import { bool, dateStr, isoTimestamp, num, status, str } from "./parseRows";
 import type { MediaItem, SheetRow } from "./types";
 
-const EVENT_FORMATS = new Set<Event["format"]>([
-  "Keynote",
-  "Workshop",
-  "Panel",
-  "Fireside",
-  "Book Event",
-]);
-
 const PODCAST_KINDS = new Set<PodcastKind>([
   "Podcast",
   "Interview",
@@ -84,11 +76,10 @@ function baseId(row: SheetRow, prefix: string): string {
 
 /** Events tab → Event[] */
 export function mapEvent(row: SheetRow): Event {
-  const formatRaw = str(row, "format") || str(row, "role");
-  const format = EVENT_FORMATS.has(formatRaw as Event["format"])
-    ? (formatRaw as Event["format"])
-    : "Keynote";
   const date = dateStr(row, "event_date") || dateStr(row, "date");
+  const visibility = /^private$/i.test(str(row, "visibility"))
+    ? "private"
+    : "public";
   return {
     id: baseId(row, "evt"),
     title: str(row, "title"),
@@ -98,26 +89,23 @@ export function mapEvent(row: SheetRow): Event {
     created_at: isoTimestamp(row, "created_at"),
     updated_at: isoTimestamp(row, "updated_at"),
     date,
-    end_date: maybeStr(row, "end_date"),
+    end_date: dateStr(row, "end_date") || undefined,
+    time: maybeStr(row, "event_time") ?? maybeStr(row, "time"),
+    end_time: maybeStr(row, "end_time"),
     location: str(row, "location"),
-    format,
-    audience: str(row, "audience") || str(row, "role"),
+    // Shown exactly as written; an unrecognised value is no longer
+    // turned into "Keynote".
+    format: str(row, "format") || str(row, "role"),
+    audience: str(row, "audience"),
     summary: str(row, "description") || str(row, "summary"),
     url: maybeAsset(row, "cta_url") ?? maybeAsset(row, "url"),
     cta_label: maybeStr(row, "cta_label"),
     image: maybeAsset(row, "image_url") ?? maybeAsset(row, "image"),
-    is_upcoming: computeIsUpcoming(row, date),
+    visibility,
+    // Recomputed from the date on every read (see getEvents); the Sheet's
+    // old is_upcoming column only matters for an event with no date.
+    is_upcoming: date ? false : bool(row, "is_upcoming"),
   };
-}
-
-function computeIsUpcoming(row: SheetRow, normalizedDate: string): boolean {
-  const explicit = str(row, "is_upcoming");
-  if (explicit !== "") return bool(row, "is_upcoming");
-  if (!normalizedDate) return false;
-  // Compare YYYY-MM-DD lexicographically against today (UTC) so we
-  // avoid timezone wobble.
-  const todayUtc = new Date().toISOString().slice(0, 10);
-  return normalizedDate >= todayUtc;
 }
 
 /** Partners tab → Partner[] */

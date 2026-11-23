@@ -5,7 +5,9 @@ import { EventCard } from "@/components/EventCard";
 import { PageHero } from "@/components/PageHero";
 import { Section, SectionHeading } from "@/components/Section";
 import { UpcomingEventFeature } from "@/components/UpcomingEventFeature";
+import { MonthCalendar } from "@/components/MonthCalendar";
 import { getEvents } from "@/lib/cms/contentSource";
+import { byDate, nextFeaturedEvent, todayISO } from "@/lib/events";
 import { publish } from "@/lib/content";
 
 export const metadata: Metadata = {
@@ -14,12 +16,17 @@ export const metadata: Metadata = {
     "Upcoming keynotes, workshops, panels, and book events with Nicole Stephenson and Narrativa Consulting.",
 };
 
+// Re-render hourly so an event moves from upcoming to past on its own.
+export const revalidate = 3600;
+
 export default async function EventsPage() {
   const events = await getEvents();
   const all = publish(events);
-  const upcoming = all.filter((e) => e.is_upcoming);
-  const [nextEvent, ...moreUpcoming] = upcoming;
-  const past = all.filter((e) => !e.is_upcoming);
+  const today = todayISO();
+  const nextEvent = nextFeaturedEvent(all);
+  const moreUpcoming = all
+    .filter((e) => e.is_upcoming && e.id !== nextEvent?.id)
+    .sort(byDate);
 
   return (
     <>
@@ -35,6 +42,7 @@ export default async function EventsPage() {
                 src: nextEvent.image,
                 alt: `Event flyer — ${nextEvent.title}`,
                 aspect: "portrait",
+                fit: "contain",
                 caption: { label: "Next on the calendar", value: nextEvent.title },
               }
             : {
@@ -58,60 +66,59 @@ export default async function EventsPage() {
         </LinkButton>
       </PageHero>
 
-      {nextEvent ? (
-        <Section tone="tint" containerSize="wide" id="next">
-          <SectionHeading
-            eyebrow="Next up"
-            title="The next confirmed stage."
-            lead="Date, venue, role, and audience — at a glance."
-          />
+      {/* Sections in .section-stack alternate white / lavender by position. */}
+      <div className="section-stack">
+        {nextEvent ? (
+          <Section containerSize="wide" id="next" className="scroll-mt-20">
+            <SectionHeading
+              eyebrow="Next up"
+              title="The next confirmed stage."
+              lead="Date, venue, role, and audience — at a glance."
+            />
+            <div className="mt-10">
+              <UpcomingEventFeature
+                event={nextEvent}
+                variant="panel"
+                showDetailsLink={false}
+              />
+            </div>
+          </Section>
+        ) : (
+          <Section containerSize="wide" id="next" className="scroll-mt-20">
+            <SectionHeading
+              eyebrow="Upcoming"
+              title="No public events on the calendar right now."
+            />
+            <p className="mt-6 max-w-2xl text-lg text-ink-soft">
+              Check back soon, or get in touch about a private booking.
+            </p>
+          </Section>
+        )}
+
+        {moreUpcoming.length > 0 ? (
+          <Section containerSize="wide">
+            <SectionHeading
+              eyebrow="Also upcoming"
+              title={`${moreUpcoming.length} more on the calendar.`}
+            />
+            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+              {moreUpcoming.map((e) => (
+                <EventCard key={e.id} event={e} />
+              ))}
+            </div>
+          </Section>
+        ) : null}
+
+        <Section containerSize="wide" id="calendar">
+          <SectionHeading eyebrow="Calendar" title="Nicole's calendar." />
           <div className="mt-10">
-            <UpcomingEventFeature event={nextEvent} variant="panel" />
+            <MonthCalendar events={all} today={today} />
           </div>
-        </Section>
-      ) : (
-        <Section tone="tint" containerSize="wide" id="next">
-          <SectionHeading
-            eyebrow="Upcoming"
-            title="No public events on the calendar right now."
-          />
-          <p className="mt-6 max-w-2xl text-lg text-ink-soft">
-            Check back soon, or get in touch about a private booking.
+          <p className="mt-12 text-center font-display text-2xl text-ink sm:text-3xl">
+            2027 Events to Be Announced Soon
           </p>
         </Section>
-      )}
-
-      {moreUpcoming.length > 0 ? (
-        <Section tone="alt" containerSize="wide">
-          <SectionHeading
-            eyebrow="Also upcoming"
-            title={`${moreUpcoming.length} more on the calendar.`}
-          />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
-            {moreUpcoming.map((e) => (
-              <EventCard key={e.id} event={e} />
-            ))}
-          </div>
-        </Section>
-      ) : null}
-
-      {past.length > 0 ? (
-        <Section
-          tone={moreUpcoming.length > 0 ? "tint" : "alt"}
-          containerSize="wide"
-        >
-          <SectionHeading
-            eyebrow="Past"
-            title="The road so far."
-            lead="Selected past events. Recordings are available on request, where permitted."
-          />
-          <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {past.map((e) => (
-              <EventCard key={e.id} event={e} />
-            ))}
-          </div>
-        </Section>
-      ) : null}
+      </div>
 
       <CTA
         title="Invite Nicole to your stage."

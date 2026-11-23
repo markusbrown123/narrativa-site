@@ -68,6 +68,11 @@ export function dateStr(row: SheetRow, key: string): string {
   if (raw === "") return "";
   // Already in YYYY-MM-DD shape — keep as-is to dodge timezone math.
   if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return raw;
+  // A spreadsheet serial number (days since 1899-12-30).
+  if (/^\d{5}(\.\d+)?$/.test(raw)) {
+    const d = new Date(Date.UTC(1899, 11, 30) + Math.floor(Number(raw)) * 86400000);
+    return d.toISOString().slice(0, 10);
+  }
   const parsed = new Date(raw);
   if (Number.isNaN(parsed.getTime())) return raw; // last resort: surface what was typed
   const yyyy = parsed.getUTCFullYear();

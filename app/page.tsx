@@ -19,6 +19,10 @@ import {
   getRecognition,
 } from "@/lib/cms/contentSource";
 import { publish } from "@/lib/content";
+import { nextFeaturedEvent } from "@/lib/events";
+
+// Re-render hourly so the "Next stage" strip moves on after an event.
+export const revalidate = 3600;
 
 export default async function Home() {
   const [
@@ -37,8 +41,7 @@ export default async function Home() {
     getPrimaryBook(),
   ]);
 
-  const upcomingEvents = publish(events).filter((e) => e.is_upcoming);
-  const nextEvent = upcomingEvents[0] ?? null;
+  const nextEvent = nextFeaturedEvent(publish(events));
   const visibleRecognition = publish(recognition);
   const visiblePartners = publish(partners);
 

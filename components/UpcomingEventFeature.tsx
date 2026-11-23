@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Event } from "@/types/content";
 import { formatDate, formatDateRange } from "@/lib/content";
+import { eventTimeLabel } from "@/lib/events";
 import { clsx } from "@/lib/clsx";
 
 /**
@@ -17,12 +18,19 @@ export function UpcomingEventFeature({
   variant = "panel",
   className,
   href = "/events",
+  showDetailsLink = true,
 }: {
   event: Event;
   variant?: Variant;
   className?: string;
   href?: string;
+  /** Off on the Events page itself, where "Event details" would loop. */
+  showDetailsLink?: boolean;
 }) {
+  const isPrivate = event.visibility === "private";
+  const time = eventTimeLabel(event);
+  // Short label after the date: private flag, else role/format, else time.
+  const tag = isPrivate ? "Private event" : event.format || time;
   const dateLong = event.date
     ? formatDateRange(event.date, event.end_date)
     : null;
@@ -64,9 +72,11 @@ export function UpcomingEventFeature({
             {dateShort ? (
               <p className="font-display text-lg leading-tight text-white lg:text-xl">
                 {dateShort}
-                <span className="ml-2 text-[color:var(--color-purple-200)]">
-                  · {event.format}
-                </span>
+                {tag ? (
+                  <span className="ml-2 text-[color:var(--color-purple-200)]">
+                    · {tag}
+                  </span>
+                ) : null}
               </p>
             ) : null}
             <p className="font-display text-xl leading-tight text-white lg:text-2xl">
@@ -111,7 +121,7 @@ export function UpcomingEventFeature({
             {dateShort ? (
               <p className="font-display text-lg leading-tight lg:text-xl">
                 {dateShort}
-                <span className="ml-2 text-muted">· {event.format}</span>
+                {tag ? <span className="ml-2 text-muted">· {tag}</span> : null}
               </p>
             ) : null}
             <p className="font-display text-xl leading-tight lg:text-2xl">
@@ -140,15 +150,21 @@ export function UpcomingEventFeature({
         className,
       )}
     >
-      <div className="grid items-stretch gap-0 md:grid-cols-[1fr_1.1fr]">
+      <div
+        className={clsx(
+          "grid items-stretch gap-0",
+          event.image && "md:grid-cols-[1fr_1.1fr]",
+        )}
+      >
         {event.image ? (
-          <div className="relative aspect-[4/5] w-full bg-[color:var(--color-purple-50)] md:aspect-auto">
+          // The whole flyer, fitted inside its half of the panel: never cropped.
+          <div className="relative aspect-[4/5] w-full bg-[color:var(--color-purple-50)] md:aspect-auto md:min-h-[30rem]">
             <Image
               src={event.image}
               alt={`Event flyer — ${event.title}`}
               fill
               sizes="(min-width: 1024px) 32rem, (min-width: 768px) 45vw, 100vw"
-              className="object-cover"
+              className="object-contain p-5 sm:p-8"
             />
           </div>
         ) : null}
@@ -159,7 +175,7 @@ export function UpcomingEventFeature({
               <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-brand" />
             </span>
             <span className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-brand">
-              Confirmed · Upcoming
+              {isPrivate ? "Private event · Upcoming" : "Confirmed · Upcoming"}
             </span>
           </div>
           <h3 className="font-display text-3xl leading-[1.1] tracking-tight text-ink sm:text-4xl">
@@ -176,39 +192,69 @@ export function UpcomingEventFeature({
                 </dd>
               </div>
             ) : null}
-            <div>
-              <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
-                Location
-              </dt>
-              <dd className="mt-0.5 font-display text-base text-ink">
-                {event.location}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
-                Role
-              </dt>
-              <dd className="mt-0.5 font-display text-base text-ink">
-                {event.format}
-              </dd>
-            </div>
-            <div>
-              <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
-                Audience
-              </dt>
-              <dd className="mt-0.5 font-display text-base text-ink">
-                {event.audience}
-              </dd>
-            </div>
+            {time ? (
+              <div>
+                <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
+                  Time
+                </dt>
+                <dd className="mt-0.5 font-display text-base text-ink">
+                  {time}
+                </dd>
+              </div>
+            ) : null}
+            {event.location ? (
+              <div>
+                <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
+                  Location
+                </dt>
+                <dd className="mt-0.5 font-display text-base text-ink">
+                  {event.location}
+                </dd>
+              </div>
+            ) : null}
+            {event.format ? (
+              <div>
+                <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
+                  Role
+                </dt>
+                <dd className="mt-0.5 font-display text-base text-ink">
+                  {event.format}
+                </dd>
+              </div>
+            ) : null}
+            {event.audience ? (
+              <div>
+                <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-muted">
+                  Audience
+                </dt>
+                <dd className="mt-0.5 font-display text-base text-ink">
+                  {event.audience}
+                </dd>
+              </div>
+            ) : null}
           </dl>
-          <p className="text-ink-soft leading-relaxed">{event.summary}</p>
+          {event.summary ? (
+            <p className="text-ink-soft leading-relaxed">{event.summary}</p>
+          ) : null}
           <div className="mt-auto flex flex-wrap gap-3 pt-2">
-            <Link
-              href={href}
-              className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--color-purple-700)]"
-            >
-              Event details <span aria-hidden="true">→</span>
-            </Link>
+            {event.url && !isPrivate ? (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--color-purple-700)]"
+              >
+                {event.cta_label || "Register"} <span aria-hidden="true">→</span>
+              </a>
+            ) : null}
+            {showDetailsLink ? (
+              <Link
+                href={href}
+                className="inline-flex items-center gap-1.5 rounded-full bg-brand px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[color:var(--color-purple-700)]"
+              >
+                Event details <span aria-hidden="true">→</span>
+              </Link>
+            ) : null}
             <Link
               href="/contact"
               className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--color-purple-200)] bg-white px-5 py-2.5 text-sm font-semibold text-brand transition-colors hover:bg-[color:var(--color-purple-50)]"

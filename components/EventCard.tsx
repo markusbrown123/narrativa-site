@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Event } from "@/types/content";
 import { formatDateRange } from "@/lib/content";
+import { eventTimeLabel } from "@/lib/events";
 import { clsx } from "@/lib/clsx";
 
 export function EventCard({ event }: { event: Event }) {
@@ -13,21 +14,30 @@ export function EventCard({ event }: { event: Event }) {
       )}
     >
       {event.image ? (
+        // The flyer is shown whole: a fixed frame, the flyer fitted inside.
         <div className="relative aspect-[4/5] w-full overflow-hidden bg-surface-tint">
           <Image
             src={event.image}
             alt={`Event flyer — ${event.title}`}
             fill
             sizes="(min-width: 1024px) 24rem, (min-width: 640px) 45vw, 100vw"
-            className="object-cover"
+            className="object-contain p-3"
           />
         </div>
       ) : null}
       <div className="flex flex-col flex-1 p-6 sm:p-7">
         <div className="flex items-center justify-between gap-3">
-          <span className="inline-flex items-center rounded-full bg-[color:var(--color-purple-50)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
-            {event.format}
-          </span>
+          {event.visibility === "private" ? (
+            <span className="inline-flex items-center rounded-full bg-[color:var(--color-purple-900)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+              Private event
+            </span>
+          ) : event.format ? (
+            <span className="inline-flex items-center rounded-full bg-[color:var(--color-purple-50)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.16em] text-brand">
+              {event.format}
+            </span>
+          ) : (
+            <span />
+          )}
           {event.is_upcoming ? (
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-[color:var(--color-green-700)]">
               <span className="h-1.5 w-1.5 rounded-full bg-[color:var(--color-green-700)]" />
@@ -47,19 +57,29 @@ export function EventCard({ event }: { event: Event }) {
               <dd>{formatDateRange(event.date, event.end_date)}</dd>
             </div>
           ) : null}
+          {eventTimeLabel(event) ? (
+            <div className="flex gap-2">
+              <dt className="font-medium text-ink shrink-0">Time</dt>
+              <dd>{eventTimeLabel(event)}</dd>
+            </div>
+          ) : null}
           {event.location ? (
             <div className="flex gap-2">
               <dt className="font-medium text-ink shrink-0">Where</dt>
               <dd>{event.location}</dd>
             </div>
           ) : null}
-          <div className="flex gap-2">
-            <dt className="font-medium text-ink shrink-0">Audience</dt>
-            <dd>{event.audience}</dd>
-          </div>
+          {event.audience ? (
+            <div className="flex gap-2">
+              <dt className="font-medium text-ink shrink-0">Audience</dt>
+              <dd>{event.audience}</dd>
+            </div>
+          ) : null}
         </dl>
-        <p className="mt-5 text-ink-soft leading-relaxed">{event.summary}</p>
-        {event.url ? (
+        {event.summary ? (
+          <p className="mt-5 text-ink-soft leading-relaxed">{event.summary}</p>
+        ) : null}
+        {event.url && event.visibility !== "private" ? (
           <div className="mt-6 pt-6 border-t border-line">
             <a
               href={event.url}
