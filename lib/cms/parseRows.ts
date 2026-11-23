@@ -116,22 +116,56 @@ export function isVisibleStatus(s: ContentStatus): boolean {
 }
 
 /**
- * Convert the Sheets API "values" matrix into header-keyed objects.
- * The first row is treated as headers; empty header columns are skipped.
+ * The column key for a header cell. Headers are matched loosely so a
+ * friendlier spelling in the Sheet still works: "Image URL", "image url"
+ * and "Image-URL" all mean `image_url`; "Barnes & Noble URL" means
+ * `barnes_noble_url`.
  */
-export function rowsFromValues(values: string[][]): SheetRow[] {
-  if (!values || values.length === 0) return [];
+export function normalizeHeader(header: string): string {
+  return String(header ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+/** A data row with its row number in the Sheet (the header is row 1). */
+export interface NumberedRow {
+  sheetRow: number;
+  row: SheetRow;
+}
+
+/**
+ * Convert the Sheets API "values" matrix into header-keyed rows, keeping
+ * each row's number in the Sheet. The first row is the header row; empty
+ * header columns and blank rows are skipped. If two headers mean the same
+ * column, the first non-blank cell wins.
+ */
+export function numberedRowsFromValues(values: string[][]): {
+  headers: { label: string; key: string }[];
+  rows: NumberedRow[];
+} {
+  if (!values || values.length === 0) return { headers: [], rows: [] };
   const [headerRow, ...dataRows] = values;
-  const headers = headerRow.map((h) => String(h ?? "").trim());
-  const rows: SheetRow[] = [];
-  for (const raw of dataRows) {
-    if (!raw || raw.every((cell) => String(cell ?? "").trim() === "")) continue;
+  const headers = headerRow.map((h) => {
+    const label = String(h ?? "").trim();
+    return { label, key: normalizeHeader(label) };
+  });
+  const rows: NumberedRow[] = [];
+  dataRows.forEach((raw, index) => {
+    if (!raw || raw.every((cell) => String(cell ?? "").trim() === "")) return;
     const row: SheetRow = {};
-    headers.forEach((header, i) => {
-      if (header === "") return;
-      row[header] = raw[i] !== undefined ? String(raw[i]) : "";
+    headers.forEach(({ key }, i) => {
+      if (key === "") return;
+      const value = raw[i] !== undefined ? String(raw[i]) : "";
+      if (row[key] === undefined || row[key].trim() === "") row[key] = value;
     });
-    rows.push(row);
-  }
-  return rows;
+    rows.push({ sheetRow: index + 2, row });
+  });
+  return { headers: headers.filter((h) => h.key !== ""), rows };
+}
+
+/** Header-keyed rows, without row numbers. */
+export function rowsFromValues(values: string[][]): SheetRow[] {
+  return numberedRowsFromValues(values).rows.map((r) => r.row);
 }

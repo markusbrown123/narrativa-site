@@ -91,7 +91,11 @@ CONTENT_REVALIDATE_SECONDS=300
 | `Settings`    | Flat key/value bag (e.g. `amazon_book_url`)                    |
 
 Each tab's first row is the header row. The site reads rows by header
-name, so column order doesn't matter — only spelling does.
+name, so column order doesn't matter. Spelling is matched loosely:
+capitals, spaces and punctuation are ignored, so `Image URL`,
+`image url` and `image_url` are the same column (`normalizeHeader()` in
+`lib/cms/parseRows.ts`). Columns the site doesn't know are ignored, so
+Nicole can keep her own notes columns.
 
 ### Shared lifecycle columns
 
