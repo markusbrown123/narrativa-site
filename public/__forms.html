@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <title>Forms</title>
+  </head>
+  <body>
+    <!--
+      Netlify Forms reads this static file at deploy time to register the
+      "contact" form. The real form lives in components/ContactForm.tsx and
+      posts here. Keep the field names in both places identical.
+    -->
+    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="contact" />
+      <input type="text" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="organization" />
+      <select name="inquiry_type">
+        <option value="speaking">Speaking inquiry</option>
+        <option value="media">Press / media</option>
+        <option value="consulting">Consulting</option>
+        <option value="book">Book event</option>
+        <option value="general">Something else</option>
+      </select>
+      <textarea name="message"></textarea>
+    </form>
+  </body>
+</html>

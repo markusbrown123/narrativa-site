@@ -42,3 +42,6 @@ next-env.d.ts
 
 # raw drive import — keep local, do not commit duplicates of public/
 /_drive-import/
+
+# client source files (Nicole's USE_UPDATE folder) — keep local, the repo is public
+/client-assets/

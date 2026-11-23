@@ -11,6 +11,9 @@ import {
 
 type Status = "idle" | "submitting" | "ok" | "error";
 
+const NETLIFY_FORM_NAME = "contact";
+const NETLIFY_FORM_PATH = "/__forms.html";
+
 const INQUIRY_OPTIONS = [
   { value: "speaking", label: "Speaking inquiry" },
   { value: "media", label: "Press / media" },
@@ -29,20 +32,28 @@ export function ContactForm() {
     setError(null);
 
     const form = event.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const body = new URLSearchParams();
+    new FormData(form).forEach((value, key) => {
+      if (typeof value === "string") body.append(key, value);
+    });
 
     try {
-      const res = await fetch("/api/contact", {
+      // Netlify Forms stores every submission (Netlify → Forms → contact) and
+      // emails it to the notification address set there. The form is
+      // registered by public/__forms.html, so it must post to that file.
+      const res = await fetch(NETLIFY_FORM_PATH, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: body.toString(),
       });
-      if (!res.ok) throw new Error("Request failed");
+      if (!res.ok) throw new Error(`Form returned ${res.status}`);
       form.reset();
       setStatus("ok");
-    } catch (err) {
+    } catch {
       setStatus("error");
-      setError(err instanceof Error ? err.message : "Something went wrong.");
+      setError(
+        "Your note didn't go through. Please try again in a moment.",
+      );
     }
   }
 
@@ -68,7 +79,20 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6">
+    <form
+      name={NETLIFY_FORM_NAME}
+      method="POST"
+      onSubmit={onSubmit}
+      className="space-y-6"
+    >
+      <input type="hidden" name="form-name" value={NETLIFY_FORM_NAME} />
+      {/* Honeypot: hidden from people, filled in by bots, dropped by Netlify. */}
+      <p className="sr-only" aria-hidden="true">
+        <label>
+          Leave this empty
+          <input name="bot-field" tabIndex={-1} autoComplete="off" />
+        </label>
+      </p>
       <div className="grid sm:grid-cols-2 gap-5">
         <FieldShell label="Your name" htmlFor="contact-name" required>
           <TextField
