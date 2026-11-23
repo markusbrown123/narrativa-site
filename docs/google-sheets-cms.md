@@ -210,6 +210,8 @@ isn't showing up.
 - `lib/cms/mappers.ts` — row → typed-record converters per tab.
 - `lib/cms/contentSource.ts` — orchestrator; per-tab fallback to mock.
 - `lib/cms/dropbox.ts` — `normalizeDropboxUrl()` for image/file links.
+- `lib/cms/drive.ts` — turns Google Drive share links in picture cells
+  into Drive's direct picture address.
 - `lib/cms/types.ts` — shared CMS contracts.
 - `app/api/content-health/route.ts` — diagnostics endpoint.
 - `app/api/refresh/route.ts` — the "update site" link.

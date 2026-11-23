@@ -9,11 +9,6 @@ const nextConfig: NextConfig = {
     root: path.join(__dirname),
   },
 
-  // Allow next/image to load Dropbox-hosted assets that Nicole pastes
-  // into the Google Sheet. We accept both the share host and the
-  // direct content host since `normalizeDropboxUrl` rewrites to the
-  // latter — covering the share host keeps it safe if a row slips
-  // through un-normalized.
   // Retired pages send visitors (and old links) somewhere useful.
   async redirects() {
     return [
@@ -22,11 +17,21 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // Allow next/image to load the Dropbox and Google Drive pictures Nicole
+  // pastes into the Google Sheet. Dropbox: both the share host and the
+  // direct host, since `normalizeDropboxUrl` rewrites to the latter and
+  // the share host keeps a row that slips through un-normalised working.
+  // Drive: lib/cms/drive.ts turns share links into Drive's direct address.
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "www.dropbox.com" },
       { protocol: "https", hostname: "dropbox.com" },
       { protocol: "https", hostname: "dl.dropboxusercontent.com" },
+      {
+        protocol: "https",
+        hostname: "drive.usercontent.google.com",
+        pathname: "/download",
+      },
     ],
   },
 };

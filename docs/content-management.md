@@ -202,7 +202,7 @@ The Google Sheets adapter is now live. See:
 - [`google-sheets-cms.md`](./google-sheets-cms.md) — how the adapter
   works, env vars, tab names, and column reference.
 - [`dropbox-media-workflow.md`](./dropbox-media-workflow.md) — how
-  Nicole adds images and PDFs via Dropbox share links.
+  Nicole adds images and PDFs via Google Drive or Dropbox share links.
 - [`sheet-templates/`](./sheet-templates/) — CSV templates for each
   tab. Import into a fresh Google Sheet, or copy/paste the headers
   into an existing one.

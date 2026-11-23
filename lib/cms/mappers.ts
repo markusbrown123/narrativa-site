@@ -16,6 +16,7 @@ import type {
   Press,
   Recognition,
 } from "@/types/content";
+import { driveImageUrl } from "./drive";
 import { normalizeDropboxUrl } from "./dropbox";
 import { bool, dateStr, isoTimestamp, num, status, str } from "./parseRows";
 import type { MediaItem, SheetRow } from "./types";
@@ -56,6 +57,23 @@ function asset(row: SheetRow, key: string): string {
 function maybeAsset(row: SheetRow, key: string): string | undefined {
   const raw = asset(row, key);
   return raw === "" ? undefined : raw;
+}
+
+/**
+ * A picture cell. Dropbox and Google Drive share links both become
+ * addresses that return the picture itself. (Link cells such as cta_url
+ * use asset(): a Drive link there should open Drive's viewer, which is
+ * what a visitor clicking "Download flyer" expects.)
+ */
+function image(row: SheetRow, key: string): string {
+  const raw = str(row, key);
+  if (raw === "") return "";
+  return driveImageUrl(normalizeDropboxUrl(raw));
+}
+
+function maybeImage(row: SheetRow, key: string): string | undefined {
+  const value = image(row, key);
+  return value === "" ? undefined : value;
 }
 
 function maybeStr(row: SheetRow, key: string): string | undefined {
@@ -100,7 +118,7 @@ export function mapEvent(row: SheetRow): Event {
     summary: str(row, "description") || str(row, "summary"),
     url: maybeAsset(row, "cta_url") ?? maybeAsset(row, "url"),
     cta_label: maybeStr(row, "cta_label"),
-    image: maybeAsset(row, "image_url") ?? maybeAsset(row, "image"),
+    image: maybeImage(row, "image_url") ?? maybeImage(row, "image"),
     visibility,
     // Recomputed from the date on every read (see getEvents); the Sheet's
     // old is_upcoming column only matters for an event with no date.
@@ -120,7 +138,7 @@ export function mapPartner(row: SheetRow): Partner {
     created_at: isoTimestamp(row, "created_at"),
     updated_at: isoTimestamp(row, "updated_at"),
     name,
-    logo: asset(row, "logo_url") || asset(row, "logo"),
+    logo: image(row, "logo_url") || image(row, "logo"),
     logo_width: num(row, "logo_width", 0) || undefined,
     logo_height: num(row, "logo_height", 0) || undefined,
     logo_on_dark: /^dark$/i.test(str(row, "logo_background")),
@@ -153,7 +171,7 @@ export function mapBook(row: SheetRow): Book {
     description,
     publisher: str(row, "publisher"),
     release_date: dateStr(row, "release_date"),
-    cover_image: asset(row, "cover_image_url") || asset(row, "cover_image"),
+    cover_image: image(row, "cover_image_url") || image(row, "cover_image"),
     praise: [],
     purchase_links: purchaseLinks,
     excerpts: [],
@@ -174,7 +192,7 @@ export function mapMedia(row: SheetRow): MediaItem {
     source: str(row, "source"),
     summary: str(row, "summary"),
     url: asset(row, "url"),
-    image: maybeAsset(row, "image_url"),
+    image: maybeImage(row, "image_url"),
     published_date: dateStr(row, "published_date"),
   };
 }
@@ -200,7 +218,7 @@ export function mapPodcast(row: SheetRow): Podcast {
     kind,
     summary: str(row, "summary"),
     url: asset(row, "url"),
-    image: maybeAsset(row, "image_url"),
+    image: maybeImage(row, "image_url"),
   };
 }
 
@@ -224,7 +242,7 @@ export function mapPress(row: SheetRow): Press {
     url: asset(row, "url"),
     summary: str(row, "summary"),
     kind,
-    image: maybeAsset(row, "image_url"),
+    image: maybeImage(row, "image_url"),
   };
 }
 
@@ -243,7 +261,7 @@ export function mapRecognition(row: SheetRow): Recognition {
     year: num(row, "year", 0),
     url: maybeAsset(row, "url"),
     summary: maybeStr(row, "summary"),
-    image: maybeAsset(row, "image_url"),
+    image: maybeImage(row, "image_url"),
   };
 }
 
@@ -263,7 +281,7 @@ export function mapPhoto(row: SheetRow): Photo {
     sort_order: num(row, "sort_order", 100),
     created_at: isoTimestamp(row, "created_at"),
     updated_at: isoTimestamp(row, "updated_at"),
-    src: asset(row, "image_url") || asset(row, "src"),
+    src: image(row, "image_url") || image(row, "src"),
     alt: str(row, "alt") || str(row, "title"),
     category,
     orientation: (str(row, "orientation") as Photo["orientation"]) || "portrait",

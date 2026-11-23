@@ -1,16 +1,35 @@
-# Dropbox media workflow
+# Pictures and files: Google Drive or Dropbox
 
-Nicole stores all images and PDFs (event flyers, partner logos, headshots,
-press kits) in Dropbox, and pastes the share link into the relevant Google
-Sheet cell — `image_url`, `logo_url`, `cover_image_url`, `cta_url`,
-`file_url`, etc.
+Nicole keeps images and PDFs (event flyers, partner logos, headshots,
+press kits) in **Google Drive** or **Dropbox**, and pastes the share link
+into the relevant Google Sheet cell: `image_url`, `logo_url`,
+`cover_image_url`, `cta_url`, etc.
 
-The site normalizes the link on the fly. She does not need to manage
-file IDs, raw=1 flags, dl=0 vs dl=1, or anything else.
+The site turns the link into something it can show. She does not need
+to manage file IDs, raw=1 flags, dl=0 vs dl=1, or anything else.
 
 ---
 
-## How Nicole adds an asset
+## Google Drive
+
+1. Upload the picture to Google Drive (any folder).
+2. Right-click it → **Share → Share**, and under *General access* choose
+   **Anyone with the link** (Viewer). Without this the site cannot load it.
+3. **Share → Copy link**, and paste it into the cell.
+
+Picture cells (`image_url`, `logo_url`, `cover_image_url`) are turned into
+Drive's direct address (`drive.usercontent.google.com/download?id=…`) by
+`lib/cms/drive.ts`, which `next/image` is allowed to load. Link cells
+(`cta_url`, `url`) are left as Drive's normal share page, which is what a
+visitor clicking "Download flyer" expects.
+
+These do not work as pictures, and the Sheet check on the "update site"
+page says so in plain words: a link to a Drive **folder**, a Google
+Doc/Slides link, or a file not shared as "Anyone with the link".
+
+---
+
+## Dropbox: how Nicole adds an asset
 
 1. Drop the file into Dropbox (any folder).
 2. Right-click the file → **Share → Copy link**.
