@@ -9,8 +9,10 @@ import type { Book } from "@/types/content";
  * retailer links are intentionally left empty until Nicole shares them
  * — we do not invent testimonials or purchase links.
  */
-export const AMAZON_BOOK_URL =
-  "https://www.amazon.com/UNAPOLOGETIC-Boldly-Lead-Career-Deserve/dp/B0GP3RZ4SR";
+export const AMAZON_BOOK_URL = "https://www.amazon.com/dp/B0GP3RZ4SR";
+
+export const BARNES_AND_NOBLE_BOOK_URL =
+  "https://www.barnesandnoble.com/w/unapologetic-nicole-stephenson/1150349544?ean=9798987476093";
 
 export const book: Book = {
   id: "book-unapologetic",
@@ -19,18 +21,20 @@ export const book: Book = {
   featured: true,
   sort_order: 1,
   created_at: "2026-01-01T00:00:00Z",
-  updated_at: "2026-05-16T00:00:00Z",
+  updated_at: "2026-11-23T00:00:00Z",
   subtitle: "Boldly Lead the Life and Career You Deserve",
   tagline:
     "A roadmap to authenticity, courage, and sustainable personal and professional development and growth.",
-  description:
-    "Drawing on her own transformative journey and decades of experience guiding professionals at pivotal crossroads, Nicole Stephenson delivers a practical, affirming roadmap for building a career and life that feel aligned, intentional, and sustainable. Through relatable stories, reflective insights, and actionable tools, you'll learn how to reclaim your confidence, identify your true strengths, and redefine success on your own terms.",
+  // Nicole's approved description, word for word. Blank lines separate
+  // paragraphs; lines starting "- " are list items (components/RichText.tsx).
+  description: "What if fitting in has been the thing holding you back all along?\n\nIf you're a woman who works hard, cares deeply, and still can't seem to get the recognition or advancement you deserve - this book was written for you.\n\nUNAPOLOGETIC: Boldly Lead the Life and Career You Deserve is for the woman who is done shrinking.\n\nDrawing on decades of experience guiding professionals at pivotal crossroads, Nicole Stephenson delivers a practical, affirming roadmap for building a career that feels aligned, intentional, and authentically yours. Through relatable stories, honest reflection, and actionable tools, you'll discover that the very thing you've been taught to hide - who you really are - is your greatest career asset.\n\nIn this book, you'll learn how to:\n\n- Reclaim your confidence and stop second-guessing yourself\n- Break free from people-pleasing without burning bridges\n- Identify your true strengths and advocate for what you deserve\n- Navigate self-doubt, burnout, and the fear of being \"too much\"\n- Redefine success on your own terms — and actually go get it\n\nWhether you're entering the workforce, chasing a promotion, or questioning everything about what's next, this book meets you exactly where you are.\n\nUnapologetic isn't just a career guide. It's an invitation to stop apologizing for who you are and start leading from it.\n\nStop shrinking. Stop apologizing. Start leading.",
   publisher: "Tender Fire Books",
   release_date: "2026-03-01",
   cover_image: "/book/unapologetic-front-cover.jpg",
   praise: [],
   purchase_links: [
     { label: "Order on Amazon", url: AMAZON_BOOK_URL },
+    { label: "Barnes & Noble", url: BARNES_AND_NOBLE_BOOK_URL },
   ],
   excerpts: [
     {

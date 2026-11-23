@@ -9,6 +9,8 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import { Eyebrow, Section, SectionHeading } from "@/components/Section";
 import { Quote } from "@/components/Quote";
 import { Container } from "@/components/Container";
+import { RichText } from "@/components/RichText";
+import { BARNES_AND_NOBLE_BOOK_URL } from "@/lib/mock/book";
 import { getAmazonBookUrl, getPrimaryBook } from "@/lib/cms/contentSource";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,6 +49,9 @@ export default async function BookPage() {
     getPrimaryBook(),
     getAmazonBookUrl(),
   ]);
+  const barnesNobleUrl =
+    book.purchase_links.find((l) => /barnesandnoble\.com/i.test(l.url))?.url ??
+    BARNES_AND_NOBLE_BOOK_URL;
   return (
     <>
       <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center hero-backdrop-drift">
@@ -95,7 +100,7 @@ export default async function BookPage() {
                   Order on Amazon
                 </LinkButton>
                 <LinkButton
-                  href="#themes"
+                  href="#about-the-book"
                   size="lg"
                   variant="ghost"
                   className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
@@ -119,167 +124,164 @@ export default async function BookPage() {
         </Container>
       </section>
 
-      <Section tone="tint">
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
-          <SectionHeading
-            eyebrow="About the book"
-            title={<>The book your ambition has been waiting for.</>}
-          />
-          <div className="space-y-5 text-lg text-ink-soft leading-relaxed">
-            <p>{book.description}</p>
-            <p>
-              <em>Unapologetic</em> is more than a career guide. It is an
-              invitation to stop shrinking, stop apologizing, and start trusting
-              yourself. Because when you lead from who you truly are, success
-              stops feeling like something you chase and starts feeling like
-              something you create.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      <Section tone="tint" id="themes">
-        <SectionHeading eyebrow="Themes" title="What the book is about." />
-        <ul className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
-          {[
-            "Authenticity",
-            "Courage",
-            "Self-advocacy",
-            "Confidence",
-            "Mentorship",
-            "Burnout",
-            "People-pleasing",
-            "Career clarity",
-            "Redefining success",
-          ].map((theme) => (
-            <li
-              key={theme}
-              className="rounded-2xl bg-white border border-line p-5 font-display text-lg text-ink"
-            >
-              {theme}
-            </li>
-          ))}
-        </ul>
-      </Section>
-
-      <Section tone="alt">
-        <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
-            <Image
-              src="/photos/book-launch-author-holding-book.jpg"
-              alt="Nicole Stephenson holding up Unapologetic at her book launch event."
-              fill
-              sizes="(min-width: 1024px) 24rem, 22rem"
-              className="object-cover"
+      {/* Sections in .section-stack alternate white / lavender by position. */}
+      <div className="section-stack">
+        <Section id="about-the-book" className="scroll-mt-20">
+          <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
+            <SectionHeading
+              eyebrow="About the book"
+              title={<>The book your ambition has been waiting for.</>}
             />
-          </ScrollReveal>
-          <div className="space-y-5">
-            <Eyebrow>From the launch</Eyebrow>
-            <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
-              Unapologetic, in the wild.
-            </h2>
-            <p className="text-lg text-ink-soft leading-relaxed">
-              Snapshots from the book launch — author, books, and a room of
-              readers picking up their copies.
-            </p>
+            <RichText
+              text={book.description}
+              className="max-w-2xl text-lg text-ink-soft leading-relaxed"
+            />
           </div>
-        </div>
-        <div className="mt-12 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              src: "/photos/book-launch-books-table.jpg",
-              alt: "Stacks of Unapologetic copies on a purple-draped table at the book launch.",
-            },
-            {
-              src: "/photos/book-launch-author-with-display.jpg",
-              alt: "Nicole Stephenson standing in front of her book launch display and signing table.",
-            },
-            {
-              src: "/photos/book-launch-signing-hand.jpg",
-              alt: "Close-up of Nicole signing a copy of Unapologetic at the launch event.",
-            },
-          ].map((p) => (
-            <div
-              key={p.src}
-              className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface-tint"
-            >
-              <Image
-                src={p.src}
-                alt={p.alt}
-                fill
-                sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 100vw"
-                className="object-cover"
-              />
+        </Section>
+
+        <Section>
+          <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
+            <SectionHeading eyebrow="Where to buy" title={<>Get your copy.</>} />
+            <div className="space-y-6">
+              <div className="flex flex-wrap gap-3">
+                <LinkButton href={amazonUrl} external variant="primary" size="lg">
+                  Amazon
+                </LinkButton>
+                <LinkButton
+                  href={barnesNobleUrl}
+                  external
+                  variant="secondary"
+                  size="lg"
+                >
+                  Barnes &amp; Noble
+                </LinkButton>
+              </div>
+              <p className="text-base text-ink-soft leading-relaxed">
+                Also available to distributors and bookstores through IngramSpark.
+              </p>
             </div>
-          ))}
-        </div>
-      </Section>
+          </div>
+        </Section>
 
-      <Section tone="tint">
-        <SectionHeading
-          eyebrow="Share the book"
-          title="Promo cards from the launch."
-          lead="Share-ready snapshots of the book's themes and back-cover copy."
-        />
-        <div className="mt-12 grid gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {SOCIAL_PROMOS.map((promo) => (
-            <figure
-              key={promo.src}
-              className="relative aspect-square overflow-hidden rounded-3xl border border-line bg-white"
-            >
+        <Section>
+          <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
+            <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
               <Image
-                src={promo.src}
-                alt={promo.alt}
+                src="/photos/book-launch-author-holding-book.jpg"
+                alt="Nicole Stephenson holding up Unapologetic at her book launch event."
                 fill
-                sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 100vw"
+                sizes="(min-width: 1024px) 24rem, 22rem"
                 className="object-cover"
               />
-            </figure>
-          ))}
-        </div>
-      </Section>
-
-      {book.excerpts.length > 0 ? (
-        <Section tone="tint">
-          <SectionHeading eyebrow="Inside" title="A taste of the book." />
-          <div className="mt-14 grid lg:grid-cols-3 gap-6">
-            {book.excerpts.map((e) => (
-              <article
-                key={e.heading}
-                className="rounded-3xl bg-white border border-line p-8"
+            </ScrollReveal>
+            <div className="space-y-5">
+              <Eyebrow>From the launch</Eyebrow>
+              <h2 className="font-display text-3xl sm:text-4xl font-medium leading-[1.1] tracking-tight text-ink">
+                Unapologetic, in the wild.
+              </h2>
+              <p className="text-lg text-ink-soft leading-relaxed">
+                Snapshots from the book launch — author, books, and a room of
+                readers picking up their copies.
+              </p>
+            </div>
+          </div>
+          <div className="mt-12 grid gap-5 sm:grid-cols-3">
+            {[
+              {
+                src: "/photos/book-launch-books-table.jpg",
+                alt: "Stacks of Unapologetic copies on a purple-draped table at the book launch.",
+              },
+              {
+                src: "/photos/book-launch-author-with-display.jpg",
+                alt: "Nicole Stephenson standing in front of her book launch display and signing table.",
+              },
+              {
+                src: "/photos/book-launch-signing-hand.jpg",
+                alt: "Close-up of Nicole signing a copy of Unapologetic at the launch event.",
+              },
+            ].map((p) => (
+              <div
+                key={p.src}
+                className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface-tint"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
-                  Excerpt
-                </p>
-                <h3 className="mt-3 font-display text-2xl text-ink leading-snug">
-                  {e.heading}
-                </h3>
-                <p className="mt-4 text-ink-soft leading-relaxed">{e.body}</p>
-              </article>
+                <Image
+                  src={p.src}
+                  alt={p.alt}
+                  fill
+                  sizes="(min-width: 1024px) 22rem, (min-width: 640px) 30vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             ))}
           </div>
         </Section>
-      ) : null}
 
-      {book.praise.length > 0 ? (
-        <Section tone="alt">
+        <Section>
           <SectionHeading
-            eyebrow="Praise"
-            title="What early readers are saying."
-            align="center"
+            eyebrow="Share the book"
+            title="Promo cards from the launch."
+            lead="Share-ready snapshots of the book's themes and back-cover copy."
           />
-          <div className="mt-14 grid lg:grid-cols-3 gap-6">
-            {book.praise.map((p, i) => (
-              <Quote
-                key={i}
-                quote={p.quote}
-                attribution={p.attribution}
-                tone="tint"
-              />
+          <div className="mt-12 grid gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {SOCIAL_PROMOS.map((promo) => (
+              <figure
+                key={promo.src}
+                className="relative aspect-square overflow-hidden rounded-3xl border border-line bg-white"
+              >
+                <Image
+                  src={promo.src}
+                  alt={promo.alt}
+                  fill
+                  sizes="(min-width: 1024px) 22rem, (min-width: 640px) 45vw, 100vw"
+                  className="object-cover"
+                />
+              </figure>
             ))}
           </div>
         </Section>
-      ) : null}
+
+        {book.excerpts.length > 0 ? (
+          <Section>
+            <SectionHeading eyebrow="Inside" title="A taste of the book." />
+            <div className="mt-14 grid lg:grid-cols-3 gap-6">
+              {book.excerpts.map((e) => (
+                <article
+                  key={e.heading}
+                  className="rounded-3xl bg-white border border-line p-8"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand">
+                    Excerpt
+                  </p>
+                  <h3 className="mt-3 font-display text-2xl text-ink leading-snug">
+                    {e.heading}
+                  </h3>
+                  <p className="mt-4 text-ink-soft leading-relaxed">{e.body}</p>
+                </article>
+              ))}
+            </div>
+          </Section>
+        ) : null}
+
+        {book.praise.length > 0 ? (
+          <Section>
+            <SectionHeading
+              eyebrow="Praise"
+              title="What early readers are saying."
+              align="center"
+            />
+            <div className="mt-14 grid lg:grid-cols-3 gap-6">
+              {book.praise.map((p, i) => (
+                <Quote
+                  key={i}
+                  quote={p.quote}
+                  attribution={p.attribution}
+                  tone="tint"
+                />
+              ))}
+            </div>
+          </Section>
+        ) : null}
+      </div>
 
       <PremiumBookCTA amazonUrl={amazonUrl} />
     </>

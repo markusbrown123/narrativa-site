@@ -144,9 +144,12 @@ export function mapPartner(row: SheetRow): Partner {
 /** Books tab → Book[] */
 export function mapBook(row: SheetRow): Book {
   const amazonUrl = str(row, "amazon_url");
-  const purchaseLinks = amazonUrl
-    ? [{ label: "Order on Amazon", url: amazonUrl }]
-    : [];
+  const bnUrl = str(row, "barnes_noble_url");
+  const purchaseLinks = [
+    ...(amazonUrl ? [{ label: "Order on Amazon", url: amazonUrl }] : []),
+    ...(bnUrl ? [{ label: "Barnes & Noble", url: bnUrl }] : []),
+  ];
+  const description = str(row, "description").replace(/\r\n?/g, "\n");
   return {
     id: baseId(row, "book"),
     title: str(row, "title"),
@@ -156,8 +159,10 @@ export function mapBook(row: SheetRow): Book {
     created_at: isoTimestamp(row, "created_at"),
     updated_at: isoTimestamp(row, "updated_at"),
     subtitle: str(row, "subtitle"),
-    tagline: str(row, "tagline") || str(row, "description"),
-    description: str(row, "description"),
+    // Without a tagline, use the description's first paragraph (never the
+    // whole multi-paragraph description).
+    tagline: str(row, "tagline") || description.split(/\n\s*\n/)[0],
+    description,
     publisher: str(row, "publisher"),
     release_date: dateStr(row, "release_date"),
     cover_image: asset(row, "cover_image_url") || asset(row, "cover_image"),
