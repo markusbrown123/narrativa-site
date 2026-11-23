@@ -262,7 +262,6 @@ export default async function AboutPage() {
         title="Talk to Nicole about your moment."
         body="Whether it's a keynote, a book, a launch, or a season of work — start with a note."
         primary={{ label: "Send a note", href: "/contact" }}
-        secondary={{ label: "Apply to the mentor program", href: "/mentor-program" }}
       />
     </>
   );

@@ -15,7 +15,6 @@ const NAV: { label: string; href: string }[] = [
   { label: "Events", href: "/events" },
   { label: "Media", href: "/media" },
   { label: "Partners", href: "/partners" },
-  { label: "Mentor", href: "/mentor-program" },
 ];
 
 export function SiteHeader() {

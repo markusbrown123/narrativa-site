@@ -23,10 +23,6 @@ const INQUIRY_KINDS = [
     label: "Consulting",
     description: "Advisory, speaker brand, and event strategy.",
   },
-  {
-    label: "Mentor Program",
-    description: "Questions about the next cohort or how to apply.",
-  },
 ];
 
 export default function ContactPage() {
@@ -37,7 +33,7 @@ export default function ContactPage() {
         variant="centered"
         tone="lavender"
         title="Let's Talk About the Room You're Trying to Win."
-        lead="Speaking, consulting, press, or a question about the mentor program — start with a note. Nicole reads every message."
+        lead="Nicole reads every message."
       />
 
       <Section tone="tint">

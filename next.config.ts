@@ -14,6 +14,11 @@ const nextConfig: NextConfig = {
   // direct content host since `normalizeDropboxUrl` rewrites to the
   // latter — covering the share host keeps it safe if a row slips
   // through un-normalized.
+  // Retired pages send visitors (and old links) somewhere useful.
+  async redirects() {
+    return [{ source: "/mentor-program", destination: "/", permanent: true }];
+  },
+
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "www.dropbox.com" },

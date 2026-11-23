@@ -203,12 +203,6 @@ export default async function Home() {
       body: "Speaker brand, visibility strategy, content, and the assets that get you booked.",
       href: "/services",
     },
-    {
-      kicker: "Mentor program",
-      title: "Apply to be mentored",
-      body: "A focused cohort for the leaders building what's next — by application.",
-      href: "/mentor-program",
-    },
   ];
 
   return (
@@ -503,10 +497,6 @@ export default async function Home() {
         title="Bring Nicole into your next room."
         body="For speaking, advisory, and media — start with a note."
         primary={{ label: "Get in touch", href: "/contact" }}
-        secondary={{
-          label: "Apply for the mentor program",
-          href: "/mentor-program",
-        }}
       />
     </>
   );
