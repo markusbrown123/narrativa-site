@@ -38,7 +38,7 @@ export default async function SpeakerPage() {
       <PageHero
         eyebrow="Speaker"
         variant="split"
-        tone="dark"
+        tone="lavender"
         title="Book Nicole for Your Next Keynote or Fireside."
         lead="Nicole Stephenson, IOM is a transformational speaker, Lecturer at The Wharton School / University of Pennsylvania, Founder of Narrativa Consulting, and author of Unapologetic: Boldly Lead the Life and Career You Deserve."
         image={{
@@ -49,23 +49,21 @@ export default async function SpeakerPage() {
           caption: { label: "On stage", value: "Keynotes & firesides" },
         }}
       >
-        <LinkButton href="/contact" size="lg" variant="light">
+        <LinkButton href="/contact" size="lg">
           Book Nicole
         </LinkButton>
         <LinkButton
           href="#talks"
           size="lg"
-          variant="ghost"
-          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+          variant="secondary"
         >
           See talk themes
         </LinkButton>
         <LinkButton
           href="/speaker/nicole-stephenson-one-sheet.pdf"
           size="lg"
-          variant="ghost"
+          variant="secondary"
           external
-          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
         >
           One-sheet (PDF)
         </LinkButton>
@@ -75,7 +73,7 @@ export default async function SpeakerPage() {
       <div className="section-stack">
         <Section>
           <div className="grid lg:grid-cols-[1fr_1.3fr] gap-12 items-center">
-            <div className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
+            <div className="relative aspect-[7/5] w-full max-w-xl mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
               <Image
                 src="/photos/nicole-stephenson-speaking-2.jpg"
                 alt="Nicole Stephenson holding a microphone, smiling toward the audience."

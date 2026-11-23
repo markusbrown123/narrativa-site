@@ -18,7 +18,7 @@ export const recognition: Recognition[] = [
     organization: "Women's Resource Center",
     award: "Leadership Award",
     year: 2025,
-    summary: "Leadership Award, Women's Resource Center, October 2025.",
+    summary: "October 2025.",
   },
   {
     id: "rec-main-line-today-power-women-2024",

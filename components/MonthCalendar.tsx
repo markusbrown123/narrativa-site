@@ -257,14 +257,14 @@ export function MonthCalendar({
                       onClick={() => setSelectedId(e.id)}
                       aria-pressed={selected?.id === e.id}
                       className={clsx(
-                        "rounded-lg px-1.5 py-1 text-left text-[0.7rem] font-semibold leading-tight transition-colors line-clamp-3",
+                        "rounded-lg px-1.5 py-1 text-left text-[0.7rem] font-semibold leading-tight transition-colors",
                         selected?.id === e.id
                           ? "bg-brand text-white"
                           : "bg-white text-brand ring-1 ring-[color:var(--color-purple-200)] hover:bg-[color:var(--color-purple-100)]",
                         isPast(e) && "opacity-50",
                       )}
                     >
-                      {e.title}
+                      <span className="line-clamp-3">{e.title}</span>
                     </button>
                   ))}
                 </div>

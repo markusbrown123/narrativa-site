@@ -69,10 +69,16 @@ export function ParallaxVisualPanel({
   }, [intensity, scale]);
 
   return (
-    // No position class of its own: callers place the wrapper (the hero's
-    // floating insets pass "absolute ..."), and anything that needs a
-    // positioned box goes on innerClassName.
-    <div ref={wrapRef} className={clsx(className)}>
+    // `relative` only when the caller didn't position the wrapper itself;
+    // otherwise it would override an `absolute` floating inset.
+    <div
+      ref={wrapRef}
+      className={clsx(
+        !/(^|\s)(absolute|fixed|sticky)(\s|$)/.test(className ?? "") &&
+          "relative",
+        className,
+      )}
+    >
       <div
         ref={innerRef}
         className={clsx(innerClassName)}

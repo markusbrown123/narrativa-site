@@ -33,7 +33,7 @@ export default async function EventsPage() {
       <PageHero
         eyebrow="Events"
         variant="split"
-        tone="dark"
+        tone="lavender"
         title="Events and Live Experiences."
         lead="Keynotes, workshops, fireside conversations, and the Unapologetic book tour — in one place."
         image={
@@ -48,19 +48,17 @@ export default async function EventsPage() {
             : {
                 src: "/photos/nicole-stephenson-speaking-3.jpg",
                 alt: "Nicole Stephenson mid-keynote, microphone in hand.",
-                objectPosition: "center 30%",
-                aspect: "portrait",
+                aspect: "landscape",
               }
         }
       >
-        <LinkButton href="#next" size="lg" variant="light">
+        <LinkButton href="#next" size="lg">
           See what&apos;s next
         </LinkButton>
         <LinkButton
           href="/contact"
           size="lg"
-          variant="ghost"
-          className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+          variant="secondary"
         >
           Invite Nicole to your stage
         </LinkButton>

@@ -79,8 +79,8 @@ export default async function BookPage() {
     BARNES_AND_NOBLE_BOOK_URL;
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-900)] via-[color:var(--color-purple-800)] to-[color:var(--color-purple-700)] text-white min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center hero-backdrop-drift">
-        <HeroAtmosphere tone="dark" />
+      <section className="relative overflow-hidden bg-gradient-to-br from-[color:var(--color-purple-100)] via-[color:var(--color-purple-50)] to-[color:var(--color-purple-200)] text-ink min-h-[calc(100svh-4rem)] sm:min-h-[calc(100svh-5rem)] flex items-center hero-backdrop-drift">
+        <HeroAtmosphere tone="lavender" />
         <Container className="relative w-full py-20 sm:py-24 lg:py-28">
           <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
             <div className="relative order-1 flex justify-center lg:justify-start">
@@ -88,28 +88,28 @@ export default async function BookPage() {
                 {/* Glow halo behind cover */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] bg-gradient-to-br from-[color:var(--color-purple-400)] via-[color:var(--color-purple-500)] to-[color:var(--color-purple-700)] opacity-70 blur-3xl"
+                  className="pointer-events-none absolute -inset-10 -z-10 rounded-[3rem] bg-gradient-to-br from-[color:var(--color-purple-300)] via-[color:var(--color-purple-200)] to-[color:var(--color-teal-500)]/40 opacity-70 blur-3xl"
                 />
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-white/10 blur-2xl"
+                  className="pointer-events-none absolute -inset-4 -z-10 rounded-3xl bg-white/50 blur-2xl"
                 />
-                <BookCover size="xl" priority className="drop-shadow-[0_50px_90px_rgba(15,5,25,0.6)]" />
+                <BookCover size="xl" priority className="drop-shadow-[0_40px_70px_rgba(43,15,68,0.4)]" />
               </ParallaxVisualPanel>
             </div>
             <div className="order-2 space-y-7">
-              <Eyebrow tone="light">A book by Nicole Stephenson, IOM</Eyebrow>
-              <h1 className="font-display font-medium tracking-tight text-white hero-title-page">
+              <Eyebrow>A book by Nicole Stephenson, IOM</Eyebrow>
+              <h1 className="font-display font-medium tracking-tight text-ink hero-title-page">
                 {book.title}.
               </h1>
-              <p className="font-display text-2xl sm:text-3xl text-[color:var(--color-purple-100)] italic leading-snug">
+              <p className="font-display text-2xl sm:text-3xl text-brand italic leading-snug">
                 {book.subtitle}
               </p>
-              <p className="text-lg text-[color:var(--color-purple-100)] leading-relaxed max-w-xl">
+              <p className="text-lg text-ink-soft leading-relaxed max-w-xl">
                 {book.tagline}
               </p>
               {book.release_date || book.publisher ? (
-                <p className="text-sm text-[color:var(--color-purple-200)]">
+                <p className="text-sm text-muted">
                   {book.publisher ? `Published by ${book.publisher}` : null}
                   {book.publisher && book.release_date ? " · " : null}
                   {book.release_date
@@ -121,27 +121,25 @@ export default async function BookPage() {
                 </p>
               ) : null}
               <div id="pre-order" className="flex flex-wrap gap-3 pt-2">
-                <LinkButton href={amazonUrl} external variant="light" size="lg">
+                <LinkButton href={amazonUrl} external size="lg">
                   Order on Amazon
                 </LinkButton>
                 <LinkButton
                   href="#about-the-book"
                   size="lg"
-                  variant="ghost"
-                  className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+                  variant="secondary"
                 >
                   What it&apos;s about
                 </LinkButton>
                 <LinkButton
                   href="/contact"
                   size="lg"
-                  variant="ghost"
-                  className="border border-white/30 text-white hover:bg-white/10 hover:text-white"
+                  variant="secondary"
                 >
                   Bulk + book events
                 </LinkButton>
               </div>
-              <p className="pt-1 text-xs uppercase tracking-[0.22em] text-[color:var(--color-purple-200)]">
+              <p className="pt-1 text-xs uppercase tracking-[0.22em] text-muted">
                 Print + Kindle on Amazon
               </p>
             </div>
@@ -206,12 +204,12 @@ export default async function BookPage() {
                 />
               </ScrollReveal>
             ) : (
-              <ScrollReveal direction="up" duration={800} className="relative aspect-[3/4] w-full max-w-md mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
+              <ScrollReveal direction="up" duration={800} className="relative aspect-[3/2] w-full max-w-xl mx-auto lg:mx-0 overflow-hidden rounded-3xl ring-1 ring-[color:var(--color-purple-200)] shadow-[0_30px_70px_-30px_rgba(36,16,47,0.4)]">
                 <Image
                   src={LAUNCH_LEAD_PHOTO.src}
                   alt={LAUNCH_LEAD_PHOTO.alt}
                   fill
-                  sizes="(min-width: 1024px) 24rem, 22rem"
+                  sizes="(min-width: 1024px) 36rem, 92vw"
                   className="object-cover"
                 />
               </ScrollReveal>
@@ -240,7 +238,7 @@ export default async function BookPage() {
             ).map((p) => (
               <div
                 key={p.src}
-                className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface-tint"
+                className="relative aspect-[3/2] overflow-hidden rounded-3xl border border-line bg-surface-tint"
               >
                 <Image
                   src={p.src}

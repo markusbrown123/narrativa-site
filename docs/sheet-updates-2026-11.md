@@ -23,6 +23,9 @@ Add two columns to the header, `end_time` after `event_time`, and
 Leave the other columns blank. If there is an `is_upcoming` column, it is
 no longer used for dated events and can be deleted.
 
+On the Lehigh Valley Women's Summit row, set `role` to `Breakout Session
+Speaker` (it said Keynote; her flyer says breakout session speaker).
+
 ## Podcasts tab
 
 Add the five rows in `docs/sheet-templates/Podcasts.csv` (Brilliantly
@@ -54,13 +57,15 @@ Amazon link (it overrides the Books row).
 ## Recognition tab
 
 Add the Women's Resource Center row from
-`docs/sheet-templates/Recognition.csv` (title "Leadership Award", 2025, no
-image).
+`docs/sheet-templates/Recognition.csv` (title "Leadership Award",
+organization "Women's Resource Center", year 2025, summary "October 2025.",
+no image).
 
 ## Partners tab
 
 Replace the rows with `docs/sheet-templates/Partners.csv` (new `.webp`
-logo paths, `logo_width`, `logo_height`, `logo_background`). Remove any
+logo paths, `logo_width`, `logo_height`, `logo_background`). All six logos
+are Published, Northeast Institute included. Remove any
 `website_url`: logos no longer link out. When Nicole's new Partners folder
 is in, run `node scripts/prepare-logos.mjs client-assets/Partners
 public/partners` and use the rows it prints.
