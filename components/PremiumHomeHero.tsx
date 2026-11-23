@@ -170,17 +170,14 @@ export function PremiumHomeHero({
               >
                 <Link
                   href="/book"
-                  className="hero-float pointer-events-auto flex items-center gap-3 rounded-2xl border border-line bg-white/95 px-3.5 py-2.5 shadow-[0_25px_50px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-colors hover:border-[color:var(--color-purple-300)]"
+                  className="hero-float pointer-events-auto flex items-center gap-2.5 rounded-full border border-line bg-white/95 px-4 py-2.5 shadow-[0_25px_50px_-25px_rgba(43,15,68,0.45)] backdrop-blur transition-colors hover:border-[color:var(--color-purple-300)]"
                 >
-                  <span className="relative h-14 w-10 shrink-0 overflow-hidden rounded-sm shadow-md">
-                    <Image
-                      src="/book/unapologetic-front-cover.jpg"
-                      alt=""
-                      fill
-                      sizes="40px"
-                      className="object-cover"
-                    />
-                  </span>
+                  {/* Text only: the book box right below already shows the
+                      cover, and a photo should never appear twice on a page. */}
+                  <span
+                    aria-hidden="true"
+                    className="inline-flex h-2 w-2 rounded-full bg-[color:var(--color-teal-500)]"
+                  />
                   <span className="block leading-tight">
                     <span className="font-display text-lg text-ink">
                       Unapologetic
